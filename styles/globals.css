@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .width-70 {
+    @apply mx-auto w-[70%];
+  }
+}
