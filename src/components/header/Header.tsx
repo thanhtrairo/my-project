@@ -1,29 +1,33 @@
 import React, { useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import All from './All'
+import Language from './Language'
 import Menu from './Menu'
-import SvgAdd from './svgAdd'
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [showAll, setShowAll] = useState<boolean>(false)
+  const [showEN, setShowEN] = useState<boolean>(false)
   return (
-    <div className="bg-gray py-3 text-14 text-white">
-      <div className="width-70 flex  flex-row items-center space-x-6">
-        <div className="">
+    <div className="bg-gray text-14 text-white">
+      <div className="width-70 flex  flex-row items-center space-x-2">
+        <div className="flexItemCenter">
           <img src="/img/logo.svg" alt="Vercel Logo" />
         </div>
-        <div
-          className="flex items-center"
-          onClick={() => setShowMenu(!showMenu)}
-        >
+        <div className="flexItemCenter" onClick={() => setShowMenu(!showMenu)}>
           <FaBars className="mr-1 fill-white" />
           <p>Menu</p>
           {showMenu && <Menu />}
         </div>
-        <div className="w-[62%]">
-          <form className="ml-2 flex w-full items-center rounded-md bg-white py-2">
-            <div className="ml-2 flex items-center border-r-[1px]  pr-2 text-black">
-              <p className="mr-1">All</p>
+        <div className="w-[55%]">
+          <form className="relative ml-2 flex w-full items-center rounded-md bg-white">
+            <div
+              className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
+              onClick={() => setShowAll(!showAll)}
+            >
+              <p className="mr-1 font-medium">All</p>
               <FaCaretDown />
+              {showAll && <All />}
             </div>
             <div className="flex w-full items-center">
               <input
@@ -31,14 +35,14 @@ export default function Header() {
                 placeholder="Search IMDb"
                 className="w-full px-2 focus:outline-none"
               />
-              <div>
+              <div className="absolute top-0 right-[2%] flex h-full items-center text-slate-600">
                 <FaSearch />
               </div>
             </div>
           </form>
         </div>
 
-        <div className="">
+        <div className="flexItemCenter">
           <svg
             className="ipc-logo navbar__imdbpro-menu-toggle__name fill-white"
             width="52"
@@ -60,14 +64,32 @@ export default function Header() {
             </g>
           </svg>
         </div>
-        <div className="flex items-center">
-          <SvgAdd />
+        <div className="flexItemCenter">
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            className="ipc-icon ipc-icon--watchlist ipc-button__icon ipc-button__icon--pre fill-slate-700"
+            id="iconContext-watchlist"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            role="presentation"
+          >
+            <path
+              d="M17 3c1.05 0 1.918.82 1.994 1.851L19 5v16l-7-3-7 3V5c0-1.05.82-1.918 1.851-1.994L7 3h10zm-4 4h-2v3H8v2h3v3h2v-3h3v-2h-3V7z"
+              fill="currentColor"
+            ></path>
+          </svg>
           <p className="ml-2">Watchlist</p>
         </div>
-        <p>Sign In</p>
-        <div className="flex items-center hover:opacity-50">
+        <p className="flexItemCenter">Sign In</p>
+        <div
+          className="flexItemCenter relative"
+          onClick={() => setShowEN(!showEN)}
+        >
           <p className="mr-1">EN</p>
           <FaCaretDown />
+          {showEN && <Language />}
         </div>
       </div>
     </div>

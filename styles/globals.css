@@ -6,4 +6,27 @@
   .width-70 {
     @apply mx-auto w-[70%];
   }
+  .flexItemCenter {
+    @apply flex items-center p-2 hover:bg-gray2;
+  }
+}
+@layer base {
+  li {
+    @apply list-none;
+  }
+  .All li {
+    @apply flex flex-row items-center p-3 hover:bg-gray2;
+  }
+  .All li svg {
+    @apply basis-2/12 opacity-50 group-hover:opacity-100;
+  }
+  .All li p {
+    @apply ml-3 basis-10/12;
+  }
+  .activeAll {
+    @apply text-yellow-400;
+  }
+  .All .activeAll svg {
+    @apply opacity-100;
+  }
 }
