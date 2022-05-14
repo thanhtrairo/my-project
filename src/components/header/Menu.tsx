@@ -3,7 +3,7 @@ import { FaWindowClose } from 'react-icons/fa'
 
 export default function Menu() {
   return (
-    <div className="absolute top-0 left-0 z-10 h-screen w-screen bg-gray py-8">
+    <div className="absolute top-0 left-0 z-10 w-screen bg-gray py-8">
       <div className="mx-auto w-[50%]">
         <div className="flex justify-between">
           <img src="/img/logo2.svg" alt="logo2" className="" />
