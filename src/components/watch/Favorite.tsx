@@ -3,7 +3,7 @@ import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
 
-export const Favorite = () => {
+const Favorite: React.FC = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -30,3 +30,5 @@ export const Favorite = () => {
     </>
   )
 }
+
+export default Favorite

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 import { Title } from '../title/Title'
-import { Favorite } from './Favorite'
+import Favorite from './Favorite'
 import { WatchList } from './WatchList'
 
 export const Watch = () => {
