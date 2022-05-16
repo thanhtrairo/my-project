@@ -1,9 +1,12 @@
-const API_KEY = 'api_key=f342503e05811b9bde208a8cdbc7d3d0'
-const BASE_URL = 'https://api.themoviedb.org/3'
+import apiConfig from '../../pages/api/apiConfig'
 
 const request = {
-  fetchPopular: `${BASE_URL}/movie/popular?${API_KEY}`,
-  fetchTrending: `${BASE_URL}/trending/all/week?${API_KEY}`,
+  fetchPopular: `${apiConfig.baseUrl}/movie/popular?${apiConfig.apikey}`,
+  fetchTrending: `${apiConfig.baseUrl}/trending/all/week?${apiConfig.apikey}`,
+  fetchCommingSoon: `${apiConfig.baseUrl}/movie/upcoming?${apiConfig.apikey}`,
+  fetchStreamming: `${apiConfig.baseUrl}/movie/now_playing?${apiConfig.apikey}`,
+  fetchCasts: `${apiConfig.baseUrl}/movie/297762/casts?${apiConfig.apikey}`,
+  fetchSearchMovie: `${apiConfig.baseUrl}/search/movie?${apiConfig.apikey}`,
 }
 
 export default request

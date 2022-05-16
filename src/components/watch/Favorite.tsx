@@ -2,8 +2,13 @@ import React from 'react'
 import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
+import request from '../../utils/request'
+import { MovieType } from '../../type/type'
+import useHookSWR from '../../swr/customSWR'
 
-const Favorite: React.FC = () => {
+const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({
+  moviePopular,
+}) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -11,6 +16,10 @@ const Favorite: React.FC = () => {
     slidesToShow: 6,
     slidesToScroll: 6,
   }
+  const { data, error } = useHookSWR(request.fetchPopular, moviePopular)
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
   return (
     <>
       <TitleCategories title="This week's top TV and movies">
@@ -18,13 +27,9 @@ const Favorite: React.FC = () => {
       </TitleCategories>
       <div className="mb-16 mt-8">
         <Slider {...settings}>
-          <WatchComponent />
-          <WatchComponent />
-          <WatchComponent />
-          <WatchComponent />
-          <WatchComponent />
-          <WatchComponent />
-          <WatchComponent />
+          {data.results.map((movie: MovieType) => (
+            <WatchComponent movie={movie} key={movie.id} />
+          ))}
         </Slider>
       </div>
     </>

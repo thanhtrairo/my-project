@@ -1,13 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import useHookSWR from '../../swr/customSWR'
+import { MovieType } from '../../type/type'
+import request from '../../utils/request'
+import { MovieSearch } from '../MoveToExpore/MovieSearch'
+import { Movie } from '../Movie'
 import All from './All'
 import Language from './Language'
 import Menu from './Menu'
 
-export default function Header() {
+const Header: React.FC = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showAll, setShowAll] = useState<boolean>(false)
   const [showEN, setShowEN] = useState<boolean>(false)
+
+  const [search, setSearch] = useState<string>('')
+
+  // if (search) {
+  //   const { data, error } = useHookSWR(request.fetchPopular)
+
+  //   console.log(data)
+  // }
+
+  // if (error) return <div>failed to load</div>
+  // if (!data) return <div>loading...</div>
+
+  // useEffect(() => {
+  //   if(search) {
+
+  //   }
+  //   const timeId = setTimeout(() => {
+  //     if()
+  //   }, 2000)
+  //   return () => clearTimeout(timeId)
+  // }, [])
+
   return (
     <div className="bg-gray text-14 text-white">
       <div className="container mx-auto flex  flex-row items-center space-x-2">
@@ -21,6 +48,22 @@ export default function Header() {
         </div>
         <div className="w-[55%]">
           <form className="relative ml-2 flex w-full items-center rounded-md bg-white">
+            {search && (
+              <div className="absolute top-[100%] left-0 z-10 bg-gray py-4">
+                <div className="mx-2 mb-4">
+                  <MovieSearch />
+                </div>
+                <div className="flex">
+                  <Movie title="3:45" list={false} name={true} price={false}>
+                    Doctor Strange in the Multiverse of Madness
+                  </Movie>
+                  <Movie title="3:45" list={false} name={true} price={false}>
+                    Doctor Strange in the Multiverse of Madness
+                  </Movie>
+                </div>
+              </div>
+            )}
+
             <div
               className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
               onClick={() => setShowAll(!showAll)}
@@ -33,7 +76,9 @@ export default function Header() {
               <input
                 type="text"
                 placeholder="Search IMDb"
-                className="w-full px-2 focus:outline-none"
+                className="w-full px-2 text-black focus:outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <div className="absolute top-0 right-[2%] flex h-full items-center text-slate-600">
                 <FaSearch />
@@ -95,3 +140,5 @@ export default function Header() {
     </div>
   )
 }
+
+export default Header

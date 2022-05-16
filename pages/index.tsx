@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps } from 'next'
 import axios from 'axios'
 
 import Head from 'next/head'
@@ -10,25 +10,28 @@ import { MoveToWatch } from '../src/components/watch/MoveToWatch'
 import { Video } from '../src/components/Video'
 import { Streaming } from '../src/components/Streaming'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
-import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Footer } from '../src/components/Footer'
 import request from '../src/utils/request'
-import useSWR from 'swr'
+import { CastType, MovieType } from '../src/type/type'
+import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 
-export const fetcher = async (url: string) => {
-  const res = await fetch(url)
-  return res.json()
+interface Props {
+  movieTrending: MovieType[]
+  moviePopular: MovieType[]
+  movieCommingSoon: MovieType[]
+  movieStreamming: MovieType[]
+  casts: CastType[]
 }
 
-const Home: NextPage<any> = ({ moviePopular }) => {
-  const { data, error } = useSWR(request.fetchPopular, fetcher, {
-    fallbackData: moviePopular,
-    refreshInterval: 2000,
-  })
-
-  console.log(data.results)
+const Home = ({
+  moviePopular,
+  movieTrending,
+  movieCommingSoon,
+  movieStreamming,
+  casts,
+}: Props) => {
   return (
-    <div className="">
+    <>
       <Head>
         <title>Movie</title>
         <link rel="icon" href="/favicon.ico" />
@@ -38,22 +41,34 @@ const Home: NextPage<any> = ({ moviePopular }) => {
         <div className="container mx-auto">
           <Carosel />
           <Featured />
-          <Watch />
+          <Watch moviePopular={moviePopular} />
           <MoveToWatch />
           <Video />
-          <Streaming />
+          <Streaming movieStreamming={movieStreamming} />
           <ExportsMovie />
-          <MoveToExpore />
+          <MoveToExpore casts={casts} />
           <Footer />
         </div>
       </main>
-    </div>
+    </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [moviePopular] = await axios
-    .all([axios.get(request.fetchPopular)])
+  const [
+    moviePopular,
+    movieTrending,
+    movieCommingSoon,
+    movieStreamming,
+    casts,
+  ] = await axios
+    .all([
+      axios.get(request.fetchPopular),
+      axios.get(request.fetchTrending),
+      axios.get(request.fetchCommingSoon),
+      axios.get(request.fetchStreamming),
+      axios.get(request.fetchCasts),
+    ])
     .then(
       axios.spread((...res) => {
         return res
@@ -62,7 +77,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      moviePopular: moviePopular.data.results,
+      moviePopular: moviePopular.data,
+      movieTrending: movieTrending.data,
+      movieCommingSoon: movieCommingSoon.data,
+      movieStreamming: movieStreamming.data,
+      casts: casts.data,
     },
   }
 }

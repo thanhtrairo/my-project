@@ -1,17 +1,16 @@
 import Link from 'next/link'
 import React from 'react'
 import { FaPlay, FaRegStar, FaStar } from 'react-icons/fa'
+import apiConfig from '../../../pages/api/apiConfig'
+import { MovieType } from '../../type/type'
 import { SvgAdd } from '../SvgAdd'
 
-export const WatchComponent = () => {
+export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   return (
     <div className="mx-3 bg-gray4">
       <div className="group relative cursor-pointer">
         <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
-        <img
-          src="https://m.media-amazon.com/images/M/MV5BNWM0ZGJlMzMtZmYwMi00NzI3LTgzMzMtNjMzNjliNDRmZmFlXkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_QL75_UX140_CR0,0,140,207_.jpg 140w, https://m.media-amazon.com/images/M/MV5BNWM0ZGJlMzMtZmYwMi00NzI3LTgzMzMtNjMzNjliNDRmZmFlXkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_QL75_UX210_CR0,0,210,311_.jpg 210w, https://m.media-amazon.com/images/M/MV5BNWM0ZGJlMzMtZmYwMi00NzI3LTgzMzMtNjMzNjliNDRmZmFlXkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_QL75_UX280_CR0,0,280,414_.jpg 280w"
-          alt=""
-        />
+        <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
         <div className="absolute top-0 left-0">
           <SvgAdd width="30" height="36" />
         </div>
@@ -20,15 +19,13 @@ export const WatchComponent = () => {
         <div className="flex flex-row items-center space-x-6">
           <div className="flex flex-row items-center">
             <FaStar className="mr-1  h-9 fill-yellow-400 py-3" />
-            <p>7.4</p>
+            <p>{movie.vote_average}</p>
           </div>
           <FaRegStar className="h-9 w-9 fill-[#5799ef] py-3 hover:bg-white2 hover:fill-white" />
         </div>
         <p className="hiddenText my-2">
           <Link href="" passHref>
-            <a className="hover:underline">
-              Doctor Strange in the Multiverse of Madness
-            </a>
+            <a className="hiddenText hover:underline">{movie.title}</a>
           </Link>
         </p>
         <div className="hover: my-4 bg-white2">

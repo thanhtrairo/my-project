@@ -5,8 +5,9 @@ import Slider from 'react-slick'
 import { Movie } from '../Movie'
 import { BornToday } from './BornToday'
 import { TopNext } from './TopNext'
+import { CastType } from '../../type/type'
 
-export const MoveToExpore = () => {
+export const MoveToExpore: React.FC<{ casts: CastType[] }> = ({ casts }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -14,6 +15,7 @@ export const MoveToExpore = () => {
     slidesToShow: 3,
     slidesToScroll: 3,
   }
+
   return (
     <>
       <Title>More to explore</Title>
@@ -34,7 +36,7 @@ export const MoveToExpore = () => {
           </Movie>
         </Slider>
       </div>
-      <BornToday />
+      <BornToday casts={casts} />
       <TopNext />
     </>
   )
