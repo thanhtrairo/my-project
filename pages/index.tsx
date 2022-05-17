@@ -21,7 +21,6 @@ const Home = ({
   movieCommingSoon,
   movieStreamming,
   casts,
-  videoTrailers,
 }: Props) => {
   return (
     <>
