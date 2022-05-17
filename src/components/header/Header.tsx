@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
-import useHookSWR from '../../swr/customSWR'
-import { MovieType } from '../../type/type'
-import request from '../../utils/request'
 import { MovieSearch } from '../MoveToExpore/MovieSearch'
 import { Movie } from '../Movie'
 import All from './All'
 import Language from './Language'
 import Menu from './Menu'
 
-const Header: React.FC = () => {
+const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showAll, setShowAll] = useState<boolean>(false)
   const [showEN, setShowEN] = useState<boolean>(false)

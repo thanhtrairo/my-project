@@ -4,8 +4,9 @@ import { TitleCategories } from './title/TitleCategories'
 import Slider from 'react-slick'
 import { WatchComponent } from './watch/WatchComponent'
 import { MovieType } from '../type/type'
-import useHookSWR from '../swr/customSWR'
 import request from '../utils/request'
+import useSWR from 'swr'
+import { fetcher } from '../fetcher/fetcher'
 
 export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({
   movieStreamming,
@@ -17,7 +18,10 @@ export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({
     slidesToShow: 6,
     slidesToScroll: 6,
   }
-  const { data, error } = useHookSWR(request.fetchStreamming, movieStreamming)
+
+  const { data, error } = useSWR(request.fetchStreamming, fetcher, {
+    fallbackData: movieStreamming,
+  })
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>

@@ -39,6 +39,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .activeTrailer {
+    @apply relative before:absolute before:top-[90%] before:left-0 before:z-10 before:inline-block before:h-1 before:w-full before:bg-yellow-400 before:content-[''];
+  }
 }
 
 /* slide */

@@ -1,7 +1,8 @@
 import React from 'react'
 import Slider from 'react-slick'
+import useSWR from 'swr'
 import apiConfig from '../../../pages/api/apiConfig'
-import useHookSWR from '../../swr/customSWR'
+import { fetcher } from '../../fetcher/fetcher'
 import { CastType } from '../../type/type'
 import request from '../../utils/request'
 import { TitleCategories } from '../title/TitleCategories'
@@ -15,7 +16,7 @@ export const BornToday: React.FC<{ casts: CastType[] }> = ({ casts }) => {
     slidesToScroll: 6,
   }
 
-  const { data, error } = useHookSWR(request.fetchCasts, casts)
+  const { data, error } = useSWR(request.fetchCasts, fetcher, {fallbackData: casts})
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>

@@ -1,4 +1,4 @@
-import type { GetStaticProps } from 'next'
+import type { GetServerSideProps } from 'next'
 import axios from 'axios'
 
 import Head from 'next/head'
@@ -12,16 +12,8 @@ import { Streaming } from '../src/components/Streaming'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
 import request from '../src/utils/request'
-import { CastType, MovieType } from '../src/type/type'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
-
-interface Props {
-  movieTrending: MovieType[]
-  moviePopular: MovieType[]
-  movieCommingSoon: MovieType[]
-  movieStreamming: MovieType[]
-  casts: CastType[]
-}
+import { Props } from '../src/type/type'
 
 const Home = ({
   moviePopular,
@@ -29,6 +21,7 @@ const Home = ({
   movieCommingSoon,
   movieStreamming,
   casts,
+  videoTrailers,
 }: Props) => {
   return (
     <>
@@ -39,7 +32,7 @@ const Home = ({
       <Header />
       <main className="overflow-hidden bg-gray3 text-white ">
         <div className="container mx-auto">
-          <Carosel />
+          <Carosel movieTrending={movieTrending} />
           <Featured />
           <Watch moviePopular={moviePopular} />
           <MoveToWatch />
@@ -54,20 +47,22 @@ const Home = ({
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const [
     moviePopular,
     movieTrending,
-    movieCommingSoon,
+    // movieCommingSoon,
     movieStreamming,
     casts,
+    videoTrailers,
   ] = await axios
     .all([
       axios.get(request.fetchPopular),
       axios.get(request.fetchTrending),
-      axios.get(request.fetchCommingSoon),
+      // axios.get(request.fetchCommingSoon),
       axios.get(request.fetchStreamming),
       axios.get(request.fetchCasts),
+      axios.get(request.fetchVideoTrailler),
     ])
     .then(
       axios.spread((...res) => {
@@ -79,9 +74,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       moviePopular: moviePopular.data,
       movieTrending: movieTrending.data,
-      movieCommingSoon: movieCommingSoon.data,
+      // movieCommingSoon: movieCommingSoon.data,
       movieStreamming: movieStreamming.data,
       casts: casts.data,
+      videoTrailers: videoTrailers.data,
     },
   }
 }

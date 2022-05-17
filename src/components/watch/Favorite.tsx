@@ -4,7 +4,8 @@ import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
 import request from '../../utils/request'
 import { MovieType } from '../../type/type'
-import useHookSWR from '../../swr/customSWR'
+import { fetcher } from '../../fetcher/fetcher'
+import useSWR from 'swr'
 
 const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({
   moviePopular,
@@ -16,7 +17,7 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({
     slidesToShow: 6,
     slidesToScroll: 6,
   }
-  const { data, error } = useHookSWR(request.fetchPopular, moviePopular)
+  const { data, error } = useSWR(request.fetchPopular, fetcher, {fallbackData: moviePopular})
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>

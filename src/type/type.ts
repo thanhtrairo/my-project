@@ -6,9 +6,8 @@ export interface MovieType {
   first_air_date: string
   genre_ids: number[]
   id: number
-  origin_country: string[]
   original_language: string
-  original_name: string
+  original_title: string
   overview: string
   popularity: number
   poster_path: string
@@ -29,4 +28,13 @@ export interface CastType {
   character: string
   credit_id: string
   order: number
+}
+
+export interface Props {
+  movieTrending: MovieType[]
+  moviePopular: MovieType[]
+  movieCommingSoon: MovieType[]
+  movieStreamming: MovieType[]
+  casts: CastType[]
+  videoTrailers: MovieType[]
 }
