@@ -49,4 +49,5 @@ export interface Props {
   movieCommingSoon: MovieType[]
   movieStreamming: MovieType[]
   casts: CastType[]
+  videoTrailers: VideoTrailler[]
 }

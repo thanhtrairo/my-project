@@ -9,8 +9,11 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   return (
     <div className="mx-3 bg-gray4">
       <div className="group relative cursor-pointer">
-        <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
+        <Link href={`/movie/${movie.id}`} passHref>
+          <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
+        </Link>
         <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
+
         <div className="absolute top-0 left-0">
           <SvgAdd width="30" height="36" />
         </div>

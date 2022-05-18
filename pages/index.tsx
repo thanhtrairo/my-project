@@ -20,7 +20,6 @@ const Home = ({
   movieTrending,
   movieCommingSoon,
   movieStreamming,
-  casts,
 }: Props) => {
   return (
     <>
@@ -38,7 +37,7 @@ const Home = ({
           <Video />
           <Streaming movieStreamming={movieStreamming} />
           <ExportsMovie />
-          <MoveToExpore casts={casts} />
+          <MoveToExpore />
           <Footer />
         </div>
       </main>
@@ -53,15 +52,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // movieCommingSoon,
     movieStreamming,
     casts,
-    videoTrailers,
   ] = await axios
     .all([
       axios.get(request.fetchPopular),
       axios.get(request.fetchTrending),
       // axios.get(request.fetchCommingSoon),
       axios.get(request.fetchStreamming),
-      axios.get(request.fetchCasts),
-      axios.get(request.fetchVideoTrailler),
     ])
     .then(
       axios.spread((...res) => {
@@ -75,8 +71,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       movieTrending: movieTrending.data,
       // movieCommingSoon: movieCommingSoon.data,
       movieStreamming: movieStreamming.data,
-      casts: casts.data,
-      videoTrailers: videoTrailers.data,
     },
   }
 }

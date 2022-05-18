@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         gray: 'rgb(31 31 31)',
+        black1: 'rgb(18 18 18)',
         gray1: 'rgba(255,255,255,1)',
         gray2: 'rgb(37 37 37)',
         gray3: 'rgb(0 0 0)',
@@ -14,6 +15,7 @@ module.exports = {
         white1: 'rgb(238 238 238)',
         white2: 'rgb(44 44 44)',
         white3: 'rgb(60 60 60)',
+        white4: 'rgb(255 255 255 / 20%)',
         blackOver: 'rgba(24, 23, 23, 0.4)',
         blue1: 'rgb(87 153 239)',
       },

@@ -33,7 +33,7 @@ const Header = () => {
   // }, [])
 
   return (
-    <div className="bg-gray text-14 text-white">
+    <div className="bg-black1 text-14 text-white">
       <div className="container mx-auto flex  flex-row items-center space-x-2">
         <div className="flexItemCenter">
           <img src="/img/logo.svg" alt="Vercel Logo" />

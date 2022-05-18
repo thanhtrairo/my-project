@@ -7,7 +7,7 @@ import { BornToday } from './BornToday'
 import { TopNext } from './TopNext'
 import { CastType } from '../../type/type'
 
-export const MoveToExpore: React.FC<{ casts: CastType[] }> = ({ casts }) => {
+export const MoveToExpore: React.FC = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -36,7 +36,7 @@ export const MoveToExpore: React.FC<{ casts: CastType[] }> = ({ casts }) => {
           </Movie>
         </Slider>
       </div>
-      <BornToday casts={casts} />
+      <BornToday />
       <TopNext />
     </>
   )

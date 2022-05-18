@@ -7,7 +7,7 @@ import { CastType } from '../../type/type'
 import request from '../../utils/request'
 import { TitleCategories } from '../title/TitleCategories'
 
-export const BornToday: React.FC<{ casts: CastType[] }> = ({ casts }) => {
+export const BornToday: React.FC = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -16,11 +16,6 @@ export const BornToday: React.FC<{ casts: CastType[] }> = ({ casts }) => {
     slidesToScroll: 6,
   }
 
-  const { data, error } = useSWR(request.fetchCasts, fetcher, {fallbackData: casts})
-
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
   return (
     <>
       <TitleCategories title="People born on May 14">
@@ -28,7 +23,7 @@ export const BornToday: React.FC<{ casts: CastType[] }> = ({ casts }) => {
       </TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
-          {data.cast.map((cast: CastType) => (
+          {/* {data.cast.map((cast: CastType) => (
             <div className="group" key={cast.id}>
               <div className="relative mx-5 cursor-pointer">
                 <div className="absolute top-0 left-0 hidden h-full w-full rounded-full bg-blackOver group-hover:block"></div>
@@ -43,7 +38,7 @@ export const BornToday: React.FC<{ casts: CastType[] }> = ({ casts }) => {
                 <p className="opacity-70">{cast.popularity}</p>
               </div>
             </div>
-          ))}
+          ))} */}
         </Slider>
       </div>
     </>
