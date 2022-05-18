@@ -7,7 +7,7 @@ import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
 import { TitleCategories } from '../../src/components/title/TitleCategories'
-import { CastType, MovieType } from '../../src/type/type'
+import { CastType, MovieType, VideoTraillerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
 import { Movie } from '../../src/components/Movie'
@@ -15,7 +15,7 @@ import { Popup } from '../../src/components/popup/Popup'
 
 const MovieDetail: React.FC<{
   movieDetail: MovieType
-  movieDetailTrailler: MovieType[]
+  movieDetailTrailler: VideoTraillerType[]
   casts: CastType[]
 }> = ({ movieDetail, movieDetailTrailler, casts }) => {
   const settings = {
@@ -26,10 +26,27 @@ const MovieDetail: React.FC<{
     slidesToScroll: 1,
   }
   const [showPupop, setShowPupop] = useState<boolean>(false)
+  const [autoPlay, setAutoPlay] = useState<boolean>(false)
+  const [videoId, setVideoId] = useState<string>('')
+
+  const handleShowVideo = (key: string, autoPlay: boolean) => {
+    setShowPupop(!showPupop)
+    setVideoId(key)
+    setAutoPlay(autoPlay)
+  }
 
   return (
     <>
-      {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} />}
+      {showPupop && (
+        <Popup
+          onShow={() => setShowPupop(!showPupop)}
+          videoId={videoId}
+          autoPlay={autoPlay}
+        />
+      )}
+      {showPupop && (
+        <div className="absolute top-0 left-0 z-50 h-full w-full bg-blackOver group-hover:block"></div>
+      )}
       <Header />
       <main className="overflow-hidden bg-gray text-white ">
         <div className="container mx-auto ">
@@ -48,7 +65,7 @@ const MovieDetail: React.FC<{
                       <span className="text-14 opacity-70">/10</span>
                     </p>
                     <p className="text-14 opacity-70">
-                      {Math.floor(movieDetail.vote_count * 0.001)}k
+                      {Math.floor(movieDetail.vote_count * 0.01)}k
                     </p>
                   </div>
                 </div>
@@ -66,7 +83,12 @@ const MovieDetail: React.FC<{
           </div>
           <div className="flex">
             <div className="basis-9/12">
-              <div className="group hover:cursor-pointer">
+              <div
+                className="group hover:cursor-pointer"
+                onClick={() =>
+                  handleShowVideo(movieDetailTrailler[0].key, true)
+                }
+              >
                 <div className="relative">
                   <img
                     src={apiConfig.orinalImage(movieDetail.backdrop_path)}
@@ -104,33 +126,35 @@ const MovieDetail: React.FC<{
             </div>
             <div className="basis-3/12">
               <div className="flex flex-col gap-3">
-                {movieDetailTrailler.slice(0, 3).map((movie: MovieType) => (
-                  <div className="flex flex-row">
-                    <div className="basis-3/12 px-3">
-                      <img
-                        src={apiConfig.orinalImage(movieDetail.poster_path)}
-                        alt={movieDetail.title}
-                      />
-                    </div>
-                    <div className="basis-9/12 px-4">
-                      <div
-                        className="group flex flex-col space-y-2 hover:cursor-pointer"
-                        onClick={() => setShowPupop(!showPupop)}
-                      >
-                        <div className="flex items-end space-x-2 ">
-                          <Play width="32" height="32" />
-                          <p className="opacity-70">2:15</p>
-                        </div>
-                        <div>
-                          <p>{movieDetail.title}</p>
-                          <p className="hiddenText text-14 opacity-70">
-                            {movieDetail.overview}
-                          </p>
+                {movieDetailTrailler
+                  .slice(1, 5)
+                  .map((movie: VideoTraillerType) => (
+                    <div className="flex flex-row" key={movie.id}>
+                      <div className="basis-3/12 px-3">
+                        <img
+                          src={apiConfig.orinalImage(movieDetail.poster_path)}
+                          alt={movieDetail.title}
+                        />
+                      </div>
+                      <div className="basis-9/12 px-4">
+                        <div
+                          className="group flex flex-col space-y-2 hover:cursor-pointer"
+                          onClick={() => handleShowVideo(movie.key, false)}
+                        >
+                          <div className="flex items-end space-x-2 ">
+                            <Play width="32" height="32" />
+                            <p className="opacity-70">2:15</p>
+                          </div>
+                          <div>
+                            <p>{movie.type}</p>
+                            <p className="hiddenText text-14 opacity-70">
+                              {movie.name}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>

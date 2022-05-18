@@ -1,17 +1,25 @@
 import React from 'react'
+import ReactPlayer from 'react-player'
 
-export const Popup: React.FC<{ onShow: Function }> = ({ onShow }) => {
+export const Popup: React.FC<{
+  onShow: Function
+  videoId: string
+  autoPlay: boolean
+}> = ({ onShow, videoId, autoPlay }) => {
   return (
     <>
-      <div className="absolute top-[30%] left-[35%] z-50">
-        <p onClick={() => onShow(false)}>X</p>
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/Y-OLcnr8eNo"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        ></iframe>
+      <div className="absolute top-[30%] left-[20%] z-50 bg-gray3 p-6">
+        <span
+          onClick={() => onShow()}
+          className=" inline-block cursor-pointer py-1 px-4 font-medium text-white hover:bg-white2"
+        >
+          X close
+        </span>
+        <ReactPlayer
+          url={`https://www.youtube.com/watch?v=${videoId}`}
+          controls
+          playing={autoPlay}
+        />
       </div>
     </>
   )
