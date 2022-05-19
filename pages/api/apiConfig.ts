@@ -1,7 +1,7 @@
 interface ApiConfig {
   baseUrl: string
   apikey: string
-  orinalImage(imgPath: string): string
+  orinalImage(imgPath: string | undefined): string
 }
 
 const apiConfig: ApiConfig = {

@@ -9,6 +9,9 @@
   .flexItemCenter {
     @apply flex items-center p-2 hover:bg-gray2;
   }
+  .borderBottomWhite {
+    @apply border-b-2 border-white3 pb-4 font-medium;
+  }
 }
 @layer base {
   li {
@@ -42,6 +45,9 @@
   .activeTrailer {
     @apply relative before:absolute before:top-full before:left-0 before:z-10 before:inline-block before:h-1 before:w-full before:bg-yellow-400 before:content-[''];
   }
+  .textBlack {
+    @apply text-black !important;
+  }
 }
 
 /* slide */
@@ -50,6 +56,9 @@
 }
 .slick-prev {
   left: -10px !important;
+}
+.slick-dots {
+  display: none !important;
 }
 
 .slick-prev,
