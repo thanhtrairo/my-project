@@ -2,10 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 
-export const TitleCategories: React.FC<{ title: string }> = ({
-  children,
-  title,
-}) => {
+export const TitleCategories: React.FC<{ title: string }> = ({ children, title }) => {
   return (
     <>
       <Link href="" passHref>

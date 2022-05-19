@@ -18,9 +18,7 @@ export const BornToday: React.FC = () => {
 
   return (
     <>
-      <TitleCategories title="People born on May 14">
-        Born today
-      </TitleCategories>
+      <TitleCategories title="People born on May 14">Born today</TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
           {/* {data.cast.map((cast: CastType) => (

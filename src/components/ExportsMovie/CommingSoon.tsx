@@ -13,9 +13,7 @@ export const CommingSoon = () => {
   }
   return (
     <>
-      <TitleCategories title="Trailers for upcoming releases">
-        Coming soon to theaters (US)
-      </TitleCategories>
+      <TitleCategories title="Trailers for upcoming releases">Coming soon to theaters (US)</TitleCategories>
       <div className="mt-6 mb-16">
         <Slider {...settings}>
           <Movie title="3:45" list={false} price={false} name={false}>

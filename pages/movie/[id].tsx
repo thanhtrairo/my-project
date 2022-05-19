@@ -37,16 +37,8 @@ const MovieDetail: React.FC<{
 
   return (
     <>
-      {showPupop && (
-        <Popup
-          onShow={() => setShowPupop(!showPupop)}
-          videoId={videoId}
-          autoPlay={autoPlay}
-        />
-      )}
-      {showPupop && (
-        <div className="absolute top-0 left-0 z-50 h-full w-full bg-blackOver group-hover:block"></div>
-      )}
+      {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} autoPlay={autoPlay} />}
+      {showPupop && <div className="absolute top-0 left-0 z-50 h-full w-full bg-blackOver group-hover:block"></div>}
       <Header />
       <main className="overflow-hidden bg-gray text-white ">
         <div className="container mx-auto ">
@@ -54,9 +46,7 @@ const MovieDetail: React.FC<{
             <h1 className="text-36">{movieDetail.title}</h1>
             <div className="flex space-x-10">
               <div className="flex-col items-center">
-                <p className="text-14 font-medium tracking-widest opacity-70">
-                  IMDb RATING
-                </p>
+                <p className="text-14 font-medium tracking-widest opacity-70">IMDb RATING</p>
                 <div className="flex items-center space-x-2">
                   <FaStar className="fill-yellow-400 text-32" />
                   <div>
@@ -64,16 +54,12 @@ const MovieDetail: React.FC<{
                       {movieDetail.vote_average}
                       <span className="text-14 opacity-70">/10</span>
                     </p>
-                    <p className="text-14 opacity-70">
-                      {Math.floor(movieDetail.vote_count * 0.01)}k
-                    </p>
+                    <p className="text-14 opacity-70">{Math.floor(movieDetail.vote_count * 0.01)}k</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-14 font-medium tracking-widest opacity-70 ">
-                  YOUR RATING
-                </p>
+                <p className="text-14 font-medium tracking-widest opacity-70 ">YOUR RATING</p>
                 <div className="flex space-x-2">
                   <FaRegStar className="fill-blue1 text-32" />
                   <p className="text-20">Rate</p>
@@ -85,22 +71,14 @@ const MovieDetail: React.FC<{
             <div className="basis-9/12">
               <div
                 className="group hover:cursor-pointer"
-                onClick={() =>
-                  handleShowVideo(movieDetailTrailler[0].key, true)
-                }
+                onClick={() => handleShowVideo(movieDetailTrailler[0].key, true)}
               >
                 <div className="relative">
-                  <img
-                    src={apiConfig.orinalImage(movieDetail.backdrop_path)}
-                    alt={movieDetail.title}
-                  />
+                  <img src={apiConfig.orinalImage(movieDetail.backdrop_path)} alt={movieDetail.title} />
                   <div className="absolute bottom-0 left-0 w-full p-4">
                     <div className="relative flex flex-row items-end space-x-4">
                       <div className="basis-3/12 px-6">
-                        <img
-                          src={apiConfig.orinalImage(movieDetail.poster_path)}
-                          alt={movieDetail.original_title}
-                        />
+                        <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.original_title} />
                         <div className="absolute top-0 left-6">
                           <SvgAdd width="36" height="50" />
                         </div>
@@ -112,9 +90,7 @@ const MovieDetail: React.FC<{
                           </div>
                           <div className="">
                             <p className="text-36">{movieDetail.title}</p>
-                            <p className="hiddenText text-20 opacity-70">
-                              {movieDetail.overview}
-                            </p>
+                            <p className="hiddenText text-20 opacity-70">{movieDetail.overview}</p>
                           </div>
                           <p className="text-20 opacity-70">2.51</p>
                         </div>
@@ -126,35 +102,28 @@ const MovieDetail: React.FC<{
             </div>
             <div className="basis-3/12">
               <div className="flex flex-col gap-3">
-                {movieDetailTrailler
-                  .slice(1, 5)
-                  .map((movie: VideoTraillerType) => (
-                    <div className="flex flex-row" key={movie.id}>
-                      <div className="basis-3/12 px-3">
-                        <img
-                          src={apiConfig.orinalImage(movieDetail.poster_path)}
-                          alt={movieDetail.title}
-                        />
-                      </div>
-                      <div className="basis-9/12 px-4">
-                        <div
-                          className="group flex flex-col space-y-2 hover:cursor-pointer"
-                          onClick={() => handleShowVideo(movie.key, false)}
-                        >
-                          <div className="flex items-end space-x-2 ">
-                            <Play width="32" height="32" />
-                            <p className="opacity-70">2:15</p>
-                          </div>
-                          <div>
-                            <p>{movie.type}</p>
-                            <p className="hiddenText text-14 opacity-70">
-                              {movie.name}
-                            </p>
-                          </div>
+                {movieDetailTrailler.slice(1, 5).map((movie: VideoTraillerType) => (
+                  <div className="flex flex-row" key={movie.id}>
+                    <div className="basis-3/12 px-3">
+                      <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.title} />
+                    </div>
+                    <div className="basis-9/12 px-4">
+                      <div
+                        className="group flex flex-col space-y-2 hover:cursor-pointer"
+                        onClick={() => handleShowVideo(movie.key, false)}
+                      >
+                        <div className="flex items-end space-x-2 ">
+                          <Play width="32" height="32" />
+                          <p className="opacity-70">2:15</p>
+                        </div>
+                        <div>
+                          <p>{movie.type}</p>
+                          <p className="hiddenText text-14 opacity-70">{movie.name}</p>
                         </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -202,10 +171,7 @@ const MovieDetail: React.FC<{
                   {casts.slice(0, 11).map((cast: CastType) => (
                     <div key={cast.id} className="flex space-x-4">
                       <div>
-                        <img
-                          src={apiConfig.orinalImage(cast.profile_path)}
-                          alt={cast.name}
-                        />
+                        <img src={apiConfig.orinalImage(cast.profile_path)} alt={cast.name} />
                       </div>
                       <div className="text-14">
                         <p className="font-medium">{cast.name}</p>
@@ -237,11 +203,7 @@ export const getStaticPaths = async () => {
     fallback: false,
   }
 }
-export const getStaticProps = async ({
-  params,
-}: {
-  params: { id: string }
-}) => {
+export const getStaticProps = async ({ params }: { params: { id: string } }) => {
   const [movieDetail, movieDetailTrailler, casts] = await axios
     .all([
       axios.get(request.fetchMovieDetail(params.id)),

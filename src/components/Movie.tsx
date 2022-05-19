@@ -20,11 +20,7 @@ export const Movie: React.FC<{
           className="w-full"
         />
         <div className="absolute bottom-0 left-[2%] flex flex-row items-center space-x-2">
-          {list ? (
-            <FaListUl className="group-hover:text-yellow-400" />
-          ) : (
-            <Play width="32" height="32" />
-          )}
+          {list ? <FaListUl className="group-hover:text-yellow-400" /> : <Play width="32" height="32" />}
 
           <p>{title}</p>
         </div>
