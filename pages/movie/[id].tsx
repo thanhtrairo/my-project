@@ -264,7 +264,6 @@ const MovieDetail: React.FC<{
                         name={true}
                         price={false}
                         srcImage={movieDetailSwr.backdrop_path}
-                        onShow={() => handleShowVideo(movie.key, false)}
                       >
                         {movie.name}
                       </Movie>
