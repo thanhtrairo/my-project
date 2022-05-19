@@ -89,7 +89,6 @@ const MovieDetail: React.FC<{
     }
     postRateMovie(id, value)
   }
-  console.log(showRate)
   return (
     <>
       {showPupop && (
