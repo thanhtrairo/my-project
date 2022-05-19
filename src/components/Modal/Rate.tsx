@@ -18,17 +18,13 @@ export const Rate: React.FC<{
           </span>
           <div className="absolute top-[-20%] left-[42%]">
             <div className="relative">
-              <div className="absolute left-[42%] top-[36%] text-black">
-                {star}
-              </div>
+              <div className="absolute left-[42%] top-[36%] text-black">{star}</div>
               <FaStar className="text-[72px] text-blue1" />
             </div>
           </div>
           <div className="text-center">
             <p className="py-4 text-12 text-yellow-400">RATE THIS</p>
-            <p className="tracking-wide">
-              Doctor Strange in the Multiverse of Madness
-            </p>
+            <p className="tracking-wide">Doctor Strange in the Multiverse of Madness</p>
             <div className="my-6 flex cursor-pointer justify-center gap-2 text-20">
               {stars.map((star: number) => (
                 <span key={star} className="" onClick={() => setStar(star)}>

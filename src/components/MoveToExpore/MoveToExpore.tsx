@@ -5,7 +5,6 @@ import Slider from 'react-slick'
 import { Movie } from '../Movie'
 import { BornToday } from './BornToday'
 import { TopNext } from './TopNext'
-import { CastType } from '../../type/type'
 
 export const MoveToExpore: React.FC = () => {
   const settings = {

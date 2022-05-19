@@ -15,7 +15,7 @@ import request from '../src/utils/request'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
 
-const Home = ({ moviePopular, movieTrending, movieCommingSoon, movieStreamming }: Props) => {
+const Home = ({ moviePopular, movieTrending, movieStreamming }: Props) => {
   return (
     <>
       <Head>
@@ -40,13 +40,12 @@ const Home = ({ moviePopular, movieTrending, movieCommingSoon, movieStreamming }
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const [
     moviePopular,
     movieTrending,
     // movieCommingSoon,
     movieStreamming,
-    casts,
   ] = await axios
     .all([
       axios.get(request.fetchPopular),

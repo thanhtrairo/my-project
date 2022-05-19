@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { FaAngleRight, FaSearch, FaTv } from 'react-icons/fa'
 
 export default function All() {
   // const [active, setActive] = useState<string>()
-  const ref = useRef()
   return (
     <div className="All absolute top-[110%] left-0 z-10 whitespace-pre bg-gray text-white">
       <li className="activeAll group">

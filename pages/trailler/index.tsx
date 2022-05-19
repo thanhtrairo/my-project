@@ -97,7 +97,7 @@ const Trailer: React.FC<{
 
 export default Trailer
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const [videoTrailers, moviePopular] = await axios
     .all([axios.get(request.fetchVideoTrailler), axios.get(request.fetchPopular)])
     .then(
