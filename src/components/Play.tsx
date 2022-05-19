@@ -1,9 +1,6 @@
 import React from 'react'
 
-export const Play: React.FC<{ width: string; height: string }> = ({
-  width,
-  height,
-}) => {
+export const Play: React.FC<{ width: string; height: string }> = ({ width, height }) => {
   return (
     <svg
       width={width}

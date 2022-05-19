@@ -2,11 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { SvgAdd } from './SvgAdd'
 
-export const BuyMovie: React.FC<{ num: boolean; price: boolean }> = ({
-  num,
-  price,
-  children,
-}) => {
+export const BuyMovie: React.FC<{ num: boolean; price: boolean }> = ({ num, price, children }) => {
   return (
     <div className="group flex flex-row items-center space-x-2">
       {num && <p className="border-r-[1px] border-yellow-400 pr-2">1</p>}

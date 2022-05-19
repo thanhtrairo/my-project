@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import Slider from 'react-slick'
 
 import { FaRegStar, FaStar } from 'react-icons/fa'
 import Header from '../../src/components/header/Header'
@@ -10,7 +9,6 @@ import { TitleCategories } from '../../src/components/title/TitleCategories'
 import { CastType, MovieType, VideoTraillerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
-import { Movie } from '../../src/components/Movie'
 import { Popup } from '../../src/components/Modal/Popup'
 import moment from 'moment'
 import useSWR from 'swr'
@@ -23,13 +21,6 @@ const MovieDetail: React.FC<{
   movieDetailTrailler: VideoTraillerType[]
   casts: CastType[]
 }> = ({ movieDetail, movieDetailTrailler, casts }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  }
   const [showRate, setShowRate] = useState<boolean>(false)
   const [showPupop, setShowPupop] = useState<boolean>(false)
   const [autoPlay, setAutoPlay] = useState<boolean>(false)
@@ -48,13 +39,9 @@ const MovieDetail: React.FC<{
   const router = useRouter()
   const { id } = router.query
 
-  const { data: movieDetailSwr, error: errorDetail } = useSWR(
-    request.fetchMovieDetail(id),
-    fetcher,
-    {
-      fallbackData: movieDetail,
-    }
-  )
+  const { data: movieDetailSwr, error: errorDetail } = useSWR(request.fetchMovieDetail(id), fetcher, {
+    fallbackData: movieDetail,
+  })
   const { data: movieDetailTrailerSwr, error: errorDetailTrailer } = useSWR(
     request.fetchMovieDetailTrailler(id),
     fetcher,
@@ -62,16 +49,11 @@ const MovieDetail: React.FC<{
       fallbackData: movieDetailTrailler,
     }
   )
-  const { data: castSwr, error: errorCast } = useSWR(
-    request.fetchCasts(id),
-    fetcher,
-    {
-      fallbackData: casts,
-    }
-  )
+  const { data: castSwr, error: errorCast } = useSWR(request.fetchCasts(id), fetcher, {
+    fallbackData: casts,
+  })
 
-  if (errorDetail || errorDetailTrailer || errorCast)
-    return <div>failed to load</div>
+  if (errorDetail || errorDetailTrailer || errorCast) return <div>failed to load</div>
   if (!movieDetailSwr) return <div>loading...</div>
 
   const handleRateMovie = (id: string, value: { value: number }) => {
@@ -91,13 +73,7 @@ const MovieDetail: React.FC<{
   }
   return (
     <>
-      {showPupop && (
-        <Popup
-          onShow={() => setShowPupop(!showPupop)}
-          videoId={videoId}
-          autoPlay={autoPlay}
-        />
-      )}
+      {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} autoPlay={autoPlay} />}
       {showRate && <Rate onShow={() => setShowRate(!showRate)} />}
       {(showPupop || showRate) && (
         <div className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"></div>
@@ -109,9 +85,7 @@ const MovieDetail: React.FC<{
             <h1 className="text-36">{movieDetailSwr.title}</h1>
             <div className="flex space-x-10">
               <div className="flex-col items-center">
-                <p className="text-14 font-medium tracking-widest opacity-70">
-                  IMDb RATING
-                </p>
+                <p className="text-14 font-medium tracking-widest opacity-70">IMDb RATING</p>
                 <div className="flex items-center space-x-2">
                   <FaStar className="fill-yellow-400 text-32" />
                   <div>
@@ -119,20 +93,13 @@ const MovieDetail: React.FC<{
                       {movieDetailSwr.vote_average}
                       <span className="text-14 opacity-70">/10</span>
                     </p>
-                    <p className="text-14 opacity-70">
-                      {Math.floor(movieDetailSwr.vote_count * 0.01)}k
-                    </p>
+                    <p className="text-14 opacity-70">{Math.floor(movieDetailSwr.vote_count * 0.01)}k</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-14 font-medium tracking-widest opacity-70 ">
-                  YOUR RATING
-                </p>
-                <div
-                  className="flex cursor-pointer space-x-2"
-                  onClick={() => handleShowRate()}
-                >
+                <p className="text-14 font-medium tracking-widest opacity-70 ">YOUR RATING</p>
+                <div className="flex cursor-pointer space-x-2" onClick={() => handleShowRate()}>
                   <FaRegStar className="fill-blue1 text-32" />
                   <p className="text-20">Rate</p>
                 </div>
@@ -143,22 +110,15 @@ const MovieDetail: React.FC<{
             <div className="basis-9/12">
               <div
                 className="group hover:cursor-pointer"
-                onClick={() =>
-                  handleShowVideo(movieDetailTrailerSwr.results[0].key, true)
-                }
+                onClick={() => handleShowVideo(movieDetailTrailerSwr.results[0].key, true)}
               >
                 <div className="relative">
-                  <img
-                    src={apiConfig.orinalImage(movieDetailSwr.backdrop_path)}
-                    alt={movieDetailSwr.title}
-                  />
+                  <img src={apiConfig.orinalImage(movieDetailSwr.backdrop_path)} alt={movieDetailSwr.title} />
                   <div className="absolute bottom-0 left-0 w-full p-4">
                     <div className="relative flex flex-row items-end space-x-4">
                       <div className="basis-3/12 px-6">
                         <img
-                          src={apiConfig.orinalImage(
-                            movieDetailSwr.poster_path
-                          )}
+                          src={apiConfig.orinalImage(movieDetailSwr.poster_path)}
                           alt={movieDetailSwr.original_title}
                         />
                         <div className="absolute top-0 left-6">
@@ -172,9 +132,7 @@ const MovieDetail: React.FC<{
                           </div>
                           <div className="">
                             <p className="text-36">{movieDetailSwr.title}</p>
-                            <p className="hiddenText text-20 opacity-70">
-                              {movieDetailSwr.overview}
-                            </p>
+                            <p className="hiddenText text-20 opacity-70">{movieDetailSwr.overview}</p>
                           </div>
                           <p className="text-20 opacity-70">2.51</p>
                         </div>
@@ -186,37 +144,28 @@ const MovieDetail: React.FC<{
             </div>
             <div className="basis-3/12">
               <div className="flex flex-col gap-3">
-                {movieDetailTrailerSwr.results
-                  .slice(1, 5)
-                  .map((movie: VideoTraillerType) => (
-                    <div className="flex flex-row" key={movie.id}>
-                      <div className="basis-4/12 px-3">
-                        <img
-                          src={apiConfig.orinalImage(
-                            movieDetailSwr.poster_path
-                          )}
-                          alt={movieDetailSwr.title}
-                        />
-                      </div>
-                      <div className="basis-8/12 px-4">
-                        <div
-                          className="group flex flex-col space-y-2 hover:cursor-pointer"
-                          onClick={() => handleShowVideo(movie.key, false)}
-                        >
-                          <div className="flex items-end space-x-2 ">
-                            <Play width="32" height="32" />
-                            <p className="opacity-70">2:15</p>
-                          </div>
-                          <div>
-                            <p>{movie.type}</p>
-                            <p className="hiddenText text-14 opacity-70">
-                              {movie.name}
-                            </p>
-                          </div>
+                {movieDetailTrailerSwr.results.slice(1, 5).map((movie: VideoTraillerType) => (
+                  <div className="flex flex-row" key={movie.id}>
+                    <div className="basis-4/12 px-3">
+                      <img src={apiConfig.orinalImage(movieDetailSwr.poster_path)} alt={movieDetailSwr.title} />
+                    </div>
+                    <div className="basis-8/12 px-4">
+                      <div
+                        className="group flex flex-col space-y-2 hover:cursor-pointer"
+                        onClick={() => handleShowVideo(movie.key, false)}
+                      >
+                        <div className="flex items-end space-x-2 ">
+                          <Play width="32" height="32" />
+                          <p className="opacity-70">2:15</p>
+                        </div>
+                        <div>
+                          <p>{movie.type}</p>
+                          <p className="hiddenText text-14 opacity-70">{movie.name}</p>
                         </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -229,9 +178,7 @@ const MovieDetail: React.FC<{
               </p>
               <p className="borderBottomWhite">
                 <span>Release date: </span>
-                <span className="ml-2 text-blue1">
-                  {moment(movieDetailSwr.release_date).format('MMM Do YY')}
-                </span>
+                <span className="ml-2 text-blue1">{moment(movieDetailSwr.release_date).format('MMM Do YY')}</span>
               </p>
             </div>
             <div className="basis-4/12 px-4">
@@ -249,30 +196,6 @@ const MovieDetail: React.FC<{
       </div>
       <div className="my-10 bg-white text-black">
         <div className="container mx-auto">
-          <div className="">
-            <TitleCategories title="" textColor>
-              Video
-            </TitleCategories>
-            <div className="my-6">
-              <Slider {...settings}>
-                {movieDetailTrailerSwr.results.map(
-                  (movie: VideoTraillerType) => (
-                    <div key={movie.id} className="">
-                      <Movie
-                        title="3:45"
-                        list={false}
-                        name={true}
-                        price={false}
-                        srcImage={movieDetailSwr.backdrop_path}
-                      >
-                        {movie.name}
-                      </Movie>
-                    </div>
-                  )
-                )}
-              </Slider>
-            </div>
-          </div>
           <div>
             <TitleCategories title="" textColor>
               Top casts
@@ -317,11 +240,7 @@ export const getStaticPaths = async () => {
     fallback: false,
   }
 }
-export const getStaticProps = async ({
-  params,
-}: {
-  params: { id: string }
-}) => {
+export const getStaticProps = async ({ params }: { params: { id: string } }) => {
   const [movieDetail, movieDetailTrailler, casts] = await axios
     .all([
       axios.get(request.fetchMovieDetail(params.id)),

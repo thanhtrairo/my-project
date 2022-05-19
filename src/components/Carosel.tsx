@@ -12,9 +12,7 @@ import { fetcher } from '../fetcher/fetcher'
 import useSWR from 'swr'
 import apiConfig from '../../pages/api/apiConfig'
 
-const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
-  movieTrending,
-}) => {
+const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -35,17 +33,11 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
         <Slider {...settings}>
           {data.results.map((movie: MovieType) => (
             <div className="relative" key={movie.id}>
-              <img
-                src={apiConfig.orinalImage(movie.backdrop_path)}
-                alt={movie.title}
-              />
+              <img src={apiConfig.orinalImage(movie.backdrop_path)} alt={movie.title} />
               <div className="absolute bottom-0 left-0 w-full p-4">
                 <div className="relative flex flex-row items-end space-x-4">
                   <div className="basis-3/12 px-6">
-                    <img
-                      src={apiConfig.orinalImage(movie.poster_path)}
-                      alt={movie.original_title}
-                    />
+                    <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.original_title} />
                     <div className="absolute top-0 left-6">
                       <SvgAdd width="36" height="50" />
                     </div>
@@ -57,9 +49,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
                       </div>
                       <div className="">
                         <p className="text-36">{movie.title}</p>
-                        <p className="hiddenText text-20 opacity-70">
-                          {movie.overview}
-                        </p>
+                        <p className="hiddenText text-20 opacity-70">{movie.overview}</p>
                       </div>
                       <p className="text-20 opacity-70">2.51</p>
                     </div>
@@ -77,10 +67,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
             {data.results.slice(0, 3).map((movie: MovieType) => (
               <div className="flex flex-row" key={movie.id}>
                 <div className="basis-3/12 px-3">
-                  <img
-                    src={apiConfig.orinalImage(movie.poster_path)}
-                    alt={movie.title}
-                  />
+                  <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
                 </div>
                 <div className="basis-9/12 px-4">
                   <div className="group flex flex-col space-y-2 hover:cursor-pointer">
@@ -90,9 +77,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
                     </div>
                     <div>
                       <p>{movie.title}</p>
-                      <p className="hiddenText text-14 opacity-70">
-                        {movie.overview}
-                      </p>
+                      <p className="hiddenText text-14 opacity-70">{movie.overview}</p>
                     </div>
                   </div>
                 </div>

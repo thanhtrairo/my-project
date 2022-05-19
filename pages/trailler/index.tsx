@@ -18,12 +18,7 @@ const Trailer: React.FC<{
   videoTrailers: VideoTrailler[]
   moviePopular: MovieType[]
 }> = ({ videoTrailers, moviePopular }) => {
-  const TRAILLERS = [
-    'TRENDING TRAILERS',
-    'MOST ANTICIPATED',
-    'MOST POPULAR',
-    'RECENTLY ADDED',
-  ]
+  const TRAILLERS = ['TRENDING TRAILERS', 'MOST ANTICIPATED', 'MOST POPULAR', 'RECENTLY ADDED']
 
   const [pupop, setPupop] = useState<boolean>(false)
 
@@ -52,12 +47,9 @@ const Trailer: React.FC<{
             {TRAILLERS.map((trailler) => (
               <div
                 key={trailler}
-                className={clsx(
-                  'cursor-pointer px-8 py-2 text-14 font-medium hover:bg-gray2',
-                  {
-                    activeTrailer: active === trailler,
-                  }
-                )}
+                className={clsx('cursor-pointer px-8 py-2 text-14 font-medium hover:bg-gray2', {
+                  activeTrailer: active === trailler,
+                })}
                 onClick={() => setActive(trailler)}
               >
                 {trailler}
@@ -67,17 +59,11 @@ const Trailer: React.FC<{
           <div className="mt-10 grid grid-cols-6 gap-4">
             {data.results.map((video: VideoTrailler) => (
               <div key={video.id}>
-                <div
-                  className="group relative cursor-pointer"
-                  onClick={() => setPupop(!pupop)}
-                >
+                <div className="group relative cursor-pointer" onClick={() => setPupop(!pupop)}>
                   <div className="absolute top-0 left-[1%] hidden h-full w-full bg-blackOver group-hover:block"></div>
                   <div>
                     <img
-                      src={apiConfig.orinalImage(
-                        moviePopular[getRandomElementMovie(moviePopular.length)]
-                          .poster_path
-                      )}
+                      src={apiConfig.orinalImage(moviePopular[getRandomElementMovie(moviePopular.length)].poster_path)}
                       alt={video.name}
                       className="w-full"
                     />
@@ -113,10 +99,7 @@ export default Trailer
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [videoTrailers, moviePopular] = await axios
-    .all([
-      axios.get(request.fetchVideoTrailler),
-      axios.get(request.fetchPopular),
-    ])
+    .all([axios.get(request.fetchVideoTrailler), axios.get(request.fetchPopular)])
     .then(
       axios.spread((...res) => {
         return res

@@ -125,10 +125,7 @@ const Header = () => {
           <p className="ml-2">Watchlist</p>
         </div>
         <p className="flexItemCenter">Sign In</p>
-        <div
-          className="flexItemCenter relative"
-          onClick={() => setShowEN(!showEN)}
-        >
+        <div className="flexItemCenter relative" onClick={() => setShowEN(!showEN)}>
           <p className="mr-1">EN</p>
           <FaCaretDown />
           {showEN && <Language />}

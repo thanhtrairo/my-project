@@ -5,9 +5,7 @@ import { Title } from '../title/Title'
 import Favorite from './Favorite'
 import { WatchList } from './WatchList'
 
-export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({
-  moviePopular,
-}) => {
+export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
   return (
     <>
       <div className="flex flex-row items-center justify-between">

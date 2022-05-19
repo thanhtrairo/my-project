@@ -7,9 +7,7 @@ import { MovieType } from '../../type/type'
 import { fetcher } from '../../fetcher/fetcher'
 import useSWR from 'swr'
 
-const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({
-  moviePopular,
-}) => {
+const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -17,15 +15,13 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({
     slidesToShow: 6,
     slidesToScroll: 6,
   }
-  const { data, error } = useSWR(request.fetchPopular, fetcher, {fallbackData: moviePopular})
+  const { data, error } = useSWR(request.fetchPopular, fetcher, { fallbackData: moviePopular })
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
   return (
     <>
-      <TitleCategories title="This week's top TV and movies">
-        Fan favorites
-      </TitleCategories>
+      <TitleCategories title="This week's top TV and movies">Fan favorites</TitleCategories>
       <div className="mb-16 mt-8">
         <Slider {...settings}>
           {data.results.map((movie: MovieType) => (

@@ -1,13 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import {
-  FaFacebookMessenger,
-  FaFacebookSquare,
-  FaInstagram,
-  FaPaperPlane,
-  FaTwitter,
-  FaYoutube,
-} from 'react-icons/fa'
+import { FaFacebookMessenger, FaFacebookSquare, FaInstagram, FaPaperPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
 
 export const Footer = () => {
   return (

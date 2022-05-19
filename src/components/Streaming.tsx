@@ -8,9 +8,7 @@ import request from '../utils/request'
 import useSWR from 'swr'
 import { fetcher } from '../fetcher/fetcher'
 
-export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({
-  movieStreamming,
-}) => {
+export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
   const settings = {
     dots: true,
     infinite: true,

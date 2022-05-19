@@ -1,9 +1,6 @@
 import React from 'react'
 
-export const SvgAdd: React.FC<{ width: string; height: string }> = ({
-  width,
-  height,
-}) => {
+export const SvgAdd: React.FC<{ width: string; height: string }> = ({ width, height }) => {
   return (
     <div className="group relative">
       <svg

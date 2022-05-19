@@ -15,12 +15,7 @@ import request from '../src/utils/request'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
 
-const Home = ({
-  moviePopular,
-  movieTrending,
-  movieCommingSoon,
-  movieStreamming,
-}: Props) => {
+const Home = ({ moviePopular, movieTrending, movieCommingSoon, movieStreamming }: Props) => {
   return (
     <>
       <Head>

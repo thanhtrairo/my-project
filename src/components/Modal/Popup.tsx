@@ -1,5 +1,6 @@
 import React from 'react'
-import ReactPlayer from 'react-player'
+import { default as _ReactPlayer, ReactPlayerProps } from 'react-player'
+const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>
 
 export const Popup: React.FC<{
   onShow: Function
@@ -15,11 +16,7 @@ export const Popup: React.FC<{
         >
           X close
         </span>
-        <ReactPlayer
-          url={`https://www.youtube.com/watch?v=${videoId}`}
-          controls
-          playing={autoPlay}
-        />
+        <ReactPlayer url={`https://www.youtube.com/watch?v=${videoId}`} controls={true} playing={autoPlay} />
       </div>
     </>
   )
