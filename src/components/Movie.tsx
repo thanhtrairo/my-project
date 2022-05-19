@@ -24,7 +24,7 @@ export const Movie: React.FC<{
         </div>
       </div>
       {name ? (
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="hover:underline">{children}</a>
         </Link>
       ) : price ? (

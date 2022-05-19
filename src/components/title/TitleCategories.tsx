@@ -9,7 +9,7 @@ export const TitleCategories: React.FC<{
 }> = ({ children, title, textColor }) => {
   return (
     <>
-      <Link href="" passHref>
+      <Link href="/" passHref>
         <a className="">
           <h3
             className={clsx(

@@ -27,7 +27,7 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
           <FaRegStar className="h-9 w-9 fill-[#5799ef] py-3 hover:bg-white2 hover:fill-white" />
         </div>
         <p className="hiddenText my-2">
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <a className="hiddenText hover:underline">{movie.title}</a>
           </Link>
         </p>
@@ -49,12 +49,10 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
           </div>
         </div>
         <div>
-          <Link href="" passHref>
-            <a className="group flex flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
-              <FaPlay className="opacity-70 group-hover:opacity-100" />
-              <span>Trailer</span>
-            </a>
-          </Link>
+          <a className="group flex flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
+            <FaPlay className="opacity-70 group-hover:opacity-100" />
+            <span>Trailer</span>
+          </a>
         </div>
       </div>
     </div>

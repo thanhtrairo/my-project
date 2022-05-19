@@ -17,7 +17,7 @@ export const BuyMovie: React.FC<{ num: boolean; price: boolean }> = ({ num, pric
           <div>
             <p className="text-12 group-hover:opacity-70">May 27</p>
             <p>
-              <Link href="" passHref>
+              <Link href="/" passHref>
                 <a className="hover:underline">Top Gun: Maverick</a>
               </Link>
             </p>

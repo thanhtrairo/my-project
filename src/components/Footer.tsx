@@ -13,64 +13,64 @@ export const Footer = () => {
         <FaYoutube />
       </div>
       <div className="flex items-center justify-center space-x-8">
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Get the IMDb App</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Help</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Site Index</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>IMDbPro</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Box Office Mojo</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>IMDb Developer</span> <FaPaperPlane />
           </a>
         </Link>
       </div>
       <div className="flex items-center justify-center space-x-8">
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Press Room</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Advertising</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Jobs</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Conditions of Use</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Privacy Policy</span> <FaPaperPlane />
           </a>
         </Link>
-        <Link href="" passHref>
+        <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
             <span>Interest-Based Ads</span> <FaPaperPlane />
           </a>

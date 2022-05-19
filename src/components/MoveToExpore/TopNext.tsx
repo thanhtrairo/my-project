@@ -23,16 +23,16 @@ export const TopNext = () => {
           <MovieSearch />
         </Slider>
         <div className="flex space-x-2">
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <a className="rounded-2xl border-[1px] border-white py-1 px-3 text-14">Top news</a>
           </Link>
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <a className="rounded-2xl border-[1px] border-white py-1 px-3 text-14">Top news</a>
           </Link>
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <a className="rounded-2xl border-[1px] border-white py-1 px-3 text-14">Top news</a>
           </Link>
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <a className="rounded-2xl border-[1px] border-white py-1 px-3 text-14">Top news</a>
           </Link>
         </div>

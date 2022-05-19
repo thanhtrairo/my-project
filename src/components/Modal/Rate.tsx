@@ -1,11 +1,28 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { FaRegStar, FaStar } from 'react-icons/fa'
+import request from '../../utils/request'
 
 export const Rate: React.FC<{
   onShow: Function
-}> = ({ onShow }) => {
+  movieId: string
+}> = ({ onShow, movieId }) => {
   const stars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const [star, setStar] = useState<number | string>('?')
+  const [star, setStar] = useState<number>(0)
+
+  const handleRateMovie = async (id: string, star: number) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    try {
+      await axios.post(request.fetchRateMovie(id), { value: star }, config)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="fixed top-[30%] left-[30%] z-50 text-white">
@@ -18,7 +35,7 @@ export const Rate: React.FC<{
           </span>
           <div className="absolute top-[-20%] left-[42%]">
             <div className="relative">
-              <div className="absolute left-[42%] top-[36%] text-black">{star}</div>
+              <div className="absolute left-[42%] top-[36%] text-black">{star > 0 ? star : '?'}</div>
               <FaStar className="text-[72px] text-blue1" />
             </div>
           </div>
@@ -32,7 +49,9 @@ export const Rate: React.FC<{
                 </span>
               ))}
             </div>
-            <p className="cursor-pointer bg-white4 px-12 py-2">Rate</p>
+            <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie(movieId, star)}>
+              Rate
+            </p>
           </div>
         </div>
       </div>

@@ -56,25 +56,10 @@ const MovieDetail: React.FC<{
   if (errorDetail || errorDetailTrailer || errorCast) return <div>failed to load</div>
   if (!movieDetailSwr) return <div>loading...</div>
 
-  // const handleRateMovie = (id: string, value: { value: number }) => {
-  //   const postRateMovie = async (id: string, value: { value: number }) => {
-  //     const config = {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     }
-  //     try {
-  //       await axios.post(request.fetchRateMovie(id), value, config)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   postRateMovie(id, value)
-  // }
   return (
     <>
       {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} autoPlay={autoPlay} />}
-      {showRate && <Rate onShow={() => setShowRate(!showRate)} />}
+      {showRate && <Rate onShow={() => setShowRate(!showRate)} movieId={movieDetail.id} />}
       {(showPupop || showRate) && (
         <div className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"></div>
       )}
