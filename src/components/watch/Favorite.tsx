@@ -4,7 +4,7 @@ import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
 import request from '../../utils/request'
 import { MovieType } from '../../type/type'
-import { fetcher } from '../../fetcher/fetcher'
+import { fetcher } from '../../services/fetcher'
 import useSWR from 'swr'
 
 const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {

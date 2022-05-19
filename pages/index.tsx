@@ -1,5 +1,4 @@
 import type { GetServerSideProps } from 'next'
-import axios from 'axios'
 
 import Head from 'next/head'
 import Header from '../src/components/header/Header'
@@ -11,11 +10,11 @@ import { Video } from '../src/components/Video'
 import { Streaming } from '../src/components/Streaming'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
-import request from '../src/utils/request'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
+import MovieServices from '~/services/MovieServices'
 
-const Home = ({ moviePopular, movieTrending, movieCommingSoon, movieStreamming }: Props) => {
+const Home = ({ moviePopular, movieTrending, movieStreamming }: Props) => {
   return (
     <>
       <Head>
@@ -40,33 +39,30 @@ const Home = ({ moviePopular, movieTrending, movieCommingSoon, movieStreamming }
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const [
-    moviePopular,
-    movieTrending,
-    // movieCommingSoon,
-    movieStreamming,
-    casts,
-  ] = await axios
-    .all([
-      axios.get(request.fetchPopular),
-      axios.get(request.fetchTrending),
-      // axios.get(request.fetchCommingSoon),
-      axios.get(request.fetchStreamming),
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const result = await Promise.all([
+      MovieServices.getPopularMovies(),
+      MovieServices.getTrendingMovies(),
+      MovieServices.getComingSoonMovies(),
     ])
-    .then(
-      axios.spread((...res) => {
-        return res
-      })
-    )
-
-  return {
-    props: {
-      moviePopular: moviePopular.data,
-      movieTrending: movieTrending.data,
-      // movieCommingSoon: movieCommingSoon.data,
-      movieStreamming: movieStreamming.data,
-    },
+    return {
+      props: {
+        moviePopular: result[0].data,
+        movieTrending: result[1].data,
+        movieStreamming: result[2].data,
+      },
+    }
+  } catch (e) {
+    return {
+      // FIXME: should redirect to 500 page
+      props: {
+        moviePopular: {},
+        movieTrending: {},
+        movieStreamming: {},
+      },
+      redirect: '/',
+    }
   }
 }
 
