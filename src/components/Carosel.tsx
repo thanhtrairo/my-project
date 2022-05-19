@@ -34,7 +34,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
       <div className="group w-8/12 hover:cursor-pointer">
         <Slider {...settings}>
           {data.results.map((movie: MovieType) => (
-            <div className="relative">
+            <div className="relative" key={movie.id}>
               <img
                 src={apiConfig.orinalImage(movie.backdrop_path)}
                 alt={movie.title}
@@ -75,7 +75,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({
         <div className="py-6">
           <div className="flex flex-col gap-3">
             {data.results.slice(0, 3).map((movie: MovieType) => (
-              <div className="flex flex-row">
+              <div className="flex flex-row" key={movie.id}>
                 <div className="basis-3/12 px-3">
                   <img
                     src={apiConfig.orinalImage(movie.poster_path)}
