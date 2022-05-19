@@ -16,11 +16,7 @@ export const Popup: React.FC<{
         >
           X close
         </span>
-        <ReactPlayer
-          url={`https://www.youtube.com/watch?v=${videoId}`}
-          controls={true}
-          playing={autoPlay}
-        />
+        <ReactPlayer url={`https://www.youtube.com/watch?v=${videoId}`} controls={true} playing={autoPlay} />
       </div>
     </>
   )
