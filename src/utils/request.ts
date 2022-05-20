@@ -13,8 +13,8 @@ const request = {
     `${apiConfig.baseUrl}/movie/${id}/videos?${apiConfig.apikey}`,
   fetchRateMovie: (id: string | undefined | string[]) =>
     `${apiConfig.baseUrl}/movie/${id}/rating?${apiConfig.apikey}&session_id=f30f1f4f9ffab5f0b8414f4a1f4fc7c09f03fbe9`,
-  fetchSearchMultiple: (query: string) => `${apiConfig.baseUrl}/search/multi?${apiConfig.apikey}&query=${query}`,
-  fetchSearchMovie: (query: string) => `${apiConfig.baseUrl}/search/movie?${apiConfig.apikey}&query=${query}`,
+  fetchSearch: (query: string, typeSearch: string) =>
+    `${apiConfig.baseUrl}/search/${typeSearch}?${apiConfig.apikey}&query=${query}`,
   fetchTvPopular: `${apiConfig.baseUrl}/tv/popular?${apiConfig.apikey}`,
   fetchTvLatest: `${apiConfig.baseUrl}/tv/latest?${apiConfig.apikey}`,
   fetchTvAiringToday: `${apiConfig.baseUrl}/tv/airing_today?${apiConfig.apikey}`,

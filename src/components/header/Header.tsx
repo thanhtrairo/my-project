@@ -1,13 +1,14 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
-import { MovieType } from '../../type/type'
+import { MovieType, PersonType } from '../../type/type'
 import request from '../../utils/request'
 import { MovieSearch } from '../MoveToExpore/MovieSearch'
-// import { Movie } from '../Movie'
 import All from './All'
+import { Keyword } from './Keyword'
 import Language from './Language'
 import Menu from './Menu'
+import { Person } from './Person'
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -15,14 +16,24 @@ const Header = () => {
   const [showEN, setShowEN] = useState<boolean>(false)
 
   const [search, setSearch] = useState<string>('')
-  const [movies, setMovies] = useState<MovieType[]>()
+  const [dataSearch, setDataSearch] = useState<any>()
+  const [typeSearch, setTypeSearch] = useState<string>('multi')
+
+  const searchType = useMemo(() => {
+    if (typeSearch === 'multi') return 'All'
+    if (typeSearch === 'tv') return 'TV Episodes'
+    if (typeSearch === 'person') return 'Celebs'
+    if (typeSearch === 'keyword') return 'Keywords'
+    if (typeSearch === 'company') return 'Companies'
+    if (typeSearch === 'movie') return 'Movie'
+  }, [typeSearch])
 
   useEffect(() => {
     const getDataBySearch = async () => {
       if (search) {
         try {
-          const res = await axios.get(request.fetchSearchMovie(search))
-          setMovies(res.data.results)
+          const res = await axios.get(request.fetchSearch(search, typeSearch))
+          setDataSearch(res.data.results)
         } catch (error) {
           console.log(error)
         }
@@ -45,13 +56,27 @@ const Header = () => {
         <div className="w-[55%]">
           <form className="relative ml-2 flex w-full items-center rounded-md bg-white">
             {search && (
-              <div className="absolute top-[100%] left-0 z-10 bg-gray py-4">
+              <div className="absolute top-[100%] left-0 z-50 bg-gray py-4">
                 <div className="mx-2 mb-4">
-                  {movies?.slice(0, 3).map((movie: MovieType) => (
-                    <div key={movie.id}>
-                      <MovieSearch movie={movie} />
-                    </div>
-                  ))}
+                  {typeSearch === 'movie' || typeSearch === 'tv'
+                    ? dataSearch?.slice(0, 3).map((movie: MovieType) => (
+                        <div key={movie.id}>
+                          <MovieSearch movie={movie} />
+                        </div>
+                      ))
+                    : typeSearch === 'person'
+                    ? dataSearch?.slice(0, 3).map((person: PersonType) => (
+                        <div key={person.id}>
+                          <Person person={person} />
+                        </div>
+                      ))
+                    : typeSearch === 'keyword'
+                    ? dataSearch?.slice(0, 3).map((keyword: PersonType) => (
+                        <div key={keyword.id}>
+                          <Keyword keyword={keyword} />
+                        </div>
+                      ))
+                    : ''}
                 </div>
               </div>
             )}
@@ -59,11 +84,11 @@ const Header = () => {
               className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
               onClick={() => setShowAll(!showAll)}
             >
-              <p className="mr-1 font-medium">All</p>
+              <p className="mr-1 font-medium">{searchType}</p>
               <FaCaretDown />
-              {showAll && <All />}
+              {showAll && <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} />}
             </div>
-            <div className="flex w-full items-center">
+            <div className="flex items-center">
               <input
                 type="text"
                 placeholder="Search IMDb"

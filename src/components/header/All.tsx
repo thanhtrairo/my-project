@@ -1,35 +1,18 @@
 import React from 'react'
-import { FaAngleRight, FaSearch, FaTv } from 'react-icons/fa'
+import { FaPhotoVideo, FaSearch, FaTv } from 'react-icons/fa'
 
-export default function All() {
-  // const [active, setActive] = useState<string>()
+const All: React.FC<{ onChangeTypeSearch: Function }> = ({ onChangeTypeSearch }) => {
   return (
-    <div className="All absolute top-[110%] left-0 z-10 whitespace-pre bg-gray text-white">
-      <li className="activeAll group">
+    <div className="All absolute top-[110%] left-0 z-10 min-w-[200px] cursor-pointer whitespace-pre bg-gray text-white">
+      <li className="activeAll group" onClick={() => onChangeTypeSearch('multi')}>
         <FaSearch />
         <p>All</p>
       </li>
-      <li className="group">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          className="ipc-icon ipc-icon--movie searchCatSelector__itemIcon group-hover:opacity-100"
-          id="iconContext-movie"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          role="presentation"
-        >
-          <path fill="none" d="M0 0h24v24H0V0z"></path>
-          <path d="M18 4v1h-2V4c0-.55-.45-1-1-1H9c-.55 0-1 .45-1 1v1H6V4c0-.55-.45-1-1-1s-1 .45-1 1v16c0 .55.45 1 1 1s1-.45 1-1v-1h2v1c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-1h2v1c0 .55.45 1 1 1s1-.45 1-1V4c0-.55-.45-1-1-1s-1 .45-1 1zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"></path>
-        </svg>
-        <p>Titles</p>
-      </li>
-      <li>
+      <li onClick={() => onChangeTypeSearch('tv')} className="group">
         <FaTv />
         <p>TV Episodes</p>
       </li>
-      <li className="group">
+      <li className="group" onClick={() => onChangeTypeSearch('person')}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -45,7 +28,7 @@ export default function All() {
         </svg>
         <p>Celebs</p>
       </li>
-      <li className="group">
+      <li className="group" onClick={() => onChangeTypeSearch('company')}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -61,7 +44,7 @@ export default function All() {
         </svg>
         <p>Companies</p>
       </li>
-      <li className="group">
+      <li className="group" onClick={() => onChangeTypeSearch('keyword')}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -77,23 +60,12 @@ export default function All() {
         </svg>
         <p>Keywords</p>
       </li>
-      <li className="group border-t-[1px] border-slate-300">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          className="ipc-icon ipc-icon--find-in-page searchCatSelector__itemIcon group-hover:opacity-100"
-          id="iconContext-find-in-page"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          role="presentation"
-        >
-          <path fill="none" d="M0 0h24v24H0V0z"></path>
-          <path d="M20 19.59V8.83c0-.53-.21-1.04-.59-1.41l-4.83-4.83c-.37-.38-.88-.59-1.41-.59H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c.45 0 .85-.15 1.19-.4l-4.43-4.43c-.86.56-1.89.88-3 .82-2.37-.11-4.4-1.96-4.72-4.31a5.013 5.013 0 0 1 5.83-5.61c1.95.33 3.57 1.85 4 3.78.33 1.46.01 2.82-.7 3.9L20 19.59zM9 13c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3z"></path>
-        </svg>
-        <p>Advanced Search</p>
-        <FaAngleRight />
+      <li className="group border-t-[1px] border-slate-300" onClick={() => onChangeTypeSearch('movie')}>
+        <FaPhotoVideo className="group-hover:opacity-100" />
+        <p>Movie</p>
       </li>
     </div>
   )
 }
+
+export default All

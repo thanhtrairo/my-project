@@ -39,6 +39,10 @@ const MovieDetail: React.FC<{
   const router = useRouter()
   const { id } = router.query
 
+  // if (router.isFallback) {
+  //   router.push('/')
+  // }
+
   const { data: movieDetailSwr, error: errorDetail } = useSWR(request.fetchMovieDetail(id), fetcher, {
     fallbackData: movieDetail,
   })
