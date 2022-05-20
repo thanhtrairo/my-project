@@ -19,6 +19,7 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => 
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
+
   return (
     <>
       <TitleCategories title="This week's top TV and movies">Fan favorites</TitleCategories>

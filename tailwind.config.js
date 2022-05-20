@@ -1,6 +1,9 @@
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    container: {
+      padding: '8rem',
+    },
     extend: {
       colors: {
         gray: 'rgb(31 31 31)',

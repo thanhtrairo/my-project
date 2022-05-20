@@ -5,6 +5,7 @@ export interface MovieType {
   release_date?: string
   first_air_date: string
   genre_ids: number[]
+  name?: string
   id: string
   original_language: string
   original_title: string

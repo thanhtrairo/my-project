@@ -2,7 +2,7 @@ import React from 'react'
 import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
 import Link from 'next/link'
-import { MovieSearch } from './MovieSearch'
+// import { MovieSearch } from './MovieSearch'
 
 export const TopNext = () => {
   const settings = {
@@ -17,10 +17,10 @@ export const TopNext = () => {
       <TitleCategories title="">Top news</TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
+          {/* <MovieSearch />
           <MovieSearch />
           <MovieSearch />
-          <MovieSearch />
-          <MovieSearch />
+          <MovieSearch /> */}
         </Slider>
         <div className="flex space-x-2">
           <Link href="/" passHref>

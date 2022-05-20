@@ -1,21 +1,24 @@
+import moment from 'moment'
+import Link from 'next/link'
 import React from 'react'
+import apiConfig from '../../../pages/api/apiConfig'
+import { MovieType } from '../../type/type'
 
-export const MovieSearch = () => {
+export const MovieSearch: React.FC<{ movie: MovieType }> = ({ movie }) => {
   return (
     <div className="group mx-2 hover:cursor-pointer">
-      <div className="flex space-x-4">
-        <div className=" relative ">
-          <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BNWM0ZGJlMzMtZmYwMi00NzI3LTgzMzMtNjMzNjliNDRmZmFlXkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_QL75_UX90_CR0,0,90,133_.jpg"
-            alt=""
-          />
+      <div className="flex gap-4">
+        <div className=" relative basis-2/12">
+          <Link href={`/movie/${movie.id}`}>
+            <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
+          </Link>
+          <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
         </div>
-        <div className="flex flex-col space-y-1 group-hover:opacity-70 ">
-          <p>Box Office: ‘Doctor Strange 2’ Crosses 550 Million Globally</p>
+        <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
+          <p className="hiddenText">{movie.title ? movie.title : movie.name}</p>
           <div className="text-12 opacity-70">
-            <span>May 13</span>
-            <span>Variety Film + TV</span>
+            <span>{moment(movie.release_date ? movie.release_date : movie.first_air_date).format('MMM Do YY')}</span>
+            <span>Variety Film {movie.media_type}</span>
           </div>
         </div>
       </div>

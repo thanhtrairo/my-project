@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import { MovieType } from '../../type/type'
+import request from '../../utils/request'
 import { MovieSearch } from '../MoveToExpore/MovieSearch'
-import { Movie } from '../Movie'
+// import { Movie } from '../Movie'
 import All from './All'
 import Language from './Language'
 import Menu from './Menu'
@@ -12,25 +15,21 @@ const Header = () => {
   const [showEN, setShowEN] = useState<boolean>(false)
 
   const [search, setSearch] = useState<string>('')
+  const [movies, setMovies] = useState<MovieType[]>()
 
-  // if (search) {
-  //   const { data, error } = useHookSWR(request.fetchPopular)
-
-  //   console.log(data)
-  // }
-
-  // if (error) return <div>failed to load</div>
-  // if (!data) return <div>loading...</div>
-
-  // useEffect(() => {
-  //   if(search) {
-
-  //   }
-  //   const timeId = setTimeout(() => {
-  //     if()
-  //   }, 2000)
-  //   return () => clearTimeout(timeId)
-  // }, [])
+  useEffect(() => {
+    const getDataBySearch = async () => {
+      if (search) {
+        try {
+          const res = await axios.get(request.fetchSearchMovie(search))
+          setMovies(res.data.results)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    getDataBySearch()
+  }, [search])
 
   return (
     <div className="bg-black1 text-14 text-white">
@@ -48,19 +47,14 @@ const Header = () => {
             {search && (
               <div className="absolute top-[100%] left-0 z-10 bg-gray py-4">
                 <div className="mx-2 mb-4">
-                  <MovieSearch />
-                </div>
-                <div className="flex">
-                  <Movie title="3:45" list={false} name={true} price={false}>
-                    Doctor Strange in the Multiverse of Madness
-                  </Movie>
-                  <Movie title="3:45" list={false} name={true} price={false}>
-                    Doctor Strange in the Multiverse of Madness
-                  </Movie>
+                  {movies?.slice(0, 3).map((movie: MovieType) => (
+                    <div key={movie.id}>
+                      <MovieSearch movie={movie} />
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
-
             <div
               className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
               onClick={() => setShowAll(!showAll)}
