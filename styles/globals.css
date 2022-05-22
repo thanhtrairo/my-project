@@ -48,6 +48,9 @@
   .textBlack {
     @apply text-black !important;
   }
+  img {
+    @apply w-full;
+  }
 }
 
 /* slide */

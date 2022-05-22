@@ -14,6 +14,7 @@ export interface MovieType {
   poster_path: string
   vote_average: number
   vote_count: number
+  character?: string
 }
 
 export interface CastType {
@@ -64,6 +65,7 @@ export interface PersonType {
   known_for_department: string
   known_for: [
     {
+      adult: boolean
       backdrop_path: string
       first_air_date: string
       genre_ids: number[]
@@ -82,6 +84,13 @@ export interface PersonType {
   name: string
   popularity: number
   profile_path: string
+  also_known_as: string[]
+  biography: string
+  birthday: string
+  deathday?: any
+  homepage: string
+  imdb_id: string
+  place_of_birth: string
 }
 
 export interface KeyType {
@@ -89,7 +98,7 @@ export interface KeyType {
   name: string
 }
 
-export interface Company {
+export interface CompanyType {
   id: number
   name: string
   origin_country: string
@@ -102,4 +111,5 @@ export interface Props {
   movieStreamming: MovieType[]
   casts: CastType[]
   videoTrailers: VideoTrailler[]
+  personPopular: PersonType[]
 }

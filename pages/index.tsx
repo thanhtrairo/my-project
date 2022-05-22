@@ -15,7 +15,7 @@ import request from '../src/utils/request'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
 
-const Home = ({ moviePopular, movieTrending, movieStreamming }: Props) => {
+const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: Props) => {
   return (
     <>
       <Head>
@@ -32,7 +32,7 @@ const Home = ({ moviePopular, movieTrending, movieStreamming }: Props) => {
           <Video />
           <Streaming movieStreamming={movieStreamming} />
           <ExportsMovie />
-          <MoveToExpore />
+          <MoveToExpore personPopular={personPopular} />
           <Footer />
         </div>
       </main>
@@ -41,17 +41,12 @@ const Home = ({ moviePopular, movieTrending, movieStreamming }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const [
-    moviePopular,
-    movieTrending,
-    // movieCommingSoon,
-    movieStreamming,
-  ] = await axios
+  const [moviePopular, movieTrending, movieStreamming, personPopular] = await axios
     .all([
       axios.get(request.fetchPopular),
       axios.get(request.fetchTrending),
-      // axios.get(request.fetchCommingSoon),
       axios.get(request.fetchStreamming),
+      axios.get(request.fetchPersonPopular),
     ])
     .then(
       axios.spread((...res) => {
@@ -63,8 +58,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       moviePopular: moviePopular.data,
       movieTrending: movieTrending.data,
-      // movieCommingSoon: movieCommingSoon.data,
       movieStreamming: movieStreamming.data,
+      personPopular: personPopular.data,
     },
   }
 }

@@ -39,9 +39,9 @@ const MovieDetail: React.FC<{
   const router = useRouter()
   const { id } = router.query
 
-  // if (router.isFallback) {
-  //   router.push('/')
-  // }
+  if (router.isFallback) {
+    return <div>loading...</div>
+  }
 
   const { data: movieDetailSwr, error: errorDetail } = useSWR(request.fetchMovieDetail(id), fetcher, {
     fallbackData: movieDetail,
@@ -99,7 +99,7 @@ const MovieDetail: React.FC<{
             <div className="basis-9/12">
               <div
                 className="group hover:cursor-pointer"
-                onClick={() => handleShowVideo(movieDetailTrailerSwr.results[0].key, true)}
+                onClick={() => handleShowVideo(movieDetailTrailerSwr.results[0]?.key, true)}
               >
                 <div className="relative">
                   <img src={apiConfig.orinalImage(movieDetailSwr.backdrop_path)} alt={movieDetailSwr.title} />
@@ -241,6 +241,15 @@ export const getStaticProps = async ({ params }: { params: { id: string } }) => 
         return res
       })
     )
+    .catch((...err) => {
+      return err
+    })
+  if (!movieDetail.data) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
       movieDetail: movieDetail.data,

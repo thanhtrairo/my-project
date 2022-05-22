@@ -1,10 +1,12 @@
 import axios from 'axios'
+import Link from 'next/link'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
-import { MovieType, PersonType } from '../../type/type'
+import { CompanyType, KeyType, MovieType, PersonType } from '../../type/type'
 import request from '../../utils/request'
 import { MovieSearch } from '../MoveToExpore/MovieSearch'
 import All from './All'
+import { Company } from './Company'
 import { Keyword } from './Keyword'
 import Language from './Language'
 import Menu from './Menu'
@@ -48,7 +50,7 @@ const Header = () => {
         <div className="flexItemCenter">
           <img src="/img/logo.svg" alt="Vercel Logo" />
         </div>
-        <div className="flexItemCenter" onClick={() => setShowMenu(!showMenu)}>
+        <div className="flexItemCenter cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
           <FaBars className="mr-1 fill-white" />
           <p>Menu</p>
           {showMenu && <Menu />}
@@ -58,25 +60,29 @@ const Header = () => {
             {search && (
               <div className="absolute top-[100%] left-0 z-50 bg-gray py-4">
                 <div className="mx-2 mb-4">
-                  {typeSearch === 'movie' || typeSearch === 'tv'
-                    ? dataSearch?.slice(0, 3).map((movie: MovieType) => (
-                        <div key={movie.id}>
-                          <MovieSearch movie={movie} />
-                        </div>
-                      ))
-                    : typeSearch === 'person'
+                  {typeSearch === 'person'
                     ? dataSearch?.slice(0, 3).map((person: PersonType) => (
                         <div key={person.id}>
-                          <Person person={person} />
+                          <Person person={person} onSearch={() => setSearch('')} />
                         </div>
                       ))
                     : typeSearch === 'keyword'
-                    ? dataSearch?.slice(0, 3).map((keyword: PersonType) => (
+                    ? dataSearch?.slice(0, 3).map((keyword: KeyType) => (
                         <div key={keyword.id}>
-                          <Keyword keyword={keyword} />
+                          <Keyword keyword={keyword} onSearch={() => setSearch('')} />
                         </div>
                       ))
-                    : ''}
+                    : typeSearch === 'company'
+                    ? dataSearch?.slice(0, 3).map((company: CompanyType) => (
+                        <div key={company.id}>
+                          <Company company={company} onSearch={() => setSearch('')} />
+                        </div>
+                      ))
+                    : dataSearch?.slice(0, 3).map((movie: MovieType) => (
+                        <div key={movie.id}>
+                          <MovieSearch movie={movie} onSearch={() => setSearch('')} />
+                        </div>
+                      ))}
                 </div>
               </div>
             )}
@@ -84,7 +90,7 @@ const Header = () => {
               className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
               onClick={() => setShowAll(!showAll)}
             >
-              <p className="mr-1 font-medium">{searchType}</p>
+              <p className="mr-1 cursor-pointer font-medium">{searchType}</p>
               <FaCaretDown />
               {showAll && <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} />}
             </div>
@@ -125,7 +131,7 @@ const Header = () => {
             </g>
           </svg>
         </div>
-        <div className="flexItemCenter">
+        <div className="flexItemCenter cursor-pointer">
           <svg
             width="24"
             height="24"
@@ -141,10 +147,12 @@ const Header = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <p className="ml-2">Watchlist</p>
+          <p className="ml-2 cursor-pointer">Watchlist</p>
         </div>
-        <p className="flexItemCenter">Sign In</p>
-        <div className="flexItemCenter relative" onClick={() => setShowEN(!showEN)}>
+        <Link href="/login">
+          <p className="flexItemCenter cursor-pointer">Sign In</p>
+        </Link>
+        <div className="flexItemCenter relative cursor-pointer" onClick={() => setShowEN(!showEN)}>
           <p className="mr-1">EN</p>
           <FaCaretDown />
           {showEN && <Language />}

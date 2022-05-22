@@ -5,8 +5,9 @@ import Slider from 'react-slick'
 import { Movie } from '../Movie'
 import { BornToday } from './BornToday'
 import { TopNext } from './TopNext'
+import { PersonType } from '../../type/type'
 
-export const MoveToExpore: React.FC = () => {
+export const MoveToExpore: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -35,7 +36,7 @@ export const MoveToExpore: React.FC = () => {
           </Movie>
         </Slider>
       </div>
-      <BornToday />
+      <BornToday personPopular={personPopular} />
       <TopNext />
     </>
   )

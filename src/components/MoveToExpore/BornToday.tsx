@@ -1,8 +1,15 @@
+import moment from 'moment'
 import React from 'react'
 import Slider from 'react-slick'
+import useSWR from 'swr'
+import request from '../../utils/request'
+import apiConfig from '../../../pages/api/apiConfig'
+import { PersonType } from '../..//type/type'
 import { TitleCategories } from '../title/TitleCategories'
+import { fetcher } from '../../fetcher/fetcher'
+import Link from 'next/link'
 
-export const BornToday: React.FC = () => {
+export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -10,28 +17,32 @@ export const BornToday: React.FC = () => {
     slidesToShow: 6,
     slidesToScroll: 6,
   }
+  const { data, error } = useSWR(request.fetchPersonPopular, fetcher, {
+    fallbackData: personPopular,
+  })
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
 
   return (
     <>
-      <TitleCategories title="People born on May 14">Born today</TitleCategories>
+      <TitleCategories title={`People born on ${moment().format('MMM Do YY')}`}>Born today</TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
-          {/* {data.cast.map((cast: CastType) => (
-            <div className="group" key={cast.id}>
+          {data.results.map((person: PersonType) => (
+            <div className="group" key={person.id}>
               <div className="relative mx-5 cursor-pointer">
-                <div className="absolute top-0 left-0 hidden h-full w-full rounded-full bg-blackOver group-hover:block"></div>
-                <img
-                  src={apiConfig.orinalImage(cast.profile_path)}
-                  alt={cast.name}
-                  className="rounded-full"
-                />
+                <Link href={`/person/${person.id}`}>
+                  <div className="absolute top-0 left-0 hidden h-full w-full rounded-full bg-blackOver group-hover:block"></div>
+                </Link>
+                <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} className="rounded-full" />
               </div>
               <div className="my-1 text-center group-hover:opacity-70">
-                <p>{cast.name}</p>
-                <p className="opacity-70">{cast.popularity}</p>
+                <p>{person.name}</p>
+                <p className="opacity-70">{person.popularity}</p>
               </div>
             </div>
-          ))} */}
+          ))}
         </Slider>
       </div>
     </>

@@ -20,6 +20,12 @@ const request = {
   fetchTvAiringToday: `${apiConfig.baseUrl}/tv/airing_today?${apiConfig.apikey}`,
   fetchTvOnTheAir: `${apiConfig.baseUrl}/tv/on_the_air?${apiConfig.apikey}`,
   fetchTvTopRate: `${apiConfig.baseUrl}/tv/top_rated?${apiConfig.apikey}`,
+  fetchPersonPopular: `${apiConfig.baseUrl}/person/popular?${apiConfig.apikey}`,
+  fetchPersonDetail: (id: string | undefined | string[]) => `${apiConfig.baseUrl}/person/${id}?${apiConfig.apikey}`,
+  fetchPersonDetailMovie: (id: string | undefined | string[]) =>
+    `${apiConfig.baseUrl}/person/${id}/movie_credits?${apiConfig.apikey}`,
+  fetchLogin: `${apiConfig.baseUrl}/authentication/token/validate_with_login?${apiConfig.apikey}`,
+  fetchToken: `${apiConfig.baseUrl}/authentication/token/new?${apiConfig.apikey}`,
 }
 
 export default request

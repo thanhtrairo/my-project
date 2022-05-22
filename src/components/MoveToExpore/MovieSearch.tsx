@@ -4,11 +4,11 @@ import React from 'react'
 import apiConfig from '../../../pages/api/apiConfig'
 import { MovieType } from '../../type/type'
 
-export const MovieSearch: React.FC<{ movie: MovieType }> = ({ movie }) => {
+export const MovieSearch: React.FC<{ movie: MovieType; onSearch: Function }> = ({ movie, onSearch }) => {
   return (
     <div className="group mx-2 hover:cursor-pointer">
       <div className="flex gap-4">
-        <div className=" relative basis-2/12">
+        <div className=" relative basis-2/12" onClick={() => onSearch()}>
           <Link href={`/movie/${movie.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>

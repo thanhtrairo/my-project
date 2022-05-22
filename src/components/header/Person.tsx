@@ -3,12 +3,12 @@ import React from 'react'
 import apiConfig from '../../../pages/api/apiConfig'
 import { PersonType } from '../../type/type'
 
-export const Person: React.FC<{ person: PersonType }> = ({ person }) => {
+export const Person: React.FC<{ person: PersonType; onSearch: Function }> = ({ person, onSearch }) => {
   return (
     <div className="group mx-2 my-6 hover:cursor-pointer">
       <div className="flex gap-4">
-        <div className=" relative basis-2/12 ">
-          <Link href={`/movie/${person.id}`}>
+        <div className=" relative basis-2/12" onClick={() => onSearch()}>
+          <Link href={`/person/${person.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
           <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} />

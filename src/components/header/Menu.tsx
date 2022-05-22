@@ -6,7 +6,7 @@ export default function Menu() {
     <div className="absolute top-0 left-0 z-20 h-full w-full bg-gray py-8">
       <div className="mx-auto w-[50%]">
         <div className="flex justify-between">
-          <img src="/img/logo2.svg" alt="logo2" className="" />
+          <img src="/img/logo2.svg" alt="logo2" className="w-auto" />
           <FaWindowClose className="text-48 hover:opacity-80" />
         </div>
         <div className="my-6">
