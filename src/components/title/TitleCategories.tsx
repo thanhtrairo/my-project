@@ -4,6 +4,7 @@ import React from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 
 export const TitleCategories: React.FC<{
+  children: React.ReactNode
   title: string
   textColor?: boolean
 }> = ({ children, title, textColor }) => {

@@ -8,7 +8,7 @@ import { SvgAdd } from './SvgAdd'
 import { Play } from './Play'
 import { MovieType } from '../type/type'
 import request from '../utils/request'
-import { fetcher } from '../fetcher/fetcher'
+import { fetcher } from '../services/fetcher'
 import useSWR from 'swr'
 import apiConfig from '../../pages/api/apiConfig'
 

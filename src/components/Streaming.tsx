@@ -6,7 +6,7 @@ import { WatchComponent } from './watch/WatchComponent'
 import { MovieType } from '../type/type'
 import request from '../utils/request'
 import useSWR from 'swr'
-import { fetcher } from '../fetcher/fetcher'
+import { fetcher } from '../services/fetcher'
 
 export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
   const settings = {

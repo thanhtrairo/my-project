@@ -6,7 +6,7 @@ import request from '../../utils/request'
 import apiConfig from '../../../pages/api/apiConfig'
 import { PersonType } from '../..//type/type'
 import { TitleCategories } from '../title/TitleCategories'
-import { fetcher } from '../../fetcher/fetcher'
+import { fetcher } from '../../services/fetcher'
 import Link from 'next/link'
 
 export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {

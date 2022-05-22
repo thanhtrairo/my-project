@@ -1,5 +1,4 @@
 import type { GetServerSideProps } from 'next'
-import axios from 'axios'
 
 import Head from 'next/head'
 import Header from '../src/components/header/Header'
@@ -11,9 +10,9 @@ import { Video } from '../src/components/Video'
 import { Streaming } from '../src/components/Streaming'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
-import request from '../src/utils/request'
 import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
+import MovieServices from '~/services/MovieServices'
 
 const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: Props) => {
   return (
@@ -41,26 +40,29 @@ const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: P
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const [moviePopular, movieTrending, movieStreamming, personPopular] = await axios
-    .all([
-      axios.get(request.fetchPopular),
-      axios.get(request.fetchTrending),
-      axios.get(request.fetchStreamming),
-      axios.get(request.fetchPersonPopular),
+  try {
+    const result = await Promise.all([
+      MovieServices.getPopularMovies(),
+      MovieServices.getTrendingMovies(),
+      MovieServices.getComingSoonMovies(),
     ])
-    .then(
-      axios.spread((...res) => {
-        return res
-      })
-    )
-
-  return {
-    props: {
-      moviePopular: moviePopular.data,
-      movieTrending: movieTrending.data,
-      movieStreamming: movieStreamming.data,
-      personPopular: personPopular.data,
-    },
+    return {
+      props: {
+        moviePopular: result[0].data,
+        movieTrending: result[1].data,
+        movieStreamming: result[2].data,
+      },
+    }
+  } catch (e) {
+    return {
+      // FIXME: should redirect to 500 page
+      props: {
+        moviePopular: {},
+        movieTrending: {},
+        movieStreamming: {},
+      },
+      redirect: '/',
+    }
   }
 }
 
