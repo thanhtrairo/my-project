@@ -1,9 +1,9 @@
-import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import MovieServices from '~/services/MovieServices'
 import { CompanyType, KeyType, MovieType, PersonType } from '../../type/type'
-import request from '../../utils/request'
+
 import { MovieSearch } from '../MoveToExpore/MovieSearch'
 import All from './All'
 import { Company } from './Company'
@@ -34,7 +34,7 @@ const Header = () => {
     const getDataBySearch = async () => {
       if (search) {
         try {
-          const res = await axios.get(request.fetchSearch(search, typeSearch))
+          const res = await MovieServices.getSearch(search, typeSearch)
           setDataSearch(res.data.results)
         } catch (error) {
           console.log(error)

@@ -1,7 +1,9 @@
-import axios from 'axios'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaRegStar, FaStar } from 'react-icons/fa'
-import request from '../../utils/request'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/store'
+import MovieServices from '~/services/MovieServices'
 
 export const Rate: React.FC<{
   onShow: Function
@@ -10,16 +12,22 @@ export const Rate: React.FC<{
   const stars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [star, setStar] = useState<number>(0)
 
+  const router = useRouter()
+  const account = useSelector((state: RootState) => state.account)
   const handleRateMovie = async (id: string, star: number) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    try {
-      await axios.post(request.fetchRateMovie(id), { value: star }, config)
-    } catch (error) {
-      console.log(error)
+    if (account.request_token) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      try {
+        await MovieServices.postRateMovie(id, account.request_token, { value: star }, config)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      router.push('/login')
     }
   }
 

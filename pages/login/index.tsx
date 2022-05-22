@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import request from '../../src/utils/request'
 import Header from '../../src/components/header/Header'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { accountLogin } from '~/redux/account/acountSlice'
 
 const Login = () => {
   const router = useRouter()
@@ -10,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string>('')
+
+  const dispatch = useDispatch()
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -27,6 +31,7 @@ const Login = () => {
           request_token: resToken.data.request_token,
         }
         await axios.post(request.fetchLogin, req, config)
+        dispatch(accountLogin(req))
         router.push('/')
       } catch (error) {
         setError('wrong email or password')

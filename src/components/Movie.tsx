@@ -6,6 +6,7 @@ import { BuyMovie } from './BuyMovie'
 import { Play } from './Play'
 
 export const Movie: React.FC<{
+  children: React.ReactNode
   title: string
   list: boolean
   name: boolean

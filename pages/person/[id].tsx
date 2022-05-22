@@ -6,10 +6,11 @@ import { SvgAdd } from '../../src/components/SvgAdd'
 import { MovieType, PersonType } from '../../src/type/type'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import { fetcher } from '../../src/fetcher/fetcher'
+import { fetcher } from '../../src/services/fetcher'
 import apiConfig from '../api/apiConfig'
 import moment from 'moment'
 import Link from 'next/link'
+import MovieServices from '~/services/MovieServices'
 
 const PersonDetail: React.FC<{ personDetail: PersonType; personDetailMovie: PersonType }> = ({
   personDetail,
@@ -108,26 +109,24 @@ export const getStaticPaths = async () => {
   }
 }
 export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-  const [personDetail, personDetailMovie] = await axios
-    .all([axios.get(request.fetchPersonDetail(params.id)), axios.get(request.fetchPersonDetailMovie(params.id))])
-    .then(
-      axios.spread((...res) => {
-        return res
-      })
-    )
-    .catch((...err) => {
-      return err
-    })
-  if (!personDetail.data) {
+  try {
+    const result = await Promise.all([
+      MovieServices.getPersonDetail(params.id),
+      MovieServices.getPersonMovies(params.id),
+    ])
     return {
+      props: {
+        personDetail: result[0].data,
+        personDetailMovie: result[1].data,
+      },
+    }
+  } catch (e) {
+    return {
+      props: {
+        personDetail: {},
+        personDetailMovie: {},
+      },
       notFound: true,
     }
-  }
-
-  return {
-    props: {
-      personDetail: personDetail.data,
-      personDetailMovie: personDetailMovie.data,
-    },
   }
 }

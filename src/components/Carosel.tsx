@@ -7,10 +7,10 @@ import { FaAngleRight } from 'react-icons/fa'
 import { SvgAdd } from './SvgAdd'
 import { Play } from './Play'
 import { MovieType } from '../type/type'
-import request from '../utils/request'
 import { fetcher } from '../services/fetcher'
 import useSWR from 'swr'
 import apiConfig from '../../pages/api/apiConfig'
+import request from '~/utils/request'
 
 const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {

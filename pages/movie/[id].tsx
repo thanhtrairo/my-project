@@ -13,8 +13,9 @@ import { Popup } from '../../src/components/Modal/Popup'
 import moment from 'moment'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import { fetcher } from '../../src/fetcher/fetcher'
+import { fetcher } from '../../src/services/fetcher'
 import { Rate } from '../../src/components/Modal/Rate'
+import MovieServices from '~/services/MovieServices'
 
 const MovieDetail: React.FC<{
   movieDetail: MovieType
@@ -230,32 +231,28 @@ export const getStaticPaths = async () => {
   }
 }
 export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-  const [movieDetail, movieDetailTrailler, casts] = await axios
-    .all([
-      axios.get(request.fetchMovieDetail(params.id)),
-      axios.get(request.fetchMovieDetailTrailler(params.id)),
-      axios.get(request.fetchCasts(params.id)),
+  try {
+    const result = await Promise.all([
+      MovieServices.getMovieDetails(params.id),
+      MovieServices.getMovieVideos(params.id),
+      MovieServices.getMovieCasts(params.id),
     ])
-    .then(
-      axios.spread((...res) => {
-        return res
-      })
-    )
-    .catch((...err) => {
-      return err
-    })
-  if (!movieDetail.data) {
     return {
+      props: {
+        movieDetail: result[0].data,
+        movieDetailTrailler: result[1].data,
+        casts: result[2].data,
+      },
+    }
+  } catch (e) {
+    return {
+      props: {
+        movieDetail: {},
+        movieDetailTrailler: {},
+        casts: {},
+      },
       notFound: true,
     }
-  }
-
-  return {
-    props: {
-      movieDetail: movieDetail.data,
-      movieDetailTrailler: movieDetailTrailler.data,
-      casts: casts.data,
-    },
   }
 }
 

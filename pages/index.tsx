@@ -45,12 +45,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
       MovieServices.getPopularMovies(),
       MovieServices.getTrendingMovies(),
       MovieServices.getComingSoonMovies(),
+      MovieServices.getPopularPerson(),
     ])
     return {
       props: {
         moviePopular: result[0].data,
         movieTrending: result[1].data,
         movieStreamming: result[2].data,
+        personPopular: result[3].data,
       },
     }
   } catch (e) {
@@ -60,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         moviePopular: {},
         movieTrending: {},
         movieStreamming: {},
+        personPopular: {},
       },
       redirect: '/',
     }
