@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
-import { WatchComponent } from './WatchComponent'
+import WatchComponent from './WatchComponent'
 import request from '../../utils/request'
 import { MovieType } from '../../type/type'
 import { fetcher } from '../../services/fetcher'
@@ -34,4 +34,4 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => 
   )
 }
 
-export default Favorite
+export default memo(Favorite)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -95,4 +95,4 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
   )
 }
 
-export default Carosel
+export default memo(Carosel)

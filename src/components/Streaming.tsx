@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Title } from './title/Title'
 import { TitleCategories } from './title/TitleCategories'
 import Slider from 'react-slick'
-import { WatchComponent } from './watch/WatchComponent'
+import WatchComponent from './watch/WatchComponent'
 import { MovieType } from '../type/type'
 import request from '../utils/request'
 import useSWR from 'swr'
 import { fetcher } from '../services/fetcher'
 
-export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
+const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -38,3 +38,5 @@ export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStr
     </>
   )
 }
+
+export default memo(Streaming)

@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { memo } from 'react'
 import { FaPlay, FaRegStar, FaStar } from 'react-icons/fa'
 import apiConfig from '../../../pages/api/apiConfig'
 import { MovieType } from '../../type/type'
 import { SvgAdd } from '../SvgAdd'
 
-export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
+const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   return (
     <>
       <div className="mx-3 bg-gray4">
@@ -60,3 +60,5 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
     </>
   )
 }
+
+export default memo(WatchComponent)

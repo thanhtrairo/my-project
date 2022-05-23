@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React from 'react'
+import React, { memo } from 'react'
 import Slider from 'react-slick'
 import useSWR from 'swr'
 import request from '../../utils/request'
@@ -9,7 +9,7 @@ import { TitleCategories } from '../title/TitleCategories'
 import { fetcher } from '../../services/fetcher'
 import Link from 'next/link'
 
-export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
+const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -48,3 +48,5 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
     </>
   )
 }
+
+export default memo(BornToday)

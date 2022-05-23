@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Title } from '../title/Title'
 import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
 import { Movie } from '../Movie'
-import { BornToday } from './BornToday'
+import BornToday from './BornToday'
 import { TopNext } from './TopNext'
 import { PersonType } from '../../type/type'
 
-export const MoveToExpore: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
+const MoveToExpore: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -41,3 +41,5 @@ export const MoveToExpore: React.FC<{ personPopular: PersonType[] }> = ({ person
     </>
   )
 }
+
+export default memo(MoveToExpore)

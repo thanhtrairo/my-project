@@ -4,13 +4,13 @@ import Head from 'next/head'
 import Header from '../src/components/header/Header'
 import Carosel from '../src/components/Carosel'
 import { Featured } from '../src/components/Featured'
-import { Watch } from '../src/components/watch/Watch'
+import Watch from '../src/components/watch/Watch'
 import { MoveToWatch } from '../src/components/watch/MoveToWatch'
 import { Video } from '../src/components/Video'
-import { Streaming } from '../src/components/Streaming'
+import Streaming from '../src/components/Streaming'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
-import { MoveToExpore } from '../src/components/MoveToExpore/MoveToExpore'
+import MoveToExpore from '../src/components/MoveToExpore/MoveToExpore'
 import { Props } from '../src/type/type'
 import MovieServices from '~/services/MovieServices'
 
@@ -35,6 +35,11 @@ const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: P
           <Footer />
         </div>
       </main>
+      <img
+        src="https://image.tmdb.org/t/p/original/cpl7vJNyceJssIw92fVED6Jgzdz.jpg"
+        alt=""
+        className="h-[100px] w-[100px] rounded-[50%]"
+      />
     </>
   )
 }

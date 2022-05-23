@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 import { MovieType } from '../../type/type'
 import { Title } from '../title/Title'
 import Favorite from './Favorite'
 import { WatchList } from './WatchList'
 
-export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
+const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
   return (
     <>
       <div className="flex flex-row items-center justify-between">
@@ -21,3 +21,5 @@ export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular })
     </>
   )
 }
+
+export default memo(Watch)
