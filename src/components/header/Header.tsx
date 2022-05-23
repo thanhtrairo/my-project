@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import React, { useEffect, useMemo, useState } from 'react'
-import { FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import { FaAngleDown, FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { accountLogout } from '~/redux/account/acountSlice'
+import { RootState } from '~/redux/store'
 import MovieServices from '~/services/MovieServices'
 import { CompanyType, KeyType, MovieType, PersonType } from '../../type/type'
 
@@ -16,10 +19,14 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showAll, setShowAll] = useState<boolean>(false)
   const [showEN, setShowEN] = useState<boolean>(false)
+  const [showProfile, setShowProfile] = useState<boolean>(false)
 
   const [search, setSearch] = useState<string>('')
   const [dataSearch, setDataSearch] = useState<any>()
   const [typeSearch, setTypeSearch] = useState<string>('multi')
+
+  const account = useSelector((state: RootState) => state.account)
+  const dispatch = useDispatch()
 
   const searchType = useMemo(() => {
     if (typeSearch === 'multi') return 'All'
@@ -47,8 +54,10 @@ const Header = () => {
   return (
     <div className="bg-black1 text-14 text-white">
       <div className="container mx-auto flex  flex-row items-center space-x-2">
-        <div className="flexItemCenter">
-          <img src="/img/logo.svg" alt="Vercel Logo" />
+        <div className="flexItemCenter cursor-pointer">
+          <Link href="/">
+            <img src="/img/logo.svg" alt="Vercel Logo" />
+          </Link>
         </div>
         <div className="flexItemCenter cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
           <FaBars className="mr-1 fill-white" />
@@ -58,7 +67,7 @@ const Header = () => {
         <div className="w-[55%]">
           <form className="relative ml-2 flex w-full items-center rounded-md bg-white">
             {search && (
-              <div className="absolute top-[100%] left-0 z-50 bg-gray py-4">
+              <div className="absolute top-[100%] left-0 z-50 bg-black1 py-4">
                 <div className="mx-2 mb-4">
                   {typeSearch === 'person'
                     ? dataSearch?.slice(0, 3).map((person: PersonType) => (
@@ -149,9 +158,30 @@ const Header = () => {
           </svg>
           <p className="ml-2 cursor-pointer">Watchlist</p>
         </div>
-        <Link href="/login">
-          <p className="flexItemCenter cursor-pointer">Sign In</p>
-        </Link>
+        {account.session_id ? (
+          <div className="relative">
+            <p className="flexItemCenter cursor-pointer" onClick={() => setShowProfile(!showProfile)}>
+              <span>Hi you</span>
+              <span>
+                <FaAngleDown />
+              </span>
+            </p>
+            {showProfile && (
+              <div className="absolute top-full left-0 z-20 min-w-[100px] bg-black1 shadow-lg">
+                <Link href={`/profile`}>
+                  <p className="cursor-pointer p-3 hover:bg-gray2">My profile</p>
+                </Link>
+                <p className="cursor-pointer p-3 hover:bg-gray2" onClick={() => dispatch(accountLogout())}>
+                  Logout
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link href="/login">
+            <p className="flexItemCenter cursor-pointer">Sign In</p>
+          </Link>
+        )}
         <div className="flexItemCenter relative cursor-pointer" onClick={() => setShowEN(!showEN)}>
           <p className="mr-1">EN</p>
           <FaCaretDown />

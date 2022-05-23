@@ -1,15 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface Account {
-  username: string
-  password: string
-  request_token: string
+  success: boolean
+  session_id: string
 }
 
 const initialState: Account = {
-  username: '',
-  password: '',
-  request_token: '',
+  success: false,
+  session_id: '',
 }
 
 const accountSlice = createSlice({
@@ -19,8 +17,11 @@ const accountSlice = createSlice({
     accountLogin: (state, { payload }: PayloadAction<Account>) => {
       return payload
     },
-    accountLogout: (state) => {
-      return state
+    accountLogout: () => {
+      return {
+        success: false,
+        session_id: '',
+      }
     },
   },
 })

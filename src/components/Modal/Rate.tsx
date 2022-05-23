@@ -14,20 +14,23 @@ export const Rate: React.FC<{
 
   const router = useRouter()
   const account = useSelector((state: RootState) => state.account)
+  const [rateSuccess, setRateSuccess] = useState<boolean>(false)
+
   const handleRateMovie = async (id: string, star: number) => {
-    if (account.request_token) {
+    if (account.session_id) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       }
       try {
-        await MovieServices.postRateMovie(id, account.request_token, { value: star }, config)
+        await MovieServices.postRateMovie(id, account.session_id, { value: star }, config)
+        setRateSuccess(!rateSuccess)
       } catch (error) {
         console.log(error)
       }
     } else {
-      router.push('/login')
+      router.push(`/login?movie/${movieId}`)
     }
   }
 
@@ -58,6 +61,7 @@ export const Rate: React.FC<{
               ))}
             </div>
             <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie(movieId, star)}>
+              {/* {rateSuccess ? <FaCheck /> : Rate} */}
               Rate
             </p>
           </div>

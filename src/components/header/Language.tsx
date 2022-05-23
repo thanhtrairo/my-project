@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function Language() {
   return (
-    <div className="absolute top-[110%] left-0 z-10 bg-gray">
-      <div className="flex p-3 ">
+    <div className="absolute top-[110%] left-0 z-10 bg-black1">
+      <div className="flex p-3 hover:bg-gray2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -20,7 +20,7 @@ export default function Language() {
         </svg>
         <p className="ml-3">English</p>
       </div>
-      <div className="flex p-3">
+      <div className="flex p-3 hover:bg-gray2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

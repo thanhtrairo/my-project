@@ -15,6 +15,7 @@ export interface MovieType {
   vote_average: number
   vote_count: number
   character?: string
+  rating?: number
 }
 
 export interface CastType {
@@ -102,6 +103,23 @@ export interface CompanyType {
   id: number
   name: string
   origin_country: string
+}
+
+export interface AccountType {
+  avatar: {
+    gravatar: {
+      hash: string
+    }
+    tmdb: {
+      avatar_path: string
+    }
+  }
+  id: string
+  iso_639_1: string
+  iso_3166_1: string
+  name: string
+  include_adult: boolean
+  username: string
 }
 
 export interface Props {

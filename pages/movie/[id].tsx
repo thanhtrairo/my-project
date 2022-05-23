@@ -16,6 +16,8 @@ import { useRouter } from 'next/router'
 import { fetcher } from '../../src/services/fetcher'
 import { Rate } from '../../src/components/Modal/Rate'
 import MovieServices from '~/services/MovieServices'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/store'
 
 const MovieDetail: React.FC<{
   movieDetail: MovieType
@@ -27,10 +29,60 @@ const MovieDetail: React.FC<{
   const [autoPlay, setAutoPlay] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
 
+  const account = useSelector((state: RootState) => state.account)
+
   const handleShowVideo = (key: string, autoPlay: boolean) => {
     setShowPupop(!showPupop)
     setVideoId(key)
     setAutoPlay(autoPlay)
+  }
+
+  const handleAddWatchList = async () => {
+    if (account.session_id) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      try {
+        const resAccount = await MovieServices.getAccount(account.session_id)
+
+        await MovieServices.postAddMovieWatchList(
+          resAccount.data.id,
+          account.session_id,
+          { media_type: 'movie', media_id: String(movieDetail.id), watchlist: true },
+          config
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      router.push(`/login?movie/${movieDetail.id}`)
+    }
+  }
+
+  const handleAddFavoriteList = async () => {
+    if (account.session_id) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      try {
+        const resAccount = await MovieServices.getAccount(account.session_id)
+
+        await MovieServices.postAddFavoriteList(
+          resAccount.data.id,
+          account.session_id,
+          { media_type: 'movie', media_id: String(movieDetail.id), favorite: true },
+          config
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      router.push(`/login?movie/${movieDetail.id}`)
+    }
   }
 
   const handleShowRate = () => {
@@ -172,9 +224,19 @@ const MovieDetail: React.FC<{
               </p>
             </div>
             <div className="basis-4/12 px-4">
-              <p className="cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4">
+              <p
+                className="cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
+                onClick={() => handleAddWatchList()}
+              >
                 <span className="text-24">+</span>
                 <span className="ml-2">Add to WatchList</span>
+              </p>
+              <p
+                className="mt-2 cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
+                onClick={() => handleAddFavoriteList()}
+              >
+                <span className="text-24">+</span>
+                <span className="ml-2">Add to Favorite</span>
               </p>
               <p className="mt-6 text-blue1">
                 <span>470 user reviews</span>
