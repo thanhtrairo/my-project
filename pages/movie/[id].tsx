@@ -1,7 +1,7 @@
 // import axios from 'axios'
 import React, { useState } from 'react'
 
-import { FaRegStar, FaStar } from 'react-icons/fa'
+import { FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
 import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
@@ -24,6 +24,8 @@ export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
   const [showPupop, setShowPupop] = useState<boolean>(false)
   const [autoPlay, setAutoPlay] = useState<boolean>(false)
+  const [addWatchList, setAddWatchList] = useState<boolean>(false)
+  const [addFavoriteList, setAddFavoriteList] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
 
   const account = useSelector((state: RootState) => state.account)
@@ -57,6 +59,7 @@ export default function MovieDetail() {
           { media_type: 'movie', media_id: String(movieDetail.id), watchlist: true },
           config
         )
+        setAddWatchList(!addWatchList)
       } catch (error) {
         console.log(error)
       }
@@ -79,6 +82,7 @@ export default function MovieDetail() {
           { media_type: 'movie', media_id: String(movieDetail.id), favorite: true },
           config
         )
+        setAddFavoriteList(!addFavoriteList)
       } catch (error) {
         console.log(error)
       }
@@ -203,14 +207,18 @@ export default function MovieDetail() {
                 className="cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
                 onClick={() => handleAddWatchList()}
               >
-                <span className="text-24">+</span>
+                <span className="text-24">
+                  {addWatchList ? <FaCheck className="mx-auto inline-block text-16" /> : '+'}
+                </span>
                 <span className="ml-2">Add to WatchList</span>
               </p>
               <p
                 className="mt-2 cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
                 onClick={() => handleAddFavoriteList()}
               >
-                <span className="text-24">+</span>
+                <span className="text-24">
+                  {addFavoriteList ? <FaCheck className="mx-auto inline-block text-16" /> : '+'}
+                </span>
                 <span className="ml-2">Add to Favorite</span>
               </p>
               <p className="mt-6 text-blue1">

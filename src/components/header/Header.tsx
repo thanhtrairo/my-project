@@ -160,8 +160,8 @@ const Header = () => {
         </div>
         {account.session_id ? (
           <div className="relative">
-            <p className="flexItemCenter cursor-pointer" onClick={() => setShowProfile(!showProfile)}>
-              <span>Hi you</span>
+            <p className="flexItemCenter cursor-pointer whitespace-nowrap" onClick={() => setShowProfile(!showProfile)}>
+              <span className="mr-1">Hi you</span>
               <span>
                 <FaAngleDown />
               </span>
