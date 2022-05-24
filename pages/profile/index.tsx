@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useSWR from 'swr'
 import Header from '~/components/header/Header'
@@ -20,9 +20,11 @@ const Profile = () => {
   const account = useSelector((state: RootState) => state.account)
   const router = useRouter()
 
-  if (!account.session_id) {
-    router.push('/')
-  }
+  useEffect(() => {
+    if (!account.session_id) {
+      router.push('/')
+    }
+  }, [account.session_id])
 
   const { data: watchList, error: errorWatchList } = useSWR(
     request.fetchWatchList(account.accountId, account.session_id),
