@@ -52,7 +52,7 @@ const Header = () => {
   }, [search])
 
   return (
-    <div className="bg-black1 text-14 text-white">
+    <div className=" bg-black1 text-14 text-white">
       <div className="container mx-auto flex  flex-row items-center space-x-2">
         <div className="flexItemCenter cursor-pointer">
           <Link href="/">
@@ -169,9 +169,12 @@ const Header = () => {
             {showProfile && (
               <div className="absolute top-full left-0 z-20 min-w-[100px] bg-black1 shadow-lg">
                 <Link href={`/profile`}>
-                  <p className="cursor-pointer p-3 hover:bg-gray2">My profile</p>
+                  <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">My profile</p>
                 </Link>
-                <p className="cursor-pointer p-3 hover:bg-gray2" onClick={() => dispatch(accountLogout())}>
+                <p
+                  className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
+                  onClick={() => dispatch(accountLogout())}
+                >
                   Logout
                 </p>
               </div>
@@ -179,7 +182,7 @@ const Header = () => {
           </div>
         ) : (
           <Link href="/login">
-            <p className="flexItemCenter cursor-pointer">Sign In</p>
+            <p className="flexItemCenter cursor-pointer whitespace-nowrap">Sign In</p>
           </Link>
         )}
         <div className="flexItemCenter relative cursor-pointer" onClick={() => setShowEN(!showEN)}>

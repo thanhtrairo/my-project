@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 import { SvgAdd } from '../SvgAdd'
 import { TitleCategories } from '../title/TitleCategories'
@@ -15,9 +16,11 @@ export const WatchList = () => {
           <p>Save shows and movies to keep track of what you want to watch.</p>
         </div>
         <div>
-          <button className="rounded-md bg-yellow-400 px-6 py-1 font-medium text-black hover:bg-yellow-500">
-            Sign in to IMDb
-          </button>
+          <Link href="/login">
+            <button className="rounded-md bg-yellow-400 px-6 py-1 font-medium text-black hover:bg-yellow-500">
+              Sign in to IMDb
+            </button>
+          </Link>
         </div>
       </div>
     </div>

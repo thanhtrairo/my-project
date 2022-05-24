@@ -28,7 +28,7 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
             <FaRegStar className="h-9 w-9 cursor-pointer fill-[#5799ef] py-3 hover:bg-white2 hover:fill-white" />
           </div>
           <p className="hiddenText my-2">
-            <Link href="/" passHref>
+            <Link href={`/movie/${movie.id}`} passHref>
               <a className="hiddenText hover:underline">{movie.title}</a>
             </Link>
           </p>

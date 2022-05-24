@@ -21,20 +21,22 @@ const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: P
         <title>Movie</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <main className="overflow-hidden bg-gray3 text-white ">
-        <div className="container mx-auto">
-          <Carosel movieTrending={movieTrending} />
-          <Featured />
-          <Watch moviePopular={moviePopular} />
-          <MoveToWatch />
-          <Video />
-          <Streaming movieStreamming={movieStreamming} />
-          <ExportsMovie />
-          <MoveToExpore personPopular={personPopular} />
-          <Footer />
-        </div>
-      </main>
+      <div className="overflow-hidden">
+        <Header />
+        <main className="overflow-hidden bg-gray3 text-white">
+          <div className="container mx-auto">
+            <Carosel movieTrending={movieTrending} />
+            <Featured />
+            <Watch moviePopular={moviePopular} />
+            <MoveToWatch />
+            <Video />
+            <Streaming movieStreamming={movieStreamming} />
+            <ExportsMovie />
+            <MoveToExpore personPopular={personPopular} />
+            <Footer />
+          </div>
+        </main>
+      </div>
     </>
   )
 }
@@ -49,10 +51,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
     ])
     return {
       props: {
-        moviePopular: result[0].data,
-        movieTrending: result[1].data,
-        movieStreamming: result[2].data,
-        personPopular: result[3].data,
+        moviePopular: result[0].data.results,
+        movieTrending: result[1].data.results,
+        movieStreamming: result[2].data.results,
+        personPopular: result[3].data.results,
       },
     }
   } catch (e) {

@@ -45,9 +45,13 @@ const Login = () => {
           },
         }
         const resSession = await MovieServices.postLogin({ request_token: token }, config)
+        const resAccount = await MovieServices.getAccount(resSession.data.session_id)
+
         const req = {
           success: resSession.data.success,
           session_id: resSession.data.session_id,
+          accountId: resAccount.data.id,
+          username: resAccount.data.username,
         }
         dispatch(accountLogin(req))
         router.push('/')
@@ -77,7 +81,7 @@ const Login = () => {
           <span className="bg-red-400 px-10 py-3">{error}</span>
         </h1>
       )}
-      <div className="container mx-auto bg-white">
+      <div className="container mx-auto bg-white ">
         <div className="flex justify-center ">
           <div>
             <h2 className="text-32">Sign in</h2>

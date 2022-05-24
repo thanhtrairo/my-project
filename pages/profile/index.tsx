@@ -1,13 +1,13 @@
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import useSWR from 'swr'
 import Header from '~/components/header/Header'
 import ListFavoriteWatchList from '~/components/listFavoriteWatchList/ListFavoriteWatchList'
 import { RootState } from '~/redux/store'
-import MovieServices from '~/services/MovieServices'
-import { AccountType, MovieType } from '~/type/type'
+import { fetcher } from '~/services/fetcher'
+import request from '~/utils/request'
 
 const Profile = () => {
   const TITLES = ['Favorite', 'Rating', 'WatchList']
@@ -15,38 +15,30 @@ const Profile = () => {
 
   const isfavorite = true
   const isRating = true
-
-  const [accountDetail, setAccountDetail] = useState<AccountType>()
-  const [movieWatchList, setMovieWatchList] = useState<MovieType[]>([])
-  const [favoriteList, setFavoriteList] = useState<MovieType[]>([])
-  const [movieRatingList, setMovieRatingList] = useState<MovieType[]>([])
+  const isRemoved = true
 
   const account = useSelector((state: RootState) => state.account)
   const router = useRouter()
-  useEffect(() => {
-    if (account.session_id) {
-      const getAccountDetail = async () => {
-        try {
-          const resAccount = await MovieServices.getAccount(account.session_id)
-          setAccountDetail(resAccount.data)
 
-          const resMovieWatchList = await MovieServices.getMovieWatchList(resAccount.data.id, account.session_id)
-          setMovieWatchList(resMovieWatchList.data.results)
+  if (!account.session_id) {
+    router.push('/')
+  }
 
-          const resFavoriteList = await MovieServices.getFavoriteList(resAccount.data.id, account.session_id)
-          setFavoriteList(resFavoriteList.data.results)
+  const { data: watchList, error: errorWatchList } = useSWR(
+    request.fetchWatchList(account.accountId, account.session_id),
+    fetcher
+  )
+  const { data: favoriteList, error: errorFavoriteList } = useSWR(
+    request.fetchFavoriteList(account.accountId, account.session_id),
+    fetcher
+  )
+  const { data: ratingList, error: errorRatingList } = useSWR(
+    request.fetchRatingList(account.accountId, account.session_id),
+    fetcher
+  )
 
-          const resMovieRatingList = await MovieServices.getMovieRatingList(resAccount.data.id, account.session_id)
-          setMovieRatingList(resMovieRatingList.data.results)
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      getAccountDetail()
-    } else {
-      router.push('/')
-    }
-  }, [account])
+  if (errorWatchList || errorFavoriteList || errorRatingList) return <div>failed to load</div>
+  if (!watchList || !favoriteList || !ratingList) return <div>loading...</div>
 
   return (
     <>
@@ -61,7 +53,7 @@ const Profile = () => {
                   alt=""
                   className="rounded-full"
                 />
-                <p className="my-2 text-blue1">{accountDetail?.username}</p>
+                <p className="my-2 text-blue1">{account?.username}</p>
               </div>
             </div>
             <nav className="flex">
@@ -79,18 +71,15 @@ const Profile = () => {
             </nav>
             <div className="mt-10">
               {activeTitle === 'WatchList' ? (
-                <ListFavoriteWatchList
-                  movieWatchList={movieWatchList}
-                  isfavorite={isfavorite}
-                  sessionId={account.session_id}
-                />
+                <ListFavoriteWatchList movieWatchList={watchList.results} isfavorite={isfavorite} account={account} />
               ) : activeTitle === 'Favorite' ? (
-                <ListFavoriteWatchList movieWatchList={favoriteList} sessionId={account.session_id} />
+                <ListFavoriteWatchList movieWatchList={favoriteList.results} account={account} />
               ) : (
                 <ListFavoriteWatchList
-                  movieWatchList={movieRatingList}
+                  movieWatchList={ratingList.results}
                   isRating={isRating}
-                  sessionId={account.session_id}
+                  account={account}
+                  isRemoved={isRemoved}
                 />
               )}
             </div>

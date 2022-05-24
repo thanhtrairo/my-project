@@ -26,6 +26,12 @@ const request = {
     `${apiConfig.baseUrl}/person/${id}/movie_credits?${apiConfig.apikey}`,
   fetchLogin: `${apiConfig.baseUrl}/authentication/token/validate_with_login?${apiConfig.apikey}`,
   fetchToken: `${apiConfig.baseUrl}/authentication/token/new?${apiConfig.apikey}`,
+  fetchWatchList: (accountId: string, sessionId: string) =>
+    `${apiConfig.baseUrl}/account/${accountId}/watchlist/movies?session_id=${sessionId}&${apiConfig.apikey}`,
+  fetchFavoriteList: (accountId: string, sessionId: string) =>
+    `${apiConfig.baseUrl}/account/${accountId}/favorite/movies?session_id=${sessionId}&${apiConfig.apikey}`,
+  fetchRatingList: (accountId: string, sessionId: string) =>
+    `${apiConfig.baseUrl}/account/${accountId}/rated/movies?session_id=${sessionId}&${apiConfig.apikey}`,
 }
 
 export default request

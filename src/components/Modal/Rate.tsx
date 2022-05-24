@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { FaRegStar, FaStar } from 'react-icons/fa'
+import { FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/store'
 import MovieServices from '~/services/MovieServices'
@@ -61,8 +61,7 @@ export const Rate: React.FC<{
               ))}
             </div>
             <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie(movieId, star)}>
-              {/* {rateSuccess ? <FaCheck /> : Rate} */}
-              Rate
+              {rateSuccess ? <FaCheck className="mx-auto" /> : 'Rate'}
             </p>
           </div>
         </div>

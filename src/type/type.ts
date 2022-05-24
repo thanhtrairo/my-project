@@ -106,19 +106,9 @@ export interface CompanyType {
 }
 
 export interface AccountType {
-  avatar: {
-    gravatar: {
-      hash: string
-    }
-    tmdb: {
-      avatar_path: string
-    }
-  }
-  id: string
-  iso_639_1: string
-  iso_3166_1: string
-  name: string
-  include_adult: boolean
+  success: boolean
+  session_id: string
+  accountId: string
   username: string
 }
 

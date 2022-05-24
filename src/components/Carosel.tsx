@@ -7,10 +7,7 @@ import { FaAngleRight } from 'react-icons/fa'
 import { SvgAdd } from './SvgAdd'
 import { Play } from './Play'
 import { MovieType } from '../type/type'
-import { fetcher } from '../services/fetcher'
-import useSWR from 'swr'
 import apiConfig from '../../pages/api/apiConfig'
-import request from '~/utils/request'
 
 const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {
@@ -20,18 +17,12 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
     slidesToShow: 1,
     slidesToScroll: 1,
   }
-  const { data, error } = useSWR(request.fetchTrending, fetcher, {
-    fallbackData: movieTrending,
-  })
-
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
 
   return (
     <div className=" relative  my-4">
       <div className="group w-8/12 hover:cursor-pointer">
         <Slider {...settings}>
-          {data.results.map((movie: MovieType) => (
+          {movieTrending.map((movie: MovieType) => (
             <div className="relative" key={movie.id}>
               <img src={apiConfig.orinalImage(movie.backdrop_path)} alt={movie.title} />
               <div className="absolute bottom-0 left-0 w-full p-4">
@@ -64,7 +55,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
         <h2 className="text-yellow-400">Up next</h2>
         <div className="py-6">
           <div className="flex flex-col gap-3">
-            {data.results.slice(0, 3).map((movie: MovieType) => (
+            {movieTrending.slice(0, 3).map((movie: MovieType) => (
               <div className="flex flex-row" key={movie.id}>
                 <div className="basis-3/12 px-3">
                   <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />

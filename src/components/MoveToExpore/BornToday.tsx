@@ -1,12 +1,9 @@
 import moment from 'moment'
 import React from 'react'
 import Slider from 'react-slick'
-import useSWR from 'swr'
-import request from '../../utils/request'
 import apiConfig from '../../../pages/api/apiConfig'
 import { PersonType } from '../..//type/type'
 import { TitleCategories } from '../title/TitleCategories'
-import { fetcher } from '../../services/fetcher'
 import Link from 'next/link'
 
 export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
@@ -17,25 +14,19 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
     slidesToShow: 6,
     slidesToScroll: 6,
   }
-  const { data, error } = useSWR(request.fetchPersonPopular, fetcher, {
-    fallbackData: personPopular,
-  })
-
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
 
   return (
     <>
       <TitleCategories title={`People born on ${moment().format('MMM Do YY')}`}>Born today</TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
-          {data.results.map((person: PersonType) => (
+          {personPopular.map((person: PersonType) => (
             <div className="group" key={person.id}>
-              <div className="relative mx-5 cursor-pointer">
+              <div className="relative mx-5 h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full">
                 <Link href={`/person/${person.id}`}>
-                  <div className="absolute top-0 left-0 hidden h-full w-full rounded-full bg-blackOver group-hover:block"></div>
+                  <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
                 </Link>
-                <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} className="rounded-full" />
+                <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} />
               </div>
               <div className="my-1 text-center group-hover:opacity-70">
                 <p>{person.name}</p>
