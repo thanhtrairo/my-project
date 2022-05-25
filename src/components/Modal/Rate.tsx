@@ -36,7 +36,7 @@ export const Rate: React.FC<{
 
   return (
     <>
-      <div className="fixed top-[30%] left-[30%] z-50 text-white">
+      <div className="fixed top-[30%] left-1 z-50 text-white sm:left-[30%]">
         <div className="relative bg-gray px-16 pt-12 pb-8">
           <span
             className="absolute top-[-10%] right-0 h-8 w-8 cursor-pointer rounded-full text-center leading-8 hover:bg-white4"

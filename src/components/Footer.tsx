@@ -29,17 +29,17 @@ export const Footer = () => {
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>IMDbPro</span> <FaPaperPlane />
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>Box Office Mojo</span> <FaPaperPlane />
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>IMDb Developer</span> <FaPaperPlane />
           </a>
         </Link>
@@ -61,17 +61,17 @@ export const Footer = () => {
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>Conditions of Use</span> <FaPaperPlane />
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>Privacy Policy</span> <FaPaperPlane />
           </a>
         </Link>
         <Link href="/" passHref>
-          <a className="flex space-x-1 hover:underline">
+          <a className="flex hidden space-x-1 hover:underline sm:block">
             <span>Interest-Based Ads</span> <FaPaperPlane />
           </a>
         </Link>

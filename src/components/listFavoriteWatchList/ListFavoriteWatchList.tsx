@@ -44,19 +44,19 @@ const ListFavoriteWatchList: React.FC<{
   }
 
   return (
-    <div className="my-6">
+    <div className="my-6 text-[80%] sm:text-[100%]">
       {movieWatchList?.map((movie: MovieType) => (
         <div className="mb-4 flex py-4 shadow-lg" key={movie.id}>
-          <div className="group relative basis-1/12">
+          <div className="group relative basis-4/12 sm:basis-1/12">
             <Link href={`/movie/${movie.id}`}>
               <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
             </Link>
             <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
           </div>
-          <div className="basis-11/12 px-6">
+          <div className="basis-8/12 px-6 sm:basis-11/12">
             <p className="font-medium">{movie.title}</p>
             <p className="opacity-50">{moment(movie.release_date).format('MMM Do YY')}</p>
-            <p className="my-4">{movie.overview}</p>
+            <p className="hiddenTextLine my-4">{movie.overview}</p>
             <div className="flex items-center gap-6">
               {isRating && (
                 <p>

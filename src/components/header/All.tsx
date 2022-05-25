@@ -3,7 +3,7 @@ import { FaPhotoVideo, FaSearch, FaTv } from 'react-icons/fa'
 
 const All: React.FC<{ onChangeTypeSearch: Function }> = ({ onChangeTypeSearch }) => {
   return (
-    <div className="All absolute top-[110%] left-0 z-10 min-w-[200px] cursor-pointer whitespace-pre bg-black1 text-white">
+    <div className="All absolute top-[110%] left-0 z-20 min-w-[200px] cursor-pointer whitespace-pre bg-black1 text-white">
       <li className="activeAll group" onClick={() => onChangeTypeSearch('multi')}>
         <FaSearch />
         <p>All</p>

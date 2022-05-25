@@ -10,7 +10,7 @@ export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular })
     <>
       <div className="flex flex-row items-center justify-between">
         <Title>What to watch</Title>
-        <h2 className="text flex cursor-pointer flex-row items-center space-x-2 text-blue1">
+        <h2 className="text hidden cursor-pointer flex-row items-center space-x-2 text-blue1 sm:flex">
           Get more recommendations <FaAngleRight />
         </h2>
       </div>

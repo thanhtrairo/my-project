@@ -43,11 +43,11 @@ const Profile = () => {
   if (!watchList || !favoriteList || !ratingList) return <div>loading...</div>
 
   return (
-    <>
+    <div className="overflow-hidden">
       <Header />
       <div className="bg-white5">
-        <div className="container mx-auto ">
-          <div className="min-h-screen bg-white px-6">
+        <div className="mx-auto sm:container ">
+          <div className="min-h-screen bg-white px-2 sm:px-6">
             <div className="flex justify-center text-center">
               <div>
                 <img
@@ -58,7 +58,7 @@ const Profile = () => {
                 <p className="my-2 text-blue1">{account?.username}</p>
               </div>
             </div>
-            <nav className="flex">
+            <nav className="wrap flex flex">
               {TITLES.map((title) => (
                 <div
                   key={title}
@@ -88,7 +88,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

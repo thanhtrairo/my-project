@@ -1,7 +1,7 @@
 // import axios from 'axios'
 import React, { useState } from 'react'
 
-import { FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
+import { FaAngleDown, FaAngleUp, FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
 import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
@@ -19,6 +19,7 @@ import MovieServices from '~/services/MovieServices'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/store'
 import Link from 'next/link'
+import clsx from 'clsx'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
@@ -27,6 +28,7 @@ export default function MovieDetail() {
   const [addWatchList, setAddWatchList] = useState<boolean>(false)
   const [addFavoriteList, setAddFavoriteList] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
+  const [showTrailers, setShowTrailers] = useState<boolean>(false)
 
   const account = useSelector((state: RootState) => state.account)
 
@@ -38,9 +40,12 @@ export default function MovieDetail() {
   const router = useRouter()
   const { id } = router.query
 
-  const { data: movieDetail, error: errorDetail } = useSWR(request.fetchMovieDetail(id), fetcher)
-  const { data: movieDetailTrailer, error: errorDetailTrailer } = useSWR(request.fetchMovieDetailTrailler(id), fetcher)
-  const { data: cast, error: errorCast } = useSWR(request.fetchCasts(id), fetcher)
+  const { data: movieDetail, error: errorDetail } = useSWR(id ? request.fetchMovieDetail(id) : null, fetcher)
+  const { data: movieDetailTrailer, error: errorDetailTrailer } = useSWR(
+    id ? request.fetchMovieDetailTrailler(id) : null,
+    fetcher
+  )
+  const { data: cast, error: errorCast } = useSWR(id ? request.fetchCasts(id) : null, fetcher)
 
   if (errorDetail || errorDetailTrailer || errorCast) return <div>failed to load</div>
   if (!movieDetail || !movieDetailTrailer || !cast) return <div>loading...</div>
@@ -96,42 +101,42 @@ export default function MovieDetail() {
   }
 
   return (
-    <>
+    <div className="overflow-hidden text-[80%] sm:text-[100%]">
       {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} autoPlay={autoPlay} />}
       {showRate && <Rate onShow={() => setShowRate(!showRate)} movieId={movieDetail.id} />}
       {(showPupop || showRate) && (
         <div className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"></div>
       )}
       <Header />
-      <div className="overflow-hidden bg-gray text-white ">
-        <div className="container mx-auto ">
+      <div className="overflow-hidden bg-gray px-2 text-white">
+        <div className="mx-auto sm:container ">
           <div className="my-10 flex items-center justify-between">
-            <h1 className="text-36">{movieDetail.title}</h1>
+            <h1 className="text-20 sm:text-36">{movieDetail.title}</h1>
             <div className="flex space-x-10">
-              <div className="flex-col items-center">
-                <p className="text-14 font-medium tracking-widest opacity-70">IMDb RATING</p>
+              <div className="items-center sm:flex-col">
+                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14">IMDb RATING</p>
                 <div className="flex items-center space-x-2">
-                  <FaStar className="fill-yellow-400 text-32" />
+                  <FaStar className="fill-yellow-400 text-24 sm:text-32" />
                   <div>
-                    <p className="text-20">
+                    <p className="sm:text-20">
                       {movieDetail.vote_average}
-                      <span className="text-14 opacity-70">/10</span>
+                      <span className="opacity-70 sm:text-14">/10</span>
                     </p>
-                    <p className="text-14 opacity-70">{Math.floor(movieDetail.vote_count * 0.01)}k</p>
+                    <p className="opacity-70 sm:text-14">{Math.floor(movieDetail.vote_count * 0.01)}k</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-14 font-medium tracking-widest opacity-70 ">YOUR RATING</p>
+                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14 ">YOUR RATING</p>
                 <div className="flex cursor-pointer space-x-2" onClick={() => handleShowRate()}>
-                  <FaRegStar className="fill-blue1 text-32" />
-                  <p className="text-20">Rate</p>
+                  <FaRegStar className="fill-blue1 text-24 sm:text-32" />
+                  <p className="sm:text-20">Rate</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex">
-            <div className="basis-9/12">
+          <div className="flex flex-wrap">
+            <div className="w-full sm:basis-9/12">
               <div
                 className="group hover:cursor-pointer"
                 onClick={() => handleShowVideo(movieDetailTrailer.results[0]?.key, true)}
@@ -140,7 +145,7 @@ export default function MovieDetail() {
                   <img src={apiConfig.orinalImage(movieDetail.backdrop_path)} alt={movieDetail.title} />
                   <div className="absolute bottom-0 left-0 w-full p-4">
                     <div className="relative flex flex-row items-end space-x-4">
-                      <div className="basis-3/12 px-6">
+                      <div className="hidden px-6 sm:block sm:basis-3/12">
                         <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.original_title} />
                         <div className="absolute top-0 left-6">
                           <SvgAdd width="36" height="50" />
@@ -152,10 +157,10 @@ export default function MovieDetail() {
                             <Play width="70" height="70" />
                           </div>
                           <div className="">
-                            <p className="text-36">{movieDetail.title}</p>
-                            <p className="hiddenText text-20 opacity-70">{movieDetail.overview}</p>
+                            <p className="text-20 sm:text-36">{movieDetail.title}</p>
+                            <p className="hiddenText opacity-70 sm:text-20">{movieDetail.overview}</p>
                           </div>
-                          <p className="text-20 opacity-70">2.51</p>
+                          <p className="opacity-70 sm:text-20">2.51</p>
                         </div>
                       </div>
                     </div>
@@ -163,11 +168,15 @@ export default function MovieDetail() {
                 </div>
               </div>
             </div>
-            <div className="basis-3/12">
-              <div className="flex flex-col gap-3">
+            <div className="sm:basis-3/12">
+              <button onClick={() => setShowTrailers(!showTrailers)} className="my-2 text-blue1 sm:hidden">
+                More trailers{' '}
+                {showTrailers ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
+              </button>
+              <div className={clsx('hidden flex-col gap-3 sm:flex', { ['flexImportant']: showTrailers })}>
                 {movieDetailTrailer.results.slice(1, 5).map((movie: VideoTraillerType) => (
                   <div className="flex flex-row" key={movie.id}>
-                    <div className="basis-4/12 px-3">
+                    <div className="basis-4/12 sm:px-3">
                       <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.title} />
                     </div>
                     <div className="basis-8/12 px-4">
@@ -190,8 +199,8 @@ export default function MovieDetail() {
               </div>
             </div>
           </div>
-          <div className="my-6 flex">
-            <div className="basis-8/12">
+          <div className="my-6 flex flex-wrap">
+            <div className="w-full sm:basis-8/12">
               <p className="borderBottomWhite">{movieDetail.overview}</p>
               <p className="borderBottomWhite">
                 <span>Movie name: </span>
@@ -202,7 +211,7 @@ export default function MovieDetail() {
                 <span className="ml-2 text-blue1">{moment(movieDetail.release_date).format('MMM Do YY')}</span>
               </p>
             </div>
-            <div className="basis-4/12 px-4">
+            <div className="sm:basis-4/12 sm:px-4">
               <p
                 className="cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
                 onClick={() => handleAddWatchList()}
@@ -230,7 +239,7 @@ export default function MovieDetail() {
         </div>
       </div>
       <div className="my-10 bg-white text-black">
-        <div className="container mx-auto">
+        <div className="mx-auto px-4 sm:container">
           <div>
             <TitleCategories title="" textColor>
               Top casts
@@ -240,7 +249,7 @@ export default function MovieDetail() {
                 {cast.cast.slice(0, 11).map((cast: CastType) => (
                   <div key={cast.id} className="flex space-x-4">
                     <div className="basis-2/12">
-                      <div className="group relative h-[200px] w-[200px] overflow-hidden rounded-full">
+                      <div className="group relative h-[80px] w-[80px] overflow-hidden rounded-full sm:h-[200px] sm:w-[200px]">
                         <Link href={`/person/${cast.id}`}>
                           <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
                         </Link>
@@ -259,7 +268,7 @@ export default function MovieDetail() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

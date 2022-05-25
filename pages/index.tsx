@@ -21,10 +21,10 @@ const Home = ({ moviePopular, movieTrending, movieStreamming, personPopular }: P
         <title>Movie</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="overflow-hidden">
+      <div className="overflow-hidden text-[80%] sm:text-[100%]">
         <Header />
-        <main className="overflow-hidden bg-gray3 text-white">
-          <div className="container mx-auto">
+        <main className="overflow-hidden bg-gray3 px-2 text-white">
+          <div className="mx-auto sm:container">
             <Carosel movieTrending={movieTrending} />
             <Featured />
             <Watch moviePopular={moviePopular} />

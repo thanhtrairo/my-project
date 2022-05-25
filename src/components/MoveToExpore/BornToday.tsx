@@ -13,6 +13,15 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 6,
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
   }
 
   return (
@@ -22,7 +31,7 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
         <Slider {...settings}>
           {personPopular.map((person: PersonType) => (
             <div className="group" key={person.id}>
-              <div className="relative mx-5 h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full">
+              <div className="relative mx-auto h-[140px] w-[140px] cursor-pointer overflow-hidden rounded-full sm:mx-5 sm:h-[180px] sm:w-[180px]">
                 <Link href={`/person/${person.id}`}>
                   <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
                 </Link>

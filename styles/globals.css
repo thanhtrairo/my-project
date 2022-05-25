@@ -42,14 +42,30 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .hiddenTextLine {
+    display: block;
+    display: -webkit-box;
+    height: 16px * 1.3 * 5;
+    line-height: 1.3;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .activeTrailer {
     @apply relative before:absolute before:top-full before:left-0 before:z-10 before:inline-block before:h-1 before:w-full before:bg-yellow-400 before:content-[''];
   }
   .textBlack {
     @apply text-black !important;
   }
+  .flexImportant {
+    @apply flex !important;
+  }
   img {
     @apply w-full;
+  }
+  .sidebar li {
+    @apply whitespace-nowrap py-1 px-10 py-1 hover:bg-gray2;
   }
 }
 

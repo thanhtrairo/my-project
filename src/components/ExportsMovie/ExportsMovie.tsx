@@ -9,7 +9,7 @@ export const ExportsMovie = () => {
     <>
       <Title>Explore Movies & TV shows</Title>
       <TitleCategories title="Weekend of May 6-8">Top box office (US)</TitleCategories>
-      <div className="mt-6 mb-16 grid grid-cols-2 gap-x-16 gap-y-6">
+      <div className="mt-6 mb-16 grid gap-x-16 gap-y-6 sm:grid-cols-2">
         <BuyMovie num price />
         <BuyMovie num price />
         <BuyMovie num price />

@@ -10,10 +10,14 @@ export const MoveToWatch = () => {
       </TitleCategories>
       <div className="mt-6 mb-16 flex flex-row space-x-6">
         <Link href="/" passHref>
-          <a className="border-2 border-white3 bg-transparent px-20 py-1 text-white3 hover:bg-white2">Watch Guide</a>
+          <a className="border-2 border-white3 bg-transparent py-1 px-12 text-white3 hover:bg-white2 sm:px-20">
+            Watch Guide
+          </a>
         </Link>
         <Link href="/" passHref>
-          <a className="border-2 border-white3 bg-transparent px-20 py-1 text-white3 hover:bg-white2">Most Popular</a>
+          <a className="border-2 border-white3 bg-transparent px-12 py-1 text-white3 hover:bg-white2 sm:px-20">
+            Most Popular
+          </a>
         </Link>
       </div>
     </>

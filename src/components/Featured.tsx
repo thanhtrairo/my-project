@@ -14,7 +14,7 @@ export const Featured = () => {
   return (
     <div className=" mb-20">
       <Title>Featured today</Title>
-      <div className="w-8/12">
+      <div className="sm:w-8/12">
         <Slider {...settings}>
           <Movie title="List" name price={false} list>
             What TV Shows Are Renewed or Canceled?

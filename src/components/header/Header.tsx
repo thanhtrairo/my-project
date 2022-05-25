@@ -14,6 +14,7 @@ import { Keyword } from './Keyword'
 import Language from './Language'
 import Menu from './Menu'
 import { Person } from './Person'
+import { Sidebar } from './Sidebar'
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -52,19 +53,24 @@ const Header = () => {
   }, [search])
 
   return (
-    <div className=" bg-black1 text-14 text-white">
-      <div className="container mx-auto flex  flex-row items-center space-x-2">
-        <div className="flexItemCenter cursor-pointer">
+    <div className=" border-[1px] border-black1 bg-black1 text-14 text-white">
+      <div className="mx-auto flex flex-row  items-center sm:container sm:space-x-2">
+        <div className="flexItemCenter hidden cursor-pointer sm:block">
           <Link href="/">
             <img src="/img/logo.svg" alt="Vercel Logo" />
           </Link>
         </div>
-        <div className="flexItemCenter cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
+        <div className="sm:flexItemCenter hidden  cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
           <FaBars className="mr-1 fill-white" />
           <p>Menu</p>
           {showMenu && <Menu />}
         </div>
-        <div className="w-[55%]">
+        <div className="flexItemCenter relative cursor-pointer sm:hidden" onClick={() => setShowMenu(!showMenu)}>
+          <FaBars className="mr-1 fill-white" />
+          <p>Menu</p>
+          {showMenu && <Sidebar onShow={() => setShowMenu(!showMenu)} />}
+        </div>
+        <div className="w-[80%] sm:w-[55%]">
           <form className="relative ml-2 flex w-full items-center rounded-md bg-white">
             {search && (
               <div className="absolute top-[100%] left-0 z-50 bg-black1 py-4">
@@ -99,7 +105,7 @@ const Header = () => {
               className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
               onClick={() => setShowAll(!showAll)}
             >
-              <p className="mr-1 cursor-pointer font-medium">{searchType}</p>
+              <p className="mr-1 cursor-pointer whitespace-nowrap font-medium">{searchType}</p>
               <FaCaretDown />
               {showAll && <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} />}
             </div>
@@ -118,7 +124,7 @@ const Header = () => {
           </form>
         </div>
 
-        <div className="flexItemCenter">
+        <div className="flexItemCenter hidden sm:block">
           <svg
             className="ipc-logo navbar__imdbpro-menu-toggle__name fill-white"
             width="52"
@@ -140,7 +146,7 @@ const Header = () => {
             </g>
           </svg>
         </div>
-        <div className="flexItemCenter cursor-pointer">
+        <div className="sm:flexItemCenter hidden cursor-pointer">
           <svg
             width="24"
             height="24"
@@ -158,34 +164,39 @@ const Header = () => {
           </svg>
           <p className="ml-2 cursor-pointer">Watchlist</p>
         </div>
-        {account.session_id ? (
-          <div className="relative">
-            <p className="flexItemCenter cursor-pointer whitespace-nowrap" onClick={() => setShowProfile(!showProfile)}>
-              <span className="mr-1">Hi you</span>
-              <span>
-                <FaAngleDown />
-              </span>
-            </p>
-            {showProfile && (
-              <div className="absolute top-full left-0 z-20 min-w-[100px] bg-black1 shadow-lg">
-                <Link href={`/profile`}>
-                  <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">My profile</p>
-                </Link>
-                <p
-                  className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
-                  onClick={() => dispatch(accountLogout())}
-                >
-                  Logout
-                </p>
-              </div>
-            )}
-          </div>
-        ) : (
-          <Link href="/login">
-            <p className="flexItemCenter cursor-pointer whitespace-nowrap">Sign In</p>
-          </Link>
-        )}
-        <div className="flexItemCenter relative cursor-pointer" onClick={() => setShowEN(!showEN)}>
+        <div className="hidden sm:block">
+          {account.session_id ? (
+            <div className="relative">
+              <p
+                className="flexItemCenter cursor-pointer whitespace-nowrap"
+                onClick={() => setShowProfile(!showProfile)}
+              >
+                <span className="mr-1">Hi you</span>
+                <span>
+                  <FaAngleDown />
+                </span>
+              </p>
+              {showProfile && (
+                <div className="absolute top-full left-0 z-20 min-w-[100px] bg-black1 shadow-lg">
+                  <Link href={`/profile`}>
+                    <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">My profile</p>
+                  </Link>
+                  <p
+                    className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
+                    onClick={() => dispatch(accountLogout())}
+                  >
+                    Logout
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/login">
+              <p className="flexItemCenter cursor-pointer whitespace-nowrap">Sign In</p>
+            </Link>
+          )}
+        </div>
+        <div className="sm:flexItemCenter relative hidden cursor-pointer" onClick={() => setShowEN(!showEN)}>
           <p className="mr-1">EN</p>
           <FaCaretDown />
           {showEN && <Language />}

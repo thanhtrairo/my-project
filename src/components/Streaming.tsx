@@ -12,6 +12,15 @@ export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStr
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 6,
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
   }
 
   return (
