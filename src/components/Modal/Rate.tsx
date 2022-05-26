@@ -16,6 +16,8 @@ export const Rate: React.FC<{
   const account = useSelector((state: RootState) => state.account)
   const [rateSuccess, setRateSuccess] = useState<boolean>(false)
 
+  const redirect = router.asPath.split('?')[1]
+
   const handleRateMovie = async (id: string, star: number) => {
     if (account.session_id) {
       const config = {
@@ -30,13 +32,17 @@ export const Rate: React.FC<{
         console.log(error)
       }
     } else {
-      router.push(`/login?movie/${movieId}`)
+      if (redirect) {
+        router.push(`/login?movie/${movieId}`)
+      } else {
+        router.push('/login')
+      }
     }
   }
 
   return (
     <>
-      <div className="fixed top-[30%] left-1 z-50 text-white sm:left-[30%]">
+      <div className="fixed top-[40%] left-1 z-50 translate-y-[-50%] text-white sm:left-[50%] sm:translate-x-[-50%]">
         <div className="relative bg-gray px-16 pt-12 pb-8">
           <span
             className="absolute top-[-10%] right-0 h-8 w-8 cursor-pointer rounded-full text-center leading-8 hover:bg-white4"

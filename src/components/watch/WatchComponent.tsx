@@ -1,11 +1,83 @@
 import Link from 'next/link'
-import React from 'react'
-import { FaPlay, FaRegStar, FaStar } from 'react-icons/fa'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { FaCheck, FaPlay, FaRegStar, FaStar } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { setShow } from '~/redux/modal/modalRateSlice'
+import { RootState } from '~/redux/store'
+import MovieServices from '~/services/MovieServices'
 import apiConfig from '../../../pages/api/apiConfig'
 import { MovieType } from '../../type/type'
 import { SvgAdd } from '../SvgAdd'
 
 export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
+  const dispatch = useDispatch()
+  const account = useSelector((state: RootState) => state.account)
+
+  const [addWatchList, setAddWatchList] = useState<boolean>(false)
+
+  const router = useRouter()
+
+  const redirect = router.asPath.split('?')[1]
+
+  const handleShowVideo = async (id: string) => {
+    const res = await MovieServices.getMovieVideos(id)
+    dispatch(
+      setShow({
+        rate: {
+          showRate: false,
+          movieId: '',
+        },
+        video: {
+          showVideo: true,
+          videoId: res.data.results[0].key,
+        },
+      })
+    )
+  }
+
+  const handleShowRate = () => {
+    dispatch(
+      setShow({
+        rate: {
+          showRate: true,
+          movieId: movie.id,
+        },
+        video: {
+          showVideo: false,
+          videoId: '',
+        },
+      })
+    )
+  }
+
+  const handleAddWatchList = async () => {
+    if (account.session_id) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      try {
+        await MovieServices.postAddMovieWatchList(
+          account.accountId,
+          account.session_id,
+          { media_type: 'movie', media_id: String(movie.id), watchlist: true },
+          config
+        )
+        setAddWatchList(!addWatchList)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      if (redirect) {
+        router.push(`/login?movie/${movie.id}`)
+      } else {
+        router.push('/login')
+      }
+    }
+  }
+
   return (
     <>
       <div className="mx-3 bg-gray4">
@@ -25,31 +97,23 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
               <FaStar className="mr-1  h-9 fill-yellow-400 py-3" />
               <p>{movie.vote_average}</p>
             </div>
-            <FaRegStar className="h-9 w-9 cursor-pointer fill-[#5799ef] py-3 hover:bg-white2 hover:fill-white" />
+            <FaRegStar
+              className="h-9 w-9 cursor-pointer fill-[#5799ef] py-3 hover:bg-white2 hover:fill-white"
+              onClick={() => handleShowRate()}
+            />
           </div>
           <p className="hiddenText my-2">
             <Link href={`/movie/${movie.id}`} passHref>
               <a className="hiddenText hover:underline">{movie.title}</a>
             </Link>
           </p>
-          <div className="hover: my-4 bg-white2">
-            <div className=" flex flex-row justify-center space-x-2 py-1 font-medium text-blue1 hover:bg-white3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                className="ipc-icon ipc-icon--add ipc-button__icon ipc-button__icon--pre"
-                id="iconContext-add"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                role="presentation"
-              >
-                <path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
-              </svg>
-              <span className="cursor-pointer">WatchList</span>
+          <div className="my-4 cursor-pointer bg-white2" onClick={() => handleAddWatchList()}>
+            <div className=" flex flex-row items-center justify-center space-x-2 py-1 font-medium text-blue1 hover:bg-white3">
+              {addWatchList ? <FaCheck className="inline-block text-16" /> : <span className="">+</span>}
+              <span className="">WatchList</span>
             </div>
           </div>
-          <div>
+          <div onClick={() => handleShowVideo(movie.id)}>
             <a className="group flex flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
               <FaPlay className="opacity-70 group-hover:opacity-100" />
               <span className="cursor-pointer">Trailer</span>

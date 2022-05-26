@@ -13,7 +13,6 @@ const Profile = () => {
   const TITLES = ['Favorite', 'Rating', 'WatchList']
   const [activeTitle, setActiveTitle] = useState<string>('Favorite')
 
-  const isfavorite = true
   const isRating = true
   const isRemoved = true
 
@@ -73,7 +72,7 @@ const Profile = () => {
             </nav>
             <div className="mt-10">
               {activeTitle === 'WatchList' ? (
-                <ListFavoriteWatchList movieWatchList={watchList.results} isfavorite={isfavorite} account={account} />
+                <ListFavoriteWatchList movieWatchList={watchList.results} account={account} />
               ) : activeTitle === 'Favorite' ? (
                 <ListFavoriteWatchList movieWatchList={favoriteList.results} account={account} />
               ) : (

@@ -23,7 +23,6 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
       },
     ],
   }
-
   return (
     <>
       <TitleCategories title={`People born on ${moment().format('MMM Do YY')}`}>Born today</TitleCategories>
@@ -39,7 +38,6 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
               </div>
               <div className="my-1 text-center group-hover:opacity-70">
                 <p>{person.name}</p>
-                <p className="opacity-70">{person.popularity}</p>
               </div>
             </div>
           ))}

@@ -102,10 +102,16 @@ export default function MovieDetail() {
 
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
-      {showPupop && <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} autoPlay={autoPlay} />}
-      {showRate && <Rate onShow={() => setShowRate(!showRate)} movieId={movieDetail.id} />}
+      {showPupop && <Popup onShow={() => setShowPupop(false)} videoId={videoId} autoPlay={autoPlay} />}
+      {showRate && <Rate onShow={() => setShowRate(false)} movieId={movieDetail.id} />}
       {(showPupop || showRate) && (
-        <div className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"></div>
+        <div
+          className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"
+          onClick={() => {
+            setShowRate(false)
+            setShowPupop(false)
+          }}
+        ></div>
       )}
       <Header />
       <div className="overflow-hidden bg-gray px-2 text-white">
@@ -259,7 +265,6 @@ export default function MovieDetail() {
                     <div className="basis-10/12">
                       <p className="font-medium">{cast.name}</p>
                       <p className="font-thin">as {cast.original_name}</p>
-                      <p className="">{cast.popularity}</p>
                     </div>
                   </div>
                 ))}

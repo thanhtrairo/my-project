@@ -32,8 +32,11 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
     <>
       {showPupop && (
         <>
-          <Popup onShow={() => setShowPupop(!showPupop)} videoId={videoId} />
-          <div className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"></div>
+          <Popup onShow={() => setShowPupop(false)} videoId={videoId} />
+          <div
+            className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"
+            onClick={() => setShowPupop(false)}
+          ></div>
         </>
       )}
       <div className=" relative  my-4">
@@ -44,7 +47,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
                 <img src={apiConfig.orinalImage(movie.backdrop_path)} alt={movie.title} />
                 <div className="absolute bottom-0 left-0 w-full p-4">
                   <div className="relative flex flex-row items-end space-x-4">
-                    <div className="hidden px-6 sm:basis-3/12">
+                    <div className="hidden px-6 sm:block sm:basis-3/12">
                       <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.original_title} />
                       <div className="absolute top-0 left-6">
                         <SvgAdd width="36" height="50" />
