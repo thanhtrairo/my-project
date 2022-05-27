@@ -66,7 +66,7 @@ const PersonDetail = () => {
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 sm:gap-10">
                 {personDetailMovie.cast.map((movie: MovieType) => (
                   <div className="" key={movie.id}>
-                    <div className="group relative h-[200px] w-full overflow-hidden sm:h-[300px]">
+                    <div className="group relative h-[260px] w-full overflow-hidden sm:h-[300px]">
                       <Link href={`/movie/${movie.id}`}>
                         <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
                       </Link>

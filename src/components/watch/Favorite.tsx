@@ -13,6 +13,13 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => 
     slidesToScroll: 6,
     responsive: [
       {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
