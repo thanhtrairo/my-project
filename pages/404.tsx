@@ -4,7 +4,7 @@ import React from 'react'
 export default function Notfound() {
   return (
     <>
-      <div className="container my-5">
+      <div className="mx-2 my-5 sm:container sm:mx-0">
         <div className="">
           <img className="" src="../img/404.png" alt="Not-found" />
           <div className="bg-green-600 px-12 py-4 text-center">

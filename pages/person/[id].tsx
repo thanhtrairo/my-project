@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../../src/components/header/Header'
 import { SvgAdd } from '../../src/components/SvgAdd'
-import { MovieType } from '../../src/type/type'
+import { MovieType, PersonType } from '../../src/type/type'
 import { useRouter } from 'next/router'
 import apiConfig from '../api/apiConfig'
 import moment from 'moment'
@@ -10,6 +10,8 @@ import { fetcher } from '~/services/fetcher'
 import useSWR from 'swr'
 import request from '~/utils/request'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
+import axios from 'axios'
+import MovieServices from '~/services/MovieServices'
 
 const PersonDetail = () => {
   const router = useRouter()
@@ -93,38 +95,38 @@ const PersonDetail = () => {
 
 export default PersonDetail
 
-// export const getStaticPaths = async () => {
-//   const res = await axios.get(request.fetchPersonPopular)
+export const getStaticPaths = async () => {
+  const res = await axios.get(request.fetchPersonPopular)
 
-//   const paths = res.data.results.map((person: PersonType) => {
-//     return {
-//       params: { id: String(person.id) },
-//     }
-//   })
-//   return {
-//     paths,
-//     fallback: true,
-//   }
-// }
-// export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-//   try {
-//     const result = await Promise.all([
-//       MovieServices.getPersonDetail(params.id),
-//       MovieServices.getPersonMovies(params.id),
-//     ])
-//     return {
-//       props: {
-//         personDetail: result[0].data,
-//         personDetailMovie: result[1].data.cast,
-//       },
-//     }
-//   } catch (e) {
-//     return {
-//       props: {
-//         personDetail: {},
-//         personDetailMovie: {},
-//       },
-//       notFound: true,
-//     }
-//   }
-// }
+  const paths = res.data.results.map((person: PersonType) => {
+    return {
+      params: { id: String(person.id) },
+    }
+  })
+  return {
+    paths,
+    fallback: true,
+  }
+}
+export const getStaticProps = async ({ params }: { params: { id: string } }) => {
+  try {
+    const result = await Promise.all([
+      MovieServices.getPersonDetail(params.id),
+      MovieServices.getPersonMovies(params.id),
+    ])
+    return {
+      props: {
+        personDetail: result[0].data,
+        personDetailMovie: result[1].data.cast,
+      },
+    }
+  } catch (e) {
+    return {
+      props: {
+        personDetail: {},
+        personDetailMovie: {},
+      },
+      notFound: true,
+    }
+  }
+}

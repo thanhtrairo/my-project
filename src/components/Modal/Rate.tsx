@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
+import { FaCheck, FaStar } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/store'
 import MovieServices from '~/services/MovieServices'
@@ -9,8 +9,21 @@ export const Rate: React.FC<{
   onShow: Function
   movieId: string
 }> = ({ onShow, movieId }) => {
-  const stars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const [star, setStar] = useState<number>(0)
+  const [currentStar, setCurrentStar] = useState<number>(0)
+  const [hoverValue, setHoverValue] = useState<number | undefined>(undefined)
+  const stars = Array.from({ length: 10 }, (_, i) => i + 1)
+
+  const handleClick = (value: number) => {
+    setCurrentStar(value)
+  }
+
+  const handleMouseOver = (newHoverValue: number) => {
+    setHoverValue(newHoverValue)
+  }
+
+  const handleMouseLeave = () => {
+    setHoverValue(undefined)
+  }
 
   const router = useRouter()
   const account = useSelector((state: RootState) => state.account)
@@ -18,7 +31,7 @@ export const Rate: React.FC<{
 
   const redirect = router.asPath.split('?')[1]
 
-  const handleRateMovie = async (id: string, star: number) => {
+  const handleRateMovie = async () => {
     if (account.session_id) {
       const config = {
         headers: {
@@ -26,7 +39,7 @@ export const Rate: React.FC<{
         },
       }
       try {
-        await MovieServices.postRateMovie(id, account.session_id, { value: star }, config)
+        await MovieServices.postRateMovie(movieId, account.session_id, { value: currentStar }, config)
         setRateSuccess(!rateSuccess)
       } catch (error) {
         console.log(error)
@@ -39,7 +52,6 @@ export const Rate: React.FC<{
       }
     }
   }
-
   return (
     <>
       <div className="fixed top-[40%] left-1 z-50 translate-y-[-50%] text-white sm:left-[50%] sm:translate-x-[-50%]">
@@ -52,7 +64,7 @@ export const Rate: React.FC<{
           </span>
           <div className="absolute top-[-20%] left-[42%]">
             <div className="relative">
-              <div className="absolute left-[42%] top-[36%] text-black">{star > 0 ? star : '?'}</div>
+              <div className="absolute left-[42%] top-[36%] text-black">{currentStar > 0 ? currentStar : '?'}</div>
               <FaStar className="text-[72px] text-blue1" />
             </div>
           </div>
@@ -61,12 +73,17 @@ export const Rate: React.FC<{
             <p className="tracking-wide">Doctor Strange in the Multiverse of Madness</p>
             <div className="my-6 flex cursor-pointer justify-center gap-2 text-20">
               {stars.map((star: number) => (
-                <span key={star} className="" onClick={() => setStar(star)}>
-                  <FaRegStar />
+                <span key={star} onClick={() => setCurrentStar(star)}>
+                  <FaStar
+                    onClick={() => handleClick(star)}
+                    onMouseOver={() => handleMouseOver(star)}
+                    onMouseLeave={handleMouseLeave}
+                    color={(hoverValue || currentStar) >= star ? 'rgb(87 153 239)' : ''}
+                  />
                 </span>
               ))}
             </div>
-            <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie(movieId, star)}>
+            <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie()}>
               {rateSuccess ? <FaCheck className="mx-auto" /> : 'Rate'}
             </p>
           </div>

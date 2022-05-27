@@ -33,10 +33,11 @@ const Profile = () => {
     request.fetchFavoriteList(account.accountId, account.session_id),
     fetcher
   )
-  const { data: ratingList, error: errorRatingList } = useSWR(
-    request.fetchRatingList(account.accountId, account.session_id),
-    fetcher
-  )
+  const {
+    data: ratingList,
+    error: errorRatingList,
+    mutate,
+  } = useSWR(request.fetchRatingList(account.accountId, account.session_id), fetcher)
 
   if (errorWatchList || errorFavoriteList || errorRatingList) return <div>failed to load</div>
   if (!watchList || !favoriteList || !ratingList) return <div>loading...</div>
@@ -72,15 +73,16 @@ const Profile = () => {
             </nav>
             <div className="mt-10">
               {activeTitle === 'WatchList' ? (
-                <ListFavoriteWatchList movieWatchList={watchList.results} account={account} />
+                <ListFavoriteWatchList movieWatchList={watchList.results} account={account} mutate={mutate} />
               ) : activeTitle === 'Favorite' ? (
-                <ListFavoriteWatchList movieWatchList={favoriteList.results} account={account} />
+                <ListFavoriteWatchList movieWatchList={favoriteList.results} account={account} mutate={mutate} />
               ) : (
                 <ListFavoriteWatchList
                   movieWatchList={ratingList.results}
                   isRating={isRating}
                   account={account}
                   isRemoved={isRemoved}
+                  mutate={mutate}
                 />
               )}
             </div>

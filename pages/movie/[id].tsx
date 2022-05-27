@@ -1,4 +1,3 @@
-// import axios from 'axios'
 import React, { useState } from 'react'
 
 import { FaAngleDown, FaAngleUp, FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
@@ -6,7 +5,7 @@ import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
 import { TitleCategories } from '../../src/components/title/TitleCategories'
-import { CastType, VideoTraillerType } from '../../src/type/type'
+import { CastType, MovieType, VideoTraillerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
 import { Popup } from '../../src/components/Modal/Popup'
@@ -20,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/store'
 import Link from 'next/link'
 import clsx from 'clsx'
+import axios from 'axios'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
@@ -277,41 +277,41 @@ export default function MovieDetail() {
   )
 }
 
-// export const getStaticPaths = async () => {
-//   const res = await axios.get(request.fetchPopular)
+export const getStaticPaths = async () => {
+  const res = await axios.get(request.fetchPopular)
 
-//   const paths = res.data.results.map((movie: MovieType) => {
-//     return {
-//       params: { id: String(movie.id) },
-//     }
-//   })
-//   return {
-//     paths,
-//     fallback: true,
-//   }
-// }
-// export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-//   try {
-//     const result = await Promise.all([
-//       MovieServices.getMovieDetails(params.id),
-//       MovieServices.getMovieVideos(params.id),
-//       MovieServices.getMovieCasts(params.id),
-//     ])
-//     return {
-//       props: {
-//         movieDetail: result[0].data,
-//         movieDetailTrailler: result[1].data,
-//         casts: result[2].data,
-//       },
-//     }
-//   } catch (e) {
-//     return {
-//       props: {
-//         movieDetail: {},
-//         movieDetailTrailler: {},
-//         casts: {},
-//       },
-//       notFound: true,
-//     }
-//   }
-// }
+  const paths = res.data.results.map((movie: MovieType) => {
+    return {
+      params: { id: String(movie.id) },
+    }
+  })
+  return {
+    paths,
+    fallback: true,
+  }
+}
+export const getStaticProps = async ({ params }: { params: { id: string } }) => {
+  try {
+    const result = await Promise.all([
+      MovieServices.getMovieDetails(params.id),
+      MovieServices.getMovieVideos(params.id),
+      MovieServices.getMovieCasts(params.id),
+    ])
+    return {
+      props: {
+        movieDetail: result[0].data,
+        movieDetailTrailler: result[1].data,
+        casts: result[2].data,
+      },
+    }
+  } catch (e) {
+    return {
+      props: {
+        movieDetail: {},
+        movieDetailTrailler: {},
+        casts: {},
+      },
+      notFound: true,
+    }
+  }
+}

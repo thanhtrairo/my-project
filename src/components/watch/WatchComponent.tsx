@@ -114,9 +114,9 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
             </div>
           </div>
           <div onClick={() => handleShowVideo(movie.id)}>
-            <a className="group flex flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
+            <a className="group flex cursor-pointer flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
               <FaPlay className="opacity-70 group-hover:opacity-100" />
-              <span className="cursor-pointer">Trailer</span>
+              <span className="">Trailer</span>
             </a>
           </div>
         </div>
