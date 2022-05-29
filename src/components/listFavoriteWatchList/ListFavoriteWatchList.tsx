@@ -9,15 +9,48 @@ import { AccountType, MovieType } from '~/type/type'
 const ListFavoriteWatchList: React.FC<{
   movieWatchList: MovieType[]
   isRating?: boolean
-  isRemoved?: boolean
   account: AccountType
   mutate: Function
-}> = ({ movieWatchList, isRating, account, isRemoved, mutate }) => {
-  const handleRemoveRating = async (movie: MovieType) => {
+  activeTitle: string
+}> = ({ movieWatchList, isRating, account, mutate, activeTitle }) => {
+  const handleRemove = async (movie: MovieType) => {
     try {
-      mutate(async () => await MovieServices.deleteRateMovie(movie.id, account.session_id), {
-        optimisticData: movieWatchList.filter((rate) => rate.id !== movie.id),
-      })
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      if (activeTitle === 'WatchList') {
+        mutate(
+          async () =>
+            await MovieServices.postAddMovieWatchList(
+              account.accountId,
+              account.session_id,
+              { media_type: 'movie', media_id: String(movie.id), watchlist: false },
+              config
+            ),
+          {
+            optimisticData: movieWatchList.filter((movieWatchList) => movieWatchList.id !== movie.id),
+          }
+        )
+      } else if (activeTitle === 'Favorite') {
+        mutate(
+          async () =>
+            await MovieServices.postAddFavoriteList(
+              account.accountId,
+              account.session_id,
+              { media_type: 'movie', media_id: String(movie.id), favorite: false },
+              config
+            ),
+          {
+            optimisticData: movieWatchList.filter((favoriteList) => favoriteList.id !== movie.id),
+          }
+        )
+      } else {
+        mutate(async () => await MovieServices.deleteRateMovie(movie.id, account.session_id), {
+          optimisticData: movieWatchList.filter((rate) => rate.id !== movie.id),
+        })
+      }
     } catch (error) {
       console.log(error)
     }
@@ -44,15 +77,13 @@ const ListFavoriteWatchList: React.FC<{
                   <span> Your rating</span>
                 </p>
               )}
-              {isRemoved && (
-                <p className="flex items-center">
-                  <FaTrash
-                    className="mr-1 cursor-pointer text-20 hover:text-red-600"
-                    onClick={() => handleRemoveRating(movie)}
-                  />
-                  <span> Remove</span>
-                </p>
-              )}
+              <p className="flex items-center">
+                <FaTrash
+                  className="mr-1 cursor-pointer text-20 hover:text-red-600"
+                  onClick={() => handleRemove(movie)}
+                />
+                <span> Remove</span>
+              </p>
             </div>
           </div>
         </div>

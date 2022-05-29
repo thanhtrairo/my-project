@@ -5,7 +5,7 @@ import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
 import { TitleCategories } from '../../src/components/title/TitleCategories'
-import { CastType, MovieType, VideoTraillerType } from '../../src/type/type'
+import { CastType, VideoTraillerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
 import { Popup } from '../../src/components/Modal/Popup'
@@ -15,11 +15,10 @@ import { useRouter } from 'next/router'
 import { fetcher } from '../../src/services/fetcher'
 import { Rate } from '../../src/components/Modal/Rate'
 import MovieServices from '~/services/MovieServices'
-import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/store'
 import Link from 'next/link'
 import clsx from 'clsx'
-import axios from 'axios'
+import { Loading } from '~/components/loading/Loading'
+import Notfound from 'pages/404'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
@@ -29,8 +28,6 @@ export default function MovieDetail() {
   const [addFavoriteList, setAddFavoriteList] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
   const [showTrailers, setShowTrailers] = useState<boolean>(false)
-
-  const account = useSelector((state: RootState) => state.account)
 
   const handleShowVideo = (key: string, autoPlay: boolean) => {
     setShowPupop(!showPupop)
@@ -48,10 +45,12 @@ export default function MovieDetail() {
   const { data: cast, error: errorCast } = useSWR(id ? request.fetchCasts(id) : null, fetcher)
 
   if (errorDetail || errorDetailTrailer || errorCast) return <div>failed to load</div>
-  if (!movieDetail || !movieDetailTrailer || !cast) return <div>loading...</div>
+  if (!movieDetail || !movieDetailTrailer || !cast) return <Loading>Loading...</Loading>
+  if (movieDetail.status_message || movieDetailTrailer.status_message || cast.status_message) return <Notfound />
 
   const handleAddWatchList = async () => {
-    if (account.session_id) {
+    const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    if (requestToken.session_id) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -59,8 +58,8 @@ export default function MovieDetail() {
       }
       try {
         await MovieServices.postAddMovieWatchList(
-          account.accountId,
-          account.session_id,
+          requestToken.accountId,
+          requestToken.session_id,
           { media_type: 'movie', media_id: String(movieDetail.id), watchlist: true },
           config
         )
@@ -74,7 +73,8 @@ export default function MovieDetail() {
   }
 
   const handleAddFavoriteList = async () => {
-    if (account.session_id) {
+    const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    if (requestToken.session_id) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -82,8 +82,8 @@ export default function MovieDetail() {
       }
       try {
         await MovieServices.postAddFavoriteList(
-          account.accountId,
-          account.session_id,
+          requestToken.accountId,
+          requestToken.session_id,
           { media_type: 'movie', media_id: String(movieDetail.id), favorite: true },
           config
         )
@@ -275,43 +275,4 @@ export default function MovieDetail() {
       </div>
     </div>
   )
-}
-
-export const getStaticPaths = async () => {
-  const res = await axios.get(request.fetchPopular)
-
-  const paths = res.data.results.map((movie: MovieType) => {
-    return {
-      params: { id: String(movie.id) },
-    }
-  })
-  return {
-    paths,
-    fallback: true,
-  }
-}
-export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-  try {
-    const result = await Promise.all([
-      MovieServices.getMovieDetails(params.id),
-      MovieServices.getMovieVideos(params.id),
-      MovieServices.getMovieCasts(params.id),
-    ])
-    return {
-      props: {
-        movieDetail: result[0].data,
-        movieDetailTrailler: result[1].data,
-        casts: result[2].data,
-      },
-    }
-  } catch (e) {
-    return {
-      props: {
-        movieDetail: {},
-        movieDetailTrailler: {},
-        casts: {},
-      },
-      notFound: true,
-    }
-  }
 }

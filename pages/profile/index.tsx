@@ -1,46 +1,49 @@
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import useSWR from 'swr'
 import Header from '~/components/header/Header'
 import ListFavoriteWatchList from '~/components/listFavoriteWatchList/ListFavoriteWatchList'
-import { RootState } from '~/redux/store'
+import { Loading } from '~/components/loading/Loading'
 import { fetcher } from '~/services/fetcher'
+import { AccountType } from '~/type/type'
 import request from '~/utils/request'
 
 const Profile = () => {
   const TITLES = ['Favorite', 'Rating', 'WatchList']
   const [activeTitle, setActiveTitle] = useState<string>('Favorite')
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
 
   const isRating = true
-  const isRemoved = true
 
-  const account = useSelector((state: RootState) => state.account)
   const router = useRouter()
 
   useEffect(() => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(account)
     if (!account.session_id) {
       router.push('/')
     }
-  }, [account.session_id])
+  }, [])
 
-  const { data: watchList, error: errorWatchList } = useSWR(
-    request.fetchWatchList(account.accountId, account.session_id),
-    fetcher
-  )
-  const { data: favoriteList, error: errorFavoriteList } = useSWR(
-    request.fetchFavoriteList(account.accountId, account.session_id),
-    fetcher
-  )
+  const {
+    data: watchList,
+    error: errorWatchList,
+    mutate: mutateWatchList,
+  } = useSWR(account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null, fetcher)
+  const {
+    data: favoriteList,
+    error: errorFavoriteList,
+    mutate: mutateFavoriteList,
+  } = useSWR(account.session_id ? request.fetchFavoriteList(account.accountId, account.session_id) : null, fetcher)
   const {
     data: ratingList,
     error: errorRatingList,
-    mutate,
-  } = useSWR(request.fetchRatingList(account.accountId, account.session_id), fetcher)
+    mutate: mutateRatingList,
+  } = useSWR(account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null, fetcher)
 
   if (errorWatchList || errorFavoriteList || errorRatingList) return <div>failed to load</div>
-  if (!watchList || !favoriteList || !ratingList) return <div>loading...</div>
+  if (!watchList || !favoriteList || !ratingList) return <Loading>Loading...</Loading>
 
   return (
     <div className="overflow-hidden">
@@ -58,7 +61,7 @@ const Profile = () => {
                 <p className="my-2 text-blue1">{account?.username}</p>
               </div>
             </div>
-            <nav className="wrap flex flex">
+            <nav className="wrap flex">
               {TITLES.map((title) => (
                 <div
                   key={title}
@@ -73,16 +76,26 @@ const Profile = () => {
             </nav>
             <div className="mt-10">
               {activeTitle === 'WatchList' ? (
-                <ListFavoriteWatchList movieWatchList={watchList.results} account={account} mutate={mutate} />
+                <ListFavoriteWatchList
+                  movieWatchList={watchList.results}
+                  account={account}
+                  mutate={mutateWatchList}
+                  activeTitle={activeTitle}
+                />
               ) : activeTitle === 'Favorite' ? (
-                <ListFavoriteWatchList movieWatchList={favoriteList.results} account={account} mutate={mutate} />
+                <ListFavoriteWatchList
+                  movieWatchList={favoriteList.results}
+                  account={account}
+                  mutate={mutateFavoriteList}
+                  activeTitle={activeTitle}
+                />
               ) : (
                 <ListFavoriteWatchList
                   movieWatchList={ratingList.results}
                   isRating={isRating}
                   account={account}
-                  isRemoved={isRemoved}
-                  mutate={mutate}
+                  mutate={mutateRatingList}
+                  activeTitle={activeTitle}
                 />
               )}
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../../src/components/header/Header'
 import { SvgAdd } from '../../src/components/SvgAdd'
-import { MovieType, PersonType } from '../../src/type/type'
+import { MovieType } from '../../src/type/type'
 import { useRouter } from 'next/router'
 import apiConfig from '../api/apiConfig'
 import moment from 'moment'
@@ -10,8 +10,9 @@ import { fetcher } from '~/services/fetcher'
 import useSWR from 'swr'
 import request from '~/utils/request'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
-import axios from 'axios'
-import MovieServices from '~/services/MovieServices'
+import Notfound from 'pages/404'
+import { Loading } from '~/components/loading/Loading'
+import clsx from 'clsx'
 
 const PersonDetail = () => {
   const router = useRouter()
@@ -26,7 +27,8 @@ const PersonDetail = () => {
   )
 
   if (personDetailError || personDetailMovieError) return <div>failed to load</div>
-  if (!personDetail || !personDetailMovie) return <div>loading...</div>
+  if (!personDetail || !personDetailMovie) return <Loading>Loading...</Loading>
+  if (personDetail.status_message || personDetail.status_message) return <Notfound />
 
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
@@ -43,21 +45,17 @@ const PersonDetail = () => {
                   </div>
                 </div>
                 <div className="w-full sm:basis-8/12 sm:px-6">
+                  <p className={clsx({ ['hiddenTextLine']: !showStory })}>{personDetail.biography}</p>
                   <button onClick={() => setShowStory(!showStory)} className="text-blue1">
                     More story{' '}
-                    {showStory ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
+                    {!showStory ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
                   </button>
-                  {showStory && (
-                    <>
-                      <p>{personDetail.biography}</p>
-                      <p className="mt-4 flex gap-2">
-                        <span className="font-medium">Born</span>
-                        <span className="text-blue1">{moment(personDetail.birthday).format('MMM Do YY')}</span>
-                        <span>in</span>
-                        <span className="text-blue1">{personDetail.place_of_birth}</span>
-                      </p>
-                    </>
-                  )}
+                  <p className="mt-4 flex gap-2">
+                    <span className="font-medium">Born</span>
+                    <span className="text-blue1">{moment(personDetail.birthday).format('MMM Do YY')}</span>
+                    <span>in</span>
+                    <span className="text-blue1">{personDetail.place_of_birth}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -94,39 +92,3 @@ const PersonDetail = () => {
 }
 
 export default PersonDetail
-
-export const getStaticPaths = async () => {
-  const res = await axios.get(request.fetchPersonPopular)
-
-  const paths = res.data.results.map((person: PersonType) => {
-    return {
-      params: { id: String(person.id) },
-    }
-  })
-  return {
-    paths,
-    fallback: true,
-  }
-}
-export const getStaticProps = async ({ params }: { params: { id: string } }) => {
-  try {
-    const result = await Promise.all([
-      MovieServices.getPersonDetail(params.id),
-      MovieServices.getPersonMovies(params.id),
-    ])
-    return {
-      props: {
-        personDetail: result[0].data,
-        personDetailMovie: result[1].data.cast,
-      },
-    }
-  } catch (e) {
-    return {
-      props: {
-        personDetail: {},
-        personDetailMovie: {},
-      },
-      notFound: true,
-    }
-  }
-}

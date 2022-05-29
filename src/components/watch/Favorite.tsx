@@ -3,6 +3,7 @@ import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
 import { MovieType } from '../../type/type'
+import { useRouter } from 'next/router'
 
 const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
   const settings = {
@@ -28,10 +29,12 @@ const Favorite: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => 
       },
     ],
   }
-
+  const router = useRouter()
   return (
     <>
-      <TitleCategories title="This week's top TV and movies">Fan favorites</TitleCategories>
+      <div onClick={() => router.push('/list')}>
+        <TitleCategories title="This week's top TV and movies">Fan favorites</TitleCategories>
+      </div>
       <div className="mb-16 mt-8">
         <Slider {...settings}>
           {moviePopular.map((movie: MovieType) => (

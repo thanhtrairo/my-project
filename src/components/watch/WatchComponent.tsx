@@ -2,9 +2,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaCheck, FaPlay, FaRegStar, FaStar } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setShow } from '~/redux/modal/modalRateSlice'
-import { RootState } from '~/redux/store'
 import MovieServices from '~/services/MovieServices'
 import apiConfig from '../../../pages/api/apiConfig'
 import { MovieType } from '../../type/type'
@@ -12,7 +11,6 @@ import { SvgAdd } from '../SvgAdd'
 
 export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   const dispatch = useDispatch()
-  const account = useSelector((state: RootState) => state.account)
 
   const [addWatchList, setAddWatchList] = useState<boolean>(false)
 
@@ -52,6 +50,7 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   }
 
   const handleAddWatchList = async () => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     if (account.session_id) {
       const config = {
         headers: {

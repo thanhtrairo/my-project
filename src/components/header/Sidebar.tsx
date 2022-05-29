@@ -1,14 +1,15 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegWindowClose } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import { accountLogout } from '~/redux/account/acountSlice'
-import { RootState } from '~/redux/store'
-import Language from './Language'
+import { AccountType } from '~/type/type'
+// import Language from './Language'
 
 export const Sidebar: React.FC<{ onShow: Function }> = ({ onShow }) => {
-  const account = useSelector((state: RootState) => state.account)
-  const dispatch = useDispatch()
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
+  useEffect(() => {
+    const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(requestToken)
+  }, [])
   return (
     <div className="sidebar absolute left-0 top-full z-20 bg-black1 py-4">
       <div className="relative">
@@ -24,7 +25,7 @@ export const Sidebar: React.FC<{ onShow: Function }> = ({ onShow }) => {
                 <Link href="/profile">
                   <div className="px-6 py-2 hover:bg-gray2">My profile</div>
                 </Link>
-                <div className="px-6 py-2 hover:bg-gray2" onClick={() => dispatch(accountLogout())}>
+                <div className="px-6 py-2 hover:bg-gray2" onClick={() => localStorage.removeItem('account')}>
                   Logout
                 </div>
               </div>
@@ -36,12 +37,12 @@ export const Sidebar: React.FC<{ onShow: Function }> = ({ onShow }) => {
           </Link>
         )}
 
-        <li className="group relative">
+        {/* <li className="group relative">
           EN
           <div className="absolute top-0 right-0 hidden group-hover:block">
             <Language />
           </div>
-        </li>
+        </li> */}
       </div>
     </div>
   )

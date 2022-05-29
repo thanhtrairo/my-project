@@ -4,6 +4,7 @@ import { TitleCategories } from './title/TitleCategories'
 import Slider from 'react-slick'
 import { WatchComponent } from './watch/WatchComponent'
 import { MovieType } from '../type/type'
+import { useRouter } from 'next/router'
 
 export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
   const settings = {
@@ -29,11 +30,13 @@ export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStr
       },
     ],
   }
-
+  const router = useRouter()
   return (
     <>
       <Title>Explore what’s streaming</Title>
-      <TitleCategories title="included with Prime">PRIME VIDEO</TitleCategories>
+      <div onClick={() => router.push('/list')} className="cursor-pointer">
+        <TitleCategories title="included with Prime">PRIME VIDEO</TitleCategories>
+      </div>
       <div className="mb-16 mt-8">
         <Slider {...settings}>
           {movieStreamming.map((movie: MovieType) => (

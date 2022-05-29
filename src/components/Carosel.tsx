@@ -95,7 +95,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
                 </div>
               ))}
             </div>
-            <Link href="/trailler" passHref>
+            <Link href="/" passHref>
               <a className="flex items-center space-x-2 pl-3 pt-4 text-20 font-medium hover:text-yellow-400">
                 <span>Browse trailers</span> <FaAngleRight />
               </a>

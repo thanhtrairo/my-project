@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaCheck, FaStar } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/store'
 import MovieServices from '~/services/MovieServices'
 
 export const Rate: React.FC<{
@@ -26,20 +24,20 @@ export const Rate: React.FC<{
   }
 
   const router = useRouter()
-  const account = useSelector((state: RootState) => state.account)
   const [rateSuccess, setRateSuccess] = useState<boolean>(false)
 
   const redirect = router.asPath.split('?')[1]
 
   const handleRateMovie = async () => {
-    if (account.session_id) {
+    const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    if (requestToken.session_id) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       }
       try {
-        await MovieServices.postRateMovie(movieId, account.session_id, { value: currentStar }, config)
+        await MovieServices.postRateMovie(movieId, requestToken.session_id, { value: currentStar }, config)
         setRateSuccess(!rateSuccess)
       } catch (error) {
         console.log(error)

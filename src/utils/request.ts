@@ -3,11 +3,11 @@ import apiConfig from '../../pages/api/apiConfig'
 const request = {
   fetchPopular: `${apiConfig.baseUrl}/movie/popular?${apiConfig.apikey}`,
   fetchTrending: `${apiConfig.baseUrl}/trending/all/week?${apiConfig.apikey}`,
-  fetchCommingSoon: `${apiConfig.baseUrl}/movie/upcoming?${apiConfig.apikey}`,
+  fetchComingSoon: `${apiConfig.baseUrl}/movie/upcoming?${apiConfig.apikey}`,
   fetchTopRate: `${apiConfig.baseUrl}/movie/top_rated?${apiConfig.apikey}`,
-  fetchStreamming: `${apiConfig.baseUrl}/movie/now_playing?${apiConfig.apikey}`,
+  fetchStreaming: `${apiConfig.baseUrl}/movie/now_playing?${apiConfig.apikey}`,
   fetchCasts: (id: string | undefined | string[]) => `${apiConfig.baseUrl}/movie/${id}/casts?${apiConfig.apikey}`,
-  fetchVideoTrailler: `${apiConfig.baseUrl}/movie/453395/videos?${apiConfig.apikey}`,
+  fetchVideoTrailer: `${apiConfig.baseUrl}/movie/453395/videos?${apiConfig.apikey}`,
   fetchMovieDetail: (id: string | undefined | string[]) => `${apiConfig.baseUrl}/movie/${id}?${apiConfig.apikey}`,
   fetchMovieDetailTrailler: (id: string | undefined | string[]) =>
     `${apiConfig.baseUrl}/movie/${id}/videos?${apiConfig.apikey}`,
