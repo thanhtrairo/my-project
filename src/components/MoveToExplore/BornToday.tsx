@@ -2,7 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import Slider from 'react-slick'
 import apiConfig from '../../../pages/api/apiConfig'
-import { PersonType } from '../..//type/type'
+import { PersonType } from '../../type/type'
 import { TitleCategories } from '../title/TitleCategories'
 import Link from 'next/link'
 
@@ -41,7 +41,7 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
                 <Link href={`/person/${person.id}`}>
                   <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
                 </Link>
-                <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} />
+                <img src={apiConfig.originalImage(person.profile_path)} alt={person.name} />
               </div>
               <div className="my-1 text-center group-hover:opacity-70">
                 <p>{person.name}</p>

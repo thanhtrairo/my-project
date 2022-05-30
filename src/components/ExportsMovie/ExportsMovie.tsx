@@ -2,7 +2,7 @@ import React from 'react'
 import { BuyMovie } from '../BuyMovie'
 import { Title } from '../title/Title'
 import { TitleCategories } from '../title/TitleCategories'
-import { CommingSoon } from './CommingSoon'
+import { Video } from '../Video'
 
 export const ExportsMovie = () => {
   return (
@@ -17,7 +17,12 @@ export const ExportsMovie = () => {
         <BuyMovie num price />
         <BuyMovie num price />
       </div>
-      <CommingSoon />
+      <Video
+        titleCategories="Coming soon to theaters (US)"
+        titleCategoriesPlaceholder="Trailers for upcoming releases"
+        titleMovie="3:45"
+        slidesShow={3}
+      />
     </>
   )
 }

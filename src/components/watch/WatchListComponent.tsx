@@ -1,12 +1,17 @@
 import React from 'react'
-import { Title } from './title/Title'
-import { TitleCategories } from './title/TitleCategories'
+import { Title } from '../title/Title'
+import { TitleCategories } from '../title/TitleCategories'
 import Slider from 'react-slick'
-import { WatchComponent } from './watch/WatchComponent'
-import { MovieType } from '../type/type'
+import { WatchComponent } from './WatchComponent'
+import { MovieType } from '../../type/type'
 import { useRouter } from 'next/router'
 
-export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStreamming }) => {
+export const WatchListComponent: React.FC<{
+  movieList: MovieType[]
+  title?: string
+  titleCategories: string
+  titleCategoriesPlaceholder: string
+}> = ({ movieList, title, titleCategories, titleCategoriesPlaceholder }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -33,13 +38,13 @@ export const Streaming: React.FC<{ movieStreamming: MovieType[] }> = ({ movieStr
   const router = useRouter()
   return (
     <>
-      <Title>Explore what’s streaming</Title>
+      <Title>{title}</Title>
       <div onClick={() => router.push('/list')} className="cursor-pointer">
-        <TitleCategories title="included with Prime">PRIME VIDEO</TitleCategories>
+        <TitleCategories title={titleCategoriesPlaceholder}>{titleCategories}</TitleCategories>
       </div>
       <div className="mb-16 mt-8">
         <Slider {...settings}>
-          {movieStreamming.map((movie: MovieType) => (
+          {movieList.map((movie: MovieType) => (
             <WatchComponent movie={movie} key={movie.id} />
           ))}
         </Slider>

@@ -36,7 +36,7 @@ export default function Menu() {
                       <li>Most Popular Movies</li>
                       <li>Browse Movies by Genre</li>
                       <li>Top Box Office</li>
-                      <li>Showtimes & Tickets</li>
+                      <li>ShowTimes & Tickets</li>
                       <li>In Theaters</li>
                       <li>Coming Soon</li>
                       <li>Movie News</li>

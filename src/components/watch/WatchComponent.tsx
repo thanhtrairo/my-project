@@ -84,7 +84,7 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
           <Link href={`/movie/${movie.id}`} passHref>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
+          <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
 
           <div className="absolute top-0 left-0">
             <SvgAdd width="30" height="36" />

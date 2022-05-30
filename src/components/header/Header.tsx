@@ -5,7 +5,7 @@ import MovieServices from '~/services/MovieServices'
 import { AccountType, CompanyType, KeyType, MovieType, PersonType } from '../../type/type'
 import useDebounce from '../debounce/debounce'
 
-import { MovieSearch } from '../MoveToExpore/MovieSearch'
+import { MovieSearch } from '../MoveToExplore/MovieSearch'
 import All from './All'
 import { Company } from './Company'
 import { Keyword } from './Keyword'
@@ -71,7 +71,7 @@ const Header = () => {
         <div className="mx-auto flex flex-row  items-center sm:container sm:space-x-2">
           <div className="flexItemCenter hidden cursor-pointer sm:block">
             <Link href="/">
-              <img src="/img/logo.svg" alt="Vercel Logo" />
+              <img src="/img/logo.svg" alt="VerCel Logo" />
             </Link>
           </div>
           <div className="sm:flexItemCenter hidden  cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
@@ -179,7 +179,7 @@ const Header = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            <p className="ml-2 cursor-pointer">Watchlist</p>
+            <p className="ml-2 cursor-pointer">WatchList</p>
           </div>
           <div className="hidden sm:block">
             {account.session_id ? (

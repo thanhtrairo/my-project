@@ -7,8 +7,8 @@ import { MovieType } from '../../type/type'
 import { Popup } from '../Modal/Popup'
 import { Rate } from '../Modal/Rate'
 import { Title } from '../title/Title'
-import Favorite from './Favorite'
 import { WatchList } from './WatchList'
+import { WatchListComponent } from './WatchListComponent'
 
 export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
@@ -47,7 +47,11 @@ export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular })
       </div>
       <div>
         <WatchList />
-        <Favorite moviePopular={moviePopular} />
+        <WatchListComponent
+          movieList={moviePopular}
+          titleCategories="Fan favorites"
+          titleCategoriesPlaceholder="This week's top TV and movies"
+        />
       </div>
     </>
   )

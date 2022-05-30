@@ -12,7 +12,7 @@ export const MovieSearch: React.FC<{ movie: MovieType; onSearch: Function }> = (
           <Link href={`/movie/${movie.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
+          <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="hiddenText">{movie.title ? movie.title : movie.name}</p>

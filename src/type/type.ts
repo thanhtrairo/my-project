@@ -33,7 +33,7 @@ export interface CastType {
   order: number
 }
 
-export interface VideoTrailler {
+export interface VideoTrailer {
   iso_639_1: string
   iso_3166_1: string
   name: string
@@ -46,7 +46,7 @@ export interface VideoTrailler {
   id: string
 }
 
-export interface VideoTraillerType {
+export interface VideoTrailerType {
   iso_639_1: string
   iso_3166_1: string
   name: string
@@ -115,9 +115,9 @@ export interface AccountType {
 export interface Props {
   movieTrending: MovieType[]
   moviePopular: MovieType[]
-  movieCommingSoon: MovieType[]
-  movieStreamming: MovieType[]
+  movieComingSoon: MovieType[]
+  movieStreaming: MovieType[]
   casts: CastType[]
-  videoTrailers: VideoTrailler[]
+  videoTrailers: VideoTrailer[]
   personPopular: PersonType[]
 }

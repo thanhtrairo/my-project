@@ -11,7 +11,7 @@ export const Person: React.FC<{ person: PersonType; onSearch: Function }> = ({ p
           <Link href={`/person/${person.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.orinalImage(person.profile_path)} alt={person.name} />
+          <img src={apiConfig.originalImage(person.profile_path)} alt={person.name} />
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="">{person.name}</p>

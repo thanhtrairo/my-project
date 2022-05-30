@@ -41,7 +41,7 @@ const PersonDetail = () => {
               <div className="flex flex-wrap">
                 <div className="basis-6/12 sm:basis-4/12">
                   <div className="">
-                    <img src={apiConfig.orinalImage(personDetail.profile_path)} alt={personDetail.name} />
+                    <img src={apiConfig.originalImage(personDetail.profile_path)} alt={personDetail.name} />
                   </div>
                 </div>
                 <div className="w-full sm:basis-8/12 sm:px-6">
@@ -68,7 +68,11 @@ const PersonDetail = () => {
                       <Link href={`/movie/${movie.id}`}>
                         <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
                       </Link>
-                      <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} className="h-full w-full" />
+                      <img
+                        src={apiConfig.originalImage(movie.poster_path)}
+                        alt={movie.title}
+                        className="h-full w-full"
+                      />
                       <div className="absolute top-0 left-0">
                         <SvgAdd width="36" height="50" />
                       </div>

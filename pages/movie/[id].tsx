@@ -5,7 +5,7 @@ import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
 import { TitleCategories } from '../../src/components/title/TitleCategories'
-import { CastType, VideoTraillerType } from '../../src/type/type'
+import { CastType, VideoTrailerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
 import { Popup } from '../../src/components/Modal/Popup'
@@ -22,7 +22,7 @@ import Notfound from 'pages/404'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
-  const [showPupop, setShowPupop] = useState<boolean>(false)
+  const [showPopup, setShowPopup] = useState<boolean>(false)
   const [autoPlay, setAutoPlay] = useState<boolean>(false)
   const [addWatchList, setAddWatchList] = useState<boolean>(false)
   const [addFavoriteList, setAddFavoriteList] = useState<boolean>(false)
@@ -30,7 +30,7 @@ export default function MovieDetail() {
   const [showTrailers, setShowTrailers] = useState<boolean>(false)
 
   const handleShowVideo = (key: string, autoPlay: boolean) => {
-    setShowPupop(!showPupop)
+    setShowPopup(!showPopup)
     setVideoId(key)
     setAutoPlay(autoPlay)
   }
@@ -39,7 +39,7 @@ export default function MovieDetail() {
 
   const { data: movieDetail, error: errorDetail } = useSWR(id ? request.fetchMovieDetail(id) : null, fetcher)
   const { data: movieDetailTrailer, error: errorDetailTrailer } = useSWR(
-    id ? request.fetchMovieDetailTrailler(id) : null,
+    id ? request.fetchMovieDetailTrailer(id) : null,
     fetcher
   )
   const { data: cast, error: errorCast } = useSWR(id ? request.fetchCasts(id) : null, fetcher)
@@ -102,14 +102,14 @@ export default function MovieDetail() {
 
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
-      {showPupop && <Popup onShow={() => setShowPupop(false)} videoId={videoId} autoPlay={autoPlay} />}
+      {showPopup && <Popup onShow={() => setShowPopup(false)} videoId={videoId} autoPlay={autoPlay} />}
       {showRate && <Rate onShow={() => setShowRate(false)} movieId={movieDetail.id} />}
-      {(showPupop || showRate) && (
+      {(showPopup || showRate) && (
         <div
           className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"
           onClick={() => {
             setShowRate(false)
-            setShowPupop(false)
+            setShowPopup(false)
           }}
         ></div>
       )}
@@ -148,11 +148,11 @@ export default function MovieDetail() {
                 onClick={() => handleShowVideo(movieDetailTrailer.results[0]?.key, true)}
               >
                 <div className="relative">
-                  <img src={apiConfig.orinalImage(movieDetail.backdrop_path)} alt={movieDetail.title} />
+                  <img src={apiConfig.originalImage(movieDetail.backdrop_path)} alt={movieDetail.title} />
                   <div className="absolute bottom-0 left-0 w-full p-4">
                     <div className="relative flex flex-row items-end space-x-4">
                       <div className="hidden px-6 sm:block sm:basis-3/12">
-                        <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.original_title} />
+                        <img src={apiConfig.originalImage(movieDetail.poster_path)} alt={movieDetail.original_title} />
                         <div className="absolute top-0 left-6">
                           <SvgAdd width="36" height="50" />
                         </div>
@@ -180,10 +180,10 @@ export default function MovieDetail() {
                 {showTrailers ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
               </button>
               <div className={clsx('hidden flex-col gap-3 sm:flex', { ['flexImportant']: showTrailers })}>
-                {movieDetailTrailer.results.slice(1, 5).map((movie: VideoTraillerType) => (
+                {movieDetailTrailer.results.slice(1, 5).map((movie: VideoTrailerType) => (
                   <div className="flex flex-row" key={movie.id}>
                     <div className="basis-4/12 sm:px-3">
-                      <img src={apiConfig.orinalImage(movieDetail.poster_path)} alt={movieDetail.title} />
+                      <img src={apiConfig.originalImage(movieDetail.poster_path)} alt={movieDetail.title} />
                     </div>
                     <div className="basis-8/12 px-4">
                       <div
@@ -259,7 +259,7 @@ export default function MovieDetail() {
                         <Link href={`/person/${cast.id}`}>
                           <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
                         </Link>
-                        <img src={apiConfig.orinalImage(cast.profile_path)} alt={cast.name} className="w-full" />
+                        <img src={apiConfig.originalImage(cast.profile_path)} alt={cast.name} className="w-full" />
                       </div>
                     </div>
                     <div className="basis-10/12">

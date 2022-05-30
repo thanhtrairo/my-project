@@ -10,8 +10,8 @@ import { AccountType } from '~/type/type'
 import request from '~/utils/request'
 
 const Profile = () => {
-  const TITLES = ['Favorite', 'Rating', 'WatchList']
-  const [activeTitle, setActiveTitle] = useState<string>('Favorite')
+  const TITLES = ['WatchList', 'Favorite', 'Rating']
+  const [activeTitle, setActiveTitle] = useState<string>('WatchList')
   const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
 
   const isRating = true
@@ -26,24 +26,22 @@ const Profile = () => {
     }
   }, [])
 
-  const {
-    data: watchList,
-    error: errorWatchList,
-    mutate: mutateWatchList,
-  } = useSWR(account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null, fetcher)
-  const {
-    data: favoriteList,
-    error: errorFavoriteList,
-    mutate: mutateFavoriteList,
-  } = useSWR(account.session_id ? request.fetchFavoriteList(account.accountId, account.session_id) : null, fetcher)
-  const {
-    data: ratingList,
-    error: errorRatingList,
-    mutate: mutateRatingList,
-  } = useSWR(account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null, fetcher)
+  const { data: watchList, error: errorWatchList } = useSWR(
+    account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+  const { data: favoriteList, error: errorFavoriteList } = useSWR(
+    account.session_id ? request.fetchFavoriteList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+  const { data: ratingList, error: errorRatingList } = useSWR(
+    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
+    fetcher
+  )
 
   if (errorWatchList || errorFavoriteList || errorRatingList) return <div>failed to load</div>
   if (!watchList || !favoriteList || !ratingList) return <Loading>Loading...</Loading>
+  console.log(ratingList)
 
   return (
     <div className="overflow-hidden">
@@ -76,25 +74,14 @@ const Profile = () => {
             </nav>
             <div className="mt-10">
               {activeTitle === 'WatchList' ? (
-                <ListFavoriteWatchList
-                  movieWatchList={watchList.results}
-                  account={account}
-                  mutate={mutateWatchList}
-                  activeTitle={activeTitle}
-                />
+                <ListFavoriteWatchList movieWatchList={watchList} account={account} activeTitle={activeTitle} />
               ) : activeTitle === 'Favorite' ? (
-                <ListFavoriteWatchList
-                  movieWatchList={favoriteList.results}
-                  account={account}
-                  mutate={mutateFavoriteList}
-                  activeTitle={activeTitle}
-                />
+                <ListFavoriteWatchList movieWatchList={favoriteList} account={account} activeTitle={activeTitle} />
               ) : (
                 <ListFavoriteWatchList
-                  movieWatchList={ratingList.results}
+                  movieWatchList={ratingList}
                   isRating={isRating}
                   account={account}
-                  mutate={mutateRatingList}
                   activeTitle={activeTitle}
                 />
               )}

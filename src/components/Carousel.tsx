@@ -11,7 +11,7 @@ import apiConfig from '../../pages/api/apiConfig'
 import MovieServices from '~/services/MovieServices'
 import { Popup } from './Modal/Popup'
 
-const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
+const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -19,23 +19,23 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
     slidesToShow: 1,
     slidesToScroll: 1,
   }
-  const [showPupop, setShowPupop] = useState<boolean>(false)
+  const [showPopup, setShowPopup] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
 
   const handleShowVideo = async (id: string) => {
     const res = await MovieServices.getMovieVideos(id)
     setVideoId(res.data.results[0].key)
-    setShowPupop(!showPupop)
+    setShowPopup(!showPopup)
   }
 
   return (
     <>
-      {showPupop && (
+      {showPopup && (
         <>
-          <Popup onShow={() => setShowPupop(false)} videoId={videoId} />
+          <Popup onShow={() => setShowPopup(false)} videoId={videoId} />
           <div
             className="fixed top-0 left-0 z-20 h-screen w-full bg-blackOver group-hover:block"
-            onClick={() => setShowPupop(false)}
+            onClick={() => setShowPopup(false)}
           ></div>
         </>
       )}
@@ -44,11 +44,11 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
           <Slider {...settings}>
             {movieTrending.map((movie: MovieType) => (
               <div className="relative" key={movie.id} onClick={() => handleShowVideo(movie.id)}>
-                <img src={apiConfig.orinalImage(movie.backdrop_path)} alt={movie.title} />
+                <img src={apiConfig.originalImage(movie.backdrop_path)} alt={movie.title} />
                 <div className="absolute bottom-0 left-0 w-full p-4">
                   <div className="relative flex flex-row items-end space-x-4">
                     <div className="hidden px-6 sm:block sm:basis-3/12">
-                      <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.original_title} />
+                      <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.original_title} />
                       <div className="absolute top-0 left-6">
                         <SvgAdd width="36" height="50" />
                       </div>
@@ -78,7 +78,7 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
               {movieTrending.slice(1, 4).map((movie: MovieType) => (
                 <div className="flex flex-row" key={movie.id} onClick={() => handleShowVideo(movie.id)}>
                   <div className="basis-3/12 px-3">
-                    <img src={apiConfig.orinalImage(movie.poster_path)} alt={movie.title} />
+                    <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
                   </div>
                   <div className="basis-9/12 px-4">
                     <div className="group flex flex-col space-y-2 hover:cursor-pointer">
@@ -107,4 +107,4 @@ const Carosel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =>
   )
 }
 
-export default Carosel
+export default Carousel

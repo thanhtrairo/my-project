@@ -52,7 +52,7 @@ export const Rate: React.FC<{
   }
   return (
     <>
-      <div className="fixed top-[40%] left-1 z-50 translate-y-[-50%] text-white sm:left-[50%] sm:translate-x-[-50%]">
+      <div className="fixed top-[40%] left-[50%] z-50 translate-y-[-50%] translate-x-[-50%] text-white">
         <div className="relative bg-gray px-16 pt-12 pb-8">
           <span
             className="absolute top-[-10%] right-0 h-8 w-8 cursor-pointer rounded-full text-center leading-8 hover:bg-white4"
