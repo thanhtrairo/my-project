@@ -37,7 +37,7 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
         <Slider {...settings}>
           {personPopular.map((person: PersonType) => (
             <div className="group" key={person.id}>
-              <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full sm:mx-4 lg:h-[140px] lg:w-[140px]">
+              <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
                 <Link href={`/person/${person.id}`}>
                   <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
                 </Link>

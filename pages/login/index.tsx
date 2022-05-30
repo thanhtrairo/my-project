@@ -13,7 +13,7 @@ const Login = () => {
         const resToken = await MovieServices.getRequestToken()
         localStorage.setItem('requestToken', JSON.stringify(resToken.data.request_token))
         router.push(
-          `https://www.themoviedb.org/authenticate/${resToken.data.request_token}?redirect_to=http://localhost:3000/login/loadingLogin`
+          `https://www.themoviedb.org/authenticate/${resToken.data.request_token}?redirect_to=${window.location.href}/loadingLogin`
         )
       } catch (error) {
         console.log(error)
