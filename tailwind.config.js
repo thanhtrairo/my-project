@@ -19,6 +19,7 @@ module.exports = {
         white3: 'rgb(60 60 60)',
         white4: 'rgb(255 255 255 / 20%)',
         white5: 'rgb(187 187 183)',
+        white6: 'rgb(246 246 245)',
         blackOver: 'rgba(24, 23, 23, 0.4)',
         blue1: 'rgb(87 153 239)',
         yellow1: '#664700',

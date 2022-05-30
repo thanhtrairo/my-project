@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { FaAngleDown, FaAngleUp, FaCheck, FaRegStar, FaStar } from 'react-icons/fa'
+import { FaAngleDown, FaAngleUp, FaCheck, FaRegStar, FaSpinner, FaStar } from 'react-icons/fa'
 import Header from '../../src/components/header/Header'
 import { Play } from '../../src/components/Play'
 import { SvgAdd } from '../../src/components/SvgAdd'
 import { TitleCategories } from '../../src/components/title/TitleCategories'
-import { CastType, VideoTrailerType } from '../../src/type/type'
+import { AccountType, CastType, MovieType, VideoTrailerType } from '../../src/type/type'
 import request from '../../src/utils/request'
 import apiConfig from '../api/apiConfig'
 import { Popup } from '../../src/components/Modal/Popup'
@@ -28,6 +28,11 @@ export default function MovieDetail() {
   const [addFavoriteList, setAddFavoriteList] = useState<boolean>(false)
   const [videoId, setVideoId] = useState<string>('')
   const [showTrailers, setShowTrailers] = useState<boolean>(false)
+  const [loadingAddWatch, setLoadingAddWatch] = useState<boolean>(false)
+  const [loadingAddFavorite, setLoadingAddFavorite] = useState<boolean>(false)
+  const [ratingMovie, setRatingMovie] = useState<string>('')
+
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
 
   const handleShowVideo = (key: string, autoPlay: boolean) => {
     setShowPopup(!showPopup)
@@ -37,6 +42,28 @@ export default function MovieDetail() {
   const router = useRouter()
   const { id } = router.query
 
+  useEffect(() => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(account)
+    if (!account.session_id) {
+      router.push('/')
+    }
+  }, [])
+
+  const { data: watchList, error: errorWatchList } = useSWR(
+    account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+  const { data: favoriteList, error: errorFavoriteList } = useSWR(
+    account.session_id ? request.fetchFavoriteList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
+  const { data: ratingList, error: errorRatingList } = useSWR(
+    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
   const { data: movieDetail, error: errorDetail } = useSWR(id ? request.fetchMovieDetail(id) : null, fetcher)
   const { data: movieDetailTrailer, error: errorDetailTrailer } = useSWR(
     id ? request.fetchMovieDetailTrailer(id) : null,
@@ -44,11 +71,21 @@ export default function MovieDetail() {
   )
   const { data: cast, error: errorCast } = useSWR(id ? request.fetchCasts(id) : null, fetcher)
 
-  if (errorDetail || errorDetailTrailer || errorCast) return <div>failed to load</div>
+  useEffect(() => {
+    if (id && favoriteList && watchList && ratingList) {
+      setAddWatchList(watchList.results.some((watch: MovieType) => watch.id == id))
+      setAddFavoriteList(favoriteList.results.some((favorite: MovieType) => favorite.id == id))
+      setRatingMovie(ratingList.results.find((rating: MovieType) => rating.id == id).rating)
+    }
+  }, [id, watchList, favoriteList, ratingList])
+
+  if (errorDetail || errorDetailTrailer || errorCast || errorWatchList || errorFavoriteList || errorRatingList)
+    return <div>failed to load</div>
   if (!movieDetail || !movieDetailTrailer || !cast) return <Loading>Loading...</Loading>
   if (movieDetail.status_message || movieDetailTrailer.status_message || cast.status_message) return <Notfound />
 
   const handleAddWatchList = async () => {
+    if (loadingAddWatch) return
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     if (requestToken.session_id) {
       const config = {
@@ -57,6 +94,7 @@ export default function MovieDetail() {
         },
       }
       try {
+        setLoadingAddWatch(true)
         await MovieServices.postAddMovieWatchList(
           requestToken.accountId,
           requestToken.session_id,
@@ -73,6 +111,7 @@ export default function MovieDetail() {
   }
 
   const handleAddFavoriteList = async () => {
+    if (addFavoriteList) return
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     if (requestToken.session_id) {
       const config = {
@@ -81,6 +120,7 @@ export default function MovieDetail() {
         },
       }
       try {
+        setLoadingAddFavorite(true)
         await MovieServices.postAddFavoriteList(
           requestToken.accountId,
           requestToken.session_id,
@@ -136,7 +176,7 @@ export default function MovieDetail() {
                 <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14 ">YOUR RATING</p>
                 <div className="flex cursor-pointer space-x-2" onClick={() => handleShowRate()}>
                   <FaRegStar className="fill-blue1 text-24 sm:text-32" />
-                  <p className="sm:text-20">Rate</p>
+                  <p className="sm:text-20">{ratingMovie ? `${ratingMovie}/10` : 'Rate'}</p>
                 </div>
               </div>
             </div>
@@ -219,20 +259,36 @@ export default function MovieDetail() {
             </div>
             <div className="sm:basis-4/12 sm:px-4">
               <p
-                className="cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
+                className={clsx(' bg-gray2 py-2 px-6 font-medium hover:bg-white4', {
+                  ['cursor-pointer']: !addWatchList,
+                })}
                 onClick={() => handleAddWatchList()}
               >
                 <span className="text-24">
-                  {addWatchList ? <FaCheck className="mx-auto inline-block text-16" /> : '+'}
+                  {addWatchList ? (
+                    <FaCheck className="mx-auto inline-block text-16" />
+                  ) : loadingAddWatch ? (
+                    <FaSpinner className="inline-block animate-spin text-16" />
+                  ) : (
+                    '+'
+                  )}
                 </span>
                 <span className="ml-2">Add to WatchList</span>
               </p>
               <p
-                className="mt-2 cursor-pointer bg-gray2 py-2 px-6 font-medium hover:bg-white4"
+                className={clsx(' bg-gray2 py-2 px-6 font-medium hover:bg-white4', {
+                  ['cursor-pointer']: !addWatchList,
+                })}
                 onClick={() => handleAddFavoriteList()}
               >
                 <span className="text-24">
-                  {addFavoriteList ? <FaCheck className="mx-auto inline-block text-16" /> : '+'}
+                  {addFavoriteList ? (
+                    <FaCheck className="mx-auto inline-block text-16" />
+                  ) : loadingAddFavorite ? (
+                    <FaSpinner className="inline-block animate-spin text-16" />
+                  ) : (
+                    '+'
+                  )}
                 </span>
                 <span className="ml-2">Add to Favorite</span>
               </p>

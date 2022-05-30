@@ -9,6 +9,8 @@ const request = {
   fetchCasts: (id: string | undefined | string[]) => `${apiConfig.baseUrl}/movie/${id}/casts?${apiConfig.apiKey}`,
   fetchVideoTrailer: `${apiConfig.baseUrl}/movie/453395/videos?${apiConfig.apiKey}`,
   fetchMovieDetail: (id: string | undefined | string[]) => `${apiConfig.baseUrl}/movie/${id}?${apiConfig.apiKey}`,
+  fetchMovieReviews: (id: string | undefined | string[]) =>
+    `${apiConfig.baseUrl}/movie/${id}/reviews?${apiConfig.apiKey}`,
   fetchMovieDetailTrailer: (id: string | undefined | string[]) =>
     `${apiConfig.baseUrl}/movie/${id}/videos?${apiConfig.apiKey}`,
   fetchRateMovie: (id: string | undefined | string[]) =>

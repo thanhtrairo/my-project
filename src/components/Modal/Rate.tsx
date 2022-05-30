@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { FaCheck, FaStar } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react'
+import { FaSpinner, FaStar } from 'react-icons/fa'
 import MovieServices from '~/services/MovieServices'
 
 export const Rate: React.FC<{
   onShow: Function
   movieId: string
 }> = ({ onShow, movieId }) => {
+  const [loadingRatingMovie, setLoadingRatingMovie] = useState<boolean>(false)
+  const [rateSuccess, setRateSuccess] = useState<boolean>(false)
   const [currentStar, setCurrentStar] = useState<number>(0)
   const [hoverValue, setHoverValue] = useState<number | undefined>(undefined)
   const stars = Array.from({ length: 10 }, (_, i) => i + 1)
@@ -24,7 +26,6 @@ export const Rate: React.FC<{
   }
 
   const router = useRouter()
-  const [rateSuccess, setRateSuccess] = useState<boolean>(false)
 
   const redirect = router.asPath.split('?')[1]
 
@@ -37,8 +38,9 @@ export const Rate: React.FC<{
         },
       }
       try {
+        setLoadingRatingMovie(true)
         await MovieServices.postRateMovie(movieId, requestToken.session_id, { value: currentStar }, config)
-        setRateSuccess(!rateSuccess)
+        setRateSuccess(true)
       } catch (error) {
         console.log(error)
       }
@@ -50,6 +52,10 @@ export const Rate: React.FC<{
       }
     }
   }
+
+  useEffect(() => {
+    if (rateSuccess) onShow()
+  }, [rateSuccess])
   return (
     <>
       <div className="fixed top-[40%] left-[50%] z-50 translate-y-[-50%] translate-x-[-50%] text-white">
@@ -82,7 +88,7 @@ export const Rate: React.FC<{
               ))}
             </div>
             <p className="cursor-pointer bg-white4 px-12 py-2" onClick={() => handleRateMovie()}>
-              {rateSuccess ? <FaCheck className="mx-auto" /> : 'Rate'}
+              {loadingRatingMovie ? <FaSpinner className="inline-block animate-spin text-16" /> : 'Rate'}
             </p>
           </div>
         </div>
