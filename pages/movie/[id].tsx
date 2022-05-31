@@ -91,7 +91,7 @@ export default function MovieDetail() {
   if (movieDetail.status_message || movieDetailTrailer.status_message || cast.status_message) return <Notfound />
 
   const handleAddWatchList = async () => {
-    if (loadingAddWatch) return
+    if (addWatchList) return
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     if (requestToken.session_id) {
       const config = {
@@ -138,7 +138,7 @@ export default function MovieDetail() {
         console.log(error)
       }
     } else {
-      router.push(`/login?movie/${movieDetail.id}`)
+      router.push(`/login`)
     }
   }
 
@@ -315,9 +315,13 @@ export default function MovieDetail() {
                 </span>
                 <span className="ml-2">Add to Favorite</span>
               </p>
-              <p className="mt-6 text-blue1">
-                <span>{MovieReview.results.length} user reviews</span>
-              </p>
+              {MovieReview.results.length > 0 && (
+                <p className="mt-6 text-blue1">
+                  <Link href={`/reviews/${movieDetail.id}`}>
+                    <a className="hover:underline">{MovieReview.results.length} user reviews</a>
+                  </Link>
+                </p>
+              )}
             </div>
           </div>
         </div>

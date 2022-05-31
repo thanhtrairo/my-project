@@ -12,8 +12,10 @@ export const WatchListComponent: React.FC<{
   movieList: MovieType[]
   title?: string
   titleCategories: string
-  titleCategoriesPlaceholder: string
-}> = ({ movieList, title, titleCategories, titleCategoriesPlaceholder }) => {
+  titleCategoriesPlaceholder?: string
+  watchList: MovieType[]
+  ratingList: MovieType[]
+}> = ({ movieList, title, titleCategories, titleCategoriesPlaceholder, watchList, ratingList }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -38,6 +40,7 @@ export const WatchListComponent: React.FC<{
     ],
   }
   const router = useRouter()
+
   return (
     <>
       <Title>{title}</Title>
@@ -48,7 +51,7 @@ export const WatchListComponent: React.FC<{
         <Slider {...settings}>
           {movieList.map((movie: MovieType) => (
             <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
-              <WatchComponent movie={movie} />
+              <WatchComponent movie={movie} watchList={watchList} ratingList={ratingList} />
             </LazyLoad>
           ))}
         </Slider>
