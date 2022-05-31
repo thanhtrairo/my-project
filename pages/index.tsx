@@ -6,14 +6,14 @@ import Carousel from '../src/components/Carousel'
 import { Watch } from '../src/components/watch/Watch'
 import { MoveToWatch } from '../src/components/watch/MoveToWatch'
 import { Video } from '../src/components/Video'
-import { WatchListComponent } from '../src/components/watch/WatchListComponent'
+// import { WatchListComponent } from '../src/components/watch/WatchListComponent'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
 import { MoveToExplore } from '../src/components/MoveToExplore/MoveToExplore'
 import { Props } from '../src/type/type'
 import MovieServices from '~/services/MovieServices'
 
-const Home = ({ moviePopular, movieTrending, movieStreaming, personPopular }: Props) => {
+const Home = ({ moviePopular, movieTrending, personPopular }: Props) => {
   return (
     <>
       <Head>
