@@ -5,6 +5,9 @@ import apiConfig from '../../../pages/api/apiConfig'
 import { PersonType } from '../../type/type'
 import { TitleCategories } from '../title/TitleCategories'
 import Link from 'next/link'
+import Image from 'next/image'
+import LazyLoad from 'react-lazyload'
+import { Loading } from '../loading/Loading'
 
 export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
@@ -36,17 +39,27 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
       <div className="mt-4 mb-16">
         <Slider {...settings}>
           {personPopular.map((person: PersonType) => (
-            <div className="group" key={person.id}>
-              <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
-                <Link href={`/person/${person.id}`}>
-                  <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
-                </Link>
-                <img src={apiConfig.originalImage(person.profile_path)} alt={person.name} />
+            <LazyLoad key={person.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+              <div className="group">
+                <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
+                  <Link href={`/person/${person.id}`}>
+                    <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block"></div>
+                  </Link>
+                  <LazyLoad once={true}>
+                    <Image
+                      src={apiConfig.originalImage(person.profile_path)}
+                      alt={person.name}
+                      priority
+                      width="200px"
+                      height="300px"
+                    />
+                  </LazyLoad>
+                </div>
+                <div className="my-1 text-center group-hover:opacity-70">
+                  <p>{person.name}</p>
+                </div>
               </div>
-              <div className="my-1 text-center group-hover:opacity-70">
-                <p>{person.name}</p>
-              </div>
-            </div>
+            </LazyLoad>
           ))}
         </Slider>
       </div>

@@ -19,6 +19,7 @@ import Link from 'next/link'
 import clsx from 'clsx'
 import { Loading } from '~/components/loading/Loading'
 import Notfound from 'pages/404'
+import Image from 'next/image'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
@@ -45,9 +46,6 @@ export default function MovieDetail() {
   useEffect(() => {
     const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(account)
-    if (!account.session_id) {
-      router.push('/')
-    }
   }, [])
 
   const { data: watchList, error: errorWatchList } = useSWR(
@@ -70,18 +68,26 @@ export default function MovieDetail() {
     fetcher
   )
   const { data: cast, error: errorCast } = useSWR(id ? request.fetchCasts(id) : null, fetcher)
+  const { data: MovieReview, error: errorMovieReview } = useSWR(id ? request.fetchMovieReviews(id) : null, fetcher)
 
   useEffect(() => {
     if (id && favoriteList && watchList && ratingList) {
       setAddWatchList(watchList.results.some((watch: MovieType) => watch.id == id))
       setAddFavoriteList(favoriteList.results.some((favorite: MovieType) => favorite.id == id))
-      setRatingMovie(ratingList.results.find((rating: MovieType) => rating.id == id).rating)
+      setRatingMovie(ratingList.results.find((rating: MovieType) => rating.id == id)?.rating)
     }
   }, [id, watchList, favoriteList, ratingList])
-
-  if (errorDetail || errorDetailTrailer || errorCast || errorWatchList || errorFavoriteList || errorRatingList)
+  if (
+    errorDetail ||
+    errorDetailTrailer ||
+    errorCast ||
+    errorWatchList ||
+    errorFavoriteList ||
+    errorRatingList ||
+    errorMovieReview
+  )
     return <div>failed to load</div>
-  if (!movieDetail || !movieDetailTrailer || !cast) return <Loading>Loading...</Loading>
+  if (!movieDetail || !movieDetailTrailer || !cast || !MovieReview) return <Loading>Loading...</Loading>
   if (movieDetail.status_message || movieDetailTrailer.status_message || cast.status_message) return <Notfound />
 
   const handleAddWatchList = async () => {
@@ -139,7 +145,6 @@ export default function MovieDetail() {
   const handleShowRate = () => {
     setShowRate(!showRate)
   }
-
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
       {showPopup && <Popup onShow={() => setShowPopup(false)} videoId={videoId} autoPlay={autoPlay} />}
@@ -188,11 +193,23 @@ export default function MovieDetail() {
                 onClick={() => handleShowVideo(movieDetailTrailer.results[0]?.key, true)}
               >
                 <div className="relative">
-                  <img src={apiConfig.originalImage(movieDetail.backdrop_path)} alt={movieDetail.title} />
+                  <Image
+                    src={apiConfig.originalImage(movieDetail.backdrop_path)}
+                    alt={movieDetail.title}
+                    priority
+                    width="1000px"
+                    height="600px"
+                  />
                   <div className="absolute bottom-0 left-0 w-full p-4">
                     <div className="relative flex flex-row items-end space-x-4">
                       <div className="hidden px-6 sm:block sm:basis-3/12">
-                        <img src={apiConfig.originalImage(movieDetail.poster_path)} alt={movieDetail.original_title} />
+                        <Image
+                          src={apiConfig.originalImage(movieDetail.poster_path)}
+                          alt={movieDetail.original_title}
+                          priority
+                          width="200px"
+                          height="300px"
+                        />
                         <div className="absolute top-0 left-6">
                           <SvgAdd width="36" height="50" />
                         </div>
@@ -223,7 +240,13 @@ export default function MovieDetail() {
                 {movieDetailTrailer.results.slice(1, 5).map((movie: VideoTrailerType) => (
                   <div className="flex flex-row" key={movie.id}>
                     <div className="basis-4/12 sm:px-3">
-                      <img src={apiConfig.originalImage(movieDetail.poster_path)} alt={movieDetail.title} />
+                      <Image
+                        src={apiConfig.originalImage(movieDetail.poster_path)}
+                        alt={movieDetail.title}
+                        priority
+                        width="200px"
+                        height="300px"
+                      />
                     </div>
                     <div className="basis-8/12 px-4">
                       <div
@@ -293,8 +316,7 @@ export default function MovieDetail() {
                 <span className="ml-2">Add to Favorite</span>
               </p>
               <p className="mt-6 text-blue1">
-                <span>470 user reviews</span>
-                <span className="ml-6">31 Critic reviews</span>
+                <span>{MovieReview.results.length} user reviews</span>
               </p>
             </div>
           </div>
@@ -313,9 +335,15 @@ export default function MovieDetail() {
                     <div className="basis-2/12">
                       <div className="group relative h-[80px] w-[80px] overflow-hidden rounded-full sm:h-[200px] sm:w-[200px]">
                         <Link href={`/person/${cast.id}`}>
-                          <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
+                          <div className="absolute top-0 left-0 z-20 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
                         </Link>
-                        <img src={apiConfig.originalImage(cast.profile_path)} alt={cast.name} className="w-full" />
+                        <Image
+                          src={apiConfig.originalImage(cast.profile_path)}
+                          alt={cast.name}
+                          priority
+                          width="200px"
+                          height="200px"
+                        />
                       </div>
                     </div>
                     <div className="basis-10/12">

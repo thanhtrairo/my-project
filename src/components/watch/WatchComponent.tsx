@@ -8,6 +8,8 @@ import MovieServices from '~/services/MovieServices'
 import apiConfig from '../../../pages/api/apiConfig'
 import { MovieType } from '../../type/type'
 import { SvgAdd } from '../SvgAdd'
+import LazyLoad from 'react-lazyload'
+import Image from 'next/image'
 
 export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
   const dispatch = useDispatch()
@@ -82,9 +84,17 @@ export const WatchComponent: React.FC<{ movie: MovieType }> = ({ movie }) => {
       <div className="mx-3 bg-gray4">
         <div className="group relative cursor-pointer">
           <Link href={`/movie/${movie.id}`} passHref>
-            <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
+            <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
+          <LazyLoad once={true}>
+            <Image
+              src={apiConfig.originalImage(movie.poster_path)}
+              alt={movie.title}
+              priority
+              width="240px"
+              height="320px"
+            />
+          </LazyLoad>
 
           <div className="absolute top-0 left-0">
             <SvgAdd width="30" height="36" />

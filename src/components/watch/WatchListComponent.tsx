@@ -5,6 +5,8 @@ import Slider from 'react-slick'
 import { WatchComponent } from './WatchComponent'
 import { MovieType } from '../../type/type'
 import { useRouter } from 'next/router'
+import LazyLoad from 'react-lazyload'
+import { Loading } from '../loading/Loading'
 
 export const WatchListComponent: React.FC<{
   movieList: MovieType[]
@@ -45,7 +47,9 @@ export const WatchListComponent: React.FC<{
       <div className="mb-16 mt-8">
         <Slider {...settings}>
           {movieList.map((movie: MovieType) => (
-            <WatchComponent movie={movie} key={movie.id} />
+            <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+              <WatchComponent movie={movie} />
+            </LazyLoad>
           ))}
         </Slider>
       </div>

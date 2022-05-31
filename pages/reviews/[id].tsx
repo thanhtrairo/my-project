@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Notfound from 'pages/404'
-import React from 'react'
-import { FaStar } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { FaAngleDown, FaAngleUp, FaStar } from 'react-icons/fa'
 import useSWR from 'swr'
 import Header from '~/components/header/Header'
 import { Loading } from '~/components/loading/Loading'
@@ -10,8 +10,12 @@ import request from '~/utils/request'
 import moment from 'moment'
 import { ReviewsType, MovieType } from '../../src/type/type'
 import apiConfig from 'pages/api/apiConfig'
+import clsx from 'clsx'
+import Image from 'next/image'
 
 const Reviews = () => {
+  const [showStory, setShowStory] = useState<boolean>(false)
+
   const router = useRouter()
   const { id } = router.query
 
@@ -32,10 +36,12 @@ const Reviews = () => {
           <div className="min-h-screen bg-white px-8 py-20">
             <div className="flex">
               <div className="mr-2">
-                <img
-                  src={apiConfig.originalImage(movieDetail.backdrop_path)}
+                <Image
+                  src={apiConfig.originalImage(movieDetail.poster_path)}
                   alt={movieDetail.title}
-                  className="w-[100px]"
+                  priority
+                  width="100px"
+                  height="140px"
                 />
               </div>
               <div>
@@ -53,14 +59,16 @@ const Reviews = () => {
                 <div className="my-4 bg-white6 p-4" key={review.id}>
                   <div className="mb-2 flex">
                     <div className="mr-2">
-                      <img
+                      <Image
                         src={
                           review.author_details.avatar_path.includes('https')
-                            ? review.author_details.avatar_path
+                            ? review.author_details.avatar_path.substring(1)
                             : apiConfig.originalImage(review.author_details.avatar_path)
                         }
                         alt={review.author_details.name}
-                        className="w-[100px]"
+                        priority
+                        width="100px"
+                        height="120px"
                       />
                     </div>
                     <div>
@@ -74,8 +82,11 @@ const Reviews = () => {
                       </p>
                     </div>
                   </div>
-                  <p className="text-14">{review.content}</p>
-                  {/* {console.log(review.author_details.avatar_path)} */}
+                  <p className={clsx('text-14', { ['hiddenTextLine']: !showStory })}>{review.content}</p>
+                  <button onClick={() => setShowStory(!showStory)} className="text-blue1">
+                    More content{' '}
+                    {!showStory ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
+                  </button>
                 </div>
               ))}
             </div>

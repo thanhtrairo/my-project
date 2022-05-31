@@ -4,6 +4,8 @@ import { TitleCategories } from './title/TitleCategories'
 import Slider from 'react-slick'
 import { Movie } from './Movie'
 import clsx from 'clsx'
+import LazyLoad from 'react-lazyload'
+import { Loading } from './loading/Loading'
 
 export const Video = ({
   title,
@@ -48,18 +50,13 @@ export const Video = ({
       {!features && <TitleCategories title={titleCategoriesPlaceholder}>{titleCategories}</TitleCategories>}
       <div className={clsx('mt-6 mb-16', { ['sm:w-8/12']: features })}>
         <Slider {...settings}>
-          <Movie title={titleMovie} list={list} name={name} price={price}>
-            What TV Shows Are Renewed or Canceled?
-          </Movie>
-          <Movie title={titleMovie} list={list} name={name} price={price}>
-            What TV Shows Are Renewed or Canceled?
-          </Movie>
-          <Movie title={titleMovie} list={list} name={name} price={price}>
-            What TV Shows Are Renewed or Canceled?
-          </Movie>
-          <Movie title={titleMovie} list={list} name={name} price={price}>
-            What TV Shows Are Renewed or Canceled?
-          </Movie>
+          {[1, 2, 3, 4].map((item: any) => (
+            <LazyLoad key={item} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+              <Movie title={titleMovie} list={list} name={name} price={price}>
+                What TV Shows Are Renewed or Canceled?
+              </Movie>
+            </LazyLoad>
+          ))}
         </Slider>
       </div>
     </>

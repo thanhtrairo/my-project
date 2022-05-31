@@ -10,6 +10,7 @@ import { MovieType } from '../type/type'
 import apiConfig from '../../pages/api/apiConfig'
 import MovieServices from '~/services/MovieServices'
 import { Popup } from './Modal/Popup'
+import Image from 'next/image'
 
 const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {
@@ -44,11 +45,23 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
           <Slider {...settings}>
             {movieTrending.map((movie: MovieType) => (
               <div className="relative" key={movie.id} onClick={() => handleShowVideo(movie.id)}>
-                <img src={apiConfig.originalImage(movie.backdrop_path)} alt={movie.title} />
+                <Image
+                  src={apiConfig.originalImage(movie.backdrop_path)}
+                  alt={movie.title}
+                  priority
+                  width="1000px"
+                  height="600px"
+                />
                 <div className="absolute bottom-0 left-0 w-full p-4">
                   <div className="relative flex flex-row items-end space-x-4">
                     <div className="hidden px-6 sm:block sm:basis-3/12">
-                      <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.original_title} />
+                      <Image
+                        src={apiConfig.originalImage(movie.poster_path)}
+                        alt={movie.original_title}
+                        priority
+                        width="200px"
+                        height="300px"
+                      />
                       <div className="absolute top-0 left-6">
                         <SvgAdd width="36" height="50" />
                       </div>
@@ -78,7 +91,13 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
               {movieTrending.slice(1, 4).map((movie: MovieType) => (
                 <div className="flex flex-row" key={movie.id} onClick={() => handleShowVideo(movie.id)}>
                   <div className="basis-3/12 px-3">
-                    <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
+                    <Image
+                      src={apiConfig.originalImage(movie.poster_path)}
+                      alt={movie.title}
+                      priority
+                      width="200px"
+                      height="300px"
+                    />
                   </div>
                   <div className="basis-9/12 px-4">
                     <div className="group flex flex-col space-y-2 hover:cursor-pointer">

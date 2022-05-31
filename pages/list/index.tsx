@@ -14,6 +14,7 @@ import request from '~/utils/request'
 import Header from '../../src/components/header/Header'
 import { Title } from '../../src/components/title/Title'
 import { MovieType } from '../../src/type/type'
+import LazyLoad from 'react-lazyload'
 
 const List = () => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
@@ -151,11 +152,11 @@ const List = () => {
               </div>
             ))}
           </nav>
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-5">
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-6">
             {(dataRender() ? dataRender() : moviePopular).results.map((movie: MovieType) => (
-              <div key={movie.id}>
+              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
                 <WatchComponent movie={movie} />
-              </div>
+              </LazyLoad>
             ))}
           </div>
           <div className="my-10 flex items-center justify-center space-x-4 text-24">

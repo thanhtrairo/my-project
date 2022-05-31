@@ -13,6 +13,8 @@ import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import Notfound from 'pages/404'
 import { Loading } from '~/components/loading/Loading'
 import clsx from 'clsx'
+import Image from 'next/image'
+import LazyLoad from 'react-lazyload'
 
 const PersonDetail = () => {
   const router = useRouter()
@@ -41,7 +43,13 @@ const PersonDetail = () => {
               <div className="flex flex-wrap">
                 <div className="basis-6/12 sm:basis-4/12">
                   <div className="">
-                    <img src={apiConfig.originalImage(personDetail.profile_path)} alt={personDetail.name} />
+                    <Image
+                      src={apiConfig.originalImage(personDetail.profile_path)}
+                      alt={personDetail.name}
+                      priority
+                      width="400px"
+                      height="600px"
+                    />
                   </div>
                 </div>
                 <div className="w-full sm:basis-8/12 sm:px-6">
@@ -60,31 +68,37 @@ const PersonDetail = () => {
               </div>
             </div>
             <div className="mt-6 border-[1px] border-solid border-gray5 p-4 sm:px-0">
-              <p className="text-32 text-yellow1">Known For</p>
+              {personDetailMovie.cast.length > 0 && <p className="text-32 text-yellow1">Known For</p>}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 sm:gap-10">
                 {personDetailMovie.cast.map((movie: MovieType) => (
-                  <div className="" key={movie.id}>
-                    <div className="group relative h-[260px] w-full overflow-hidden sm:h-[300px]">
-                      <Link href={`/movie/${movie.id}`}>
-                        <div className="absolute top-0 left-0 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
-                      </Link>
-                      <img
-                        src={apiConfig.originalImage(movie.poster_path)}
-                        alt={movie.title}
-                        className="h-full w-full"
-                      />
-                      <div className="absolute top-0 left-0">
-                        <SvgAdd width="36" height="50" />
+                  <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+                    <div className="">
+                      <div className="group relative h-[260px] w-full overflow-hidden sm:h-[300px]">
+                        <Link href={`/movie/${movie.id}`}>
+                          <div className="absolute top-0 left-0 z-20 hidden h-full w-full cursor-pointer bg-blackOver group-hover:block"></div>
+                        </Link>
+                        <LazyLoad once={true}>
+                          <Image
+                            src={apiConfig.originalImage(movie.poster_path)}
+                            alt={movie.title}
+                            priority
+                            width="240px"
+                            height="360px"
+                          />
+                        </LazyLoad>
+                        <div className="absolute top-0 left-0">
+                          <SvgAdd width="36" height="50" />
+                        </div>
+                      </div>
+                      <div className="text-center text-14 sm:px-3">
+                        <p className="text-blue1">{movie.title}</p>
+                        <div className="text-gray6">
+                          <p>{movie.character}</p>
+                          <p>{moment(movie.release_date).format('MMM Do YY')}</p>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-center text-14 sm:px-3">
-                      <p className="text-blue1">{movie.title}</p>
-                      <div className="text-gray6">
-                        <p>{movie.character}</p>
-                        <p>{moment(movie.release_date).format('MMM Do YY')}</p>
-                      </div>
-                    </div>
-                  </div>
+                  </LazyLoad>
                 ))}
               </div>
             </div>
