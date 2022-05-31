@@ -38,12 +38,12 @@ const Home = ({ moviePopular, movieTrending, movieStreaming, personPopular }: Pr
               name
               slidesShow={3}
             />
-            <WatchListComponent
+            {/* <WatchListComponent
               movieList={movieStreaming}
               title="Explore what’s streaming"
               titleCategories="PRIME VIDEO"
               titleCategoriesPlaceholder="included with Prime"
-            />
+            /> */}
             <ExportsMovie />
             <MoveToExplore personPopular={personPopular} />
             <Footer />
