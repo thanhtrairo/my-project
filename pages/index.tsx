@@ -6,14 +6,37 @@ import Carousel from '../src/components/Carousel'
 import { Watch } from '../src/components/watch/Watch'
 import { MoveToWatch } from '../src/components/watch/MoveToWatch'
 import { Video } from '../src/components/Video'
-// import { WatchListComponent } from '../src/components/watch/WatchListComponent'
+import { WatchListComponent } from '../src/components/watch/WatchListComponent'
 import { ExportsMovie } from '../src/components/ExportsMovie/ExportsMovie'
 import { Footer } from '../src/components/Footer'
 import { MoveToExplore } from '../src/components/MoveToExplore/MoveToExplore'
-import { Props } from '../src/type/type'
+import { AccountType, Props } from '../src/type/type'
 import MovieServices from '~/services/MovieServices'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+import request from '~/utils/request'
+import { fetcher } from '~/services/fetcher'
+import { Loading } from '~/components/loading/Loading'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-const Home = ({ moviePopular, movieTrending, personPopular }: Props) => {
+const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Props) => {
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
+
+  useEffect(() => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(account)
+  }, [])
+
+  const { data: watchList } = useSWR(
+    account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
+  const { data: ratingList } = useSWR(
+    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+  if (!watchList || !ratingList) return <Loading />
   return (
     <>
       <Head>
@@ -28,7 +51,7 @@ const Home = ({ moviePopular, movieTrending, personPopular }: Props) => {
             <div className=" mb-20">
               <Video title="Featured today" titleMovie="List" list name slidesShow={2} features />
             </div>
-            <Watch moviePopular={moviePopular} />
+            <Watch moviePopular={moviePopular} watchList={watchList.results} ratingList={ratingList.results} />
             <MoveToWatch />
             <Video
               title="Exclusive videos"
@@ -38,12 +61,15 @@ const Home = ({ moviePopular, movieTrending, personPopular }: Props) => {
               name
               slidesShow={3}
             />
-            {/* <WatchListComponent
+            <WatchListComponent
               movieList={movieStreaming}
               title="Explore what’s streaming"
               titleCategories="PRIME VIDEO"
               titleCategoriesPlaceholder="included with Prime"
-            /> */}
+              slider
+              watchList={watchList.results}
+              ratingList={ratingList.results}
+            />
             <ExportsMovie />
             <MoveToExplore personPopular={personPopular} />
             <Footer />
@@ -54,7 +80,7 @@ const Home = ({ moviePopular, movieTrending, personPopular }: Props) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
@@ -68,6 +94,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
         personPopular: result[3].data.results,
+        ...(await serverSideTranslations(String(locale), ['header'])),
       },
     }
   } catch (e) {

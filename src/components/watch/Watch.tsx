@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import useSWR from 'swr'
 import { setShow } from '~/redux/modal/modalRateSlice'
 import { RootState } from '~/redux/store'
-import { fetcher } from '~/services/fetcher'
-import request from '~/utils/request'
-import { AccountType, MovieType } from '../../type/type'
-import { Loading } from '../loading/Loading'
+import { MovieType } from '../../type/type'
 import { Popup } from '../Modal/Popup'
 import { Rate } from '../Modal/Rate'
 import { Title } from '../title/Title'
 import { WatchList } from './WatchList'
 import { WatchListComponent } from './WatchListComponent'
 
-export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular }) => {
+export const Watch: React.FC<{ moviePopular: MovieType[]; watchList: MovieType[]; ratingList: MovieType[] }> = ({
+  moviePopular,
+  watchList,
+  ratingList,
+}) => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
   const dispatch = useDispatch()
 
@@ -32,24 +32,6 @@ export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular })
       })
     )
   }
-  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
-
-  useEffect(() => {
-    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
-    setAccount(account)
-  }, [])
-
-  const { data: watchList } = useSWR(
-    account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null,
-    fetcher
-  )
-
-  const { data: ratingList } = useSWR(
-    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
-    fetcher
-  )
-
-  if (!watchList || !ratingList) return <Loading />
 
   return (
     <>
@@ -68,13 +50,14 @@ export const Watch: React.FC<{ moviePopular: MovieType[] }> = ({ moviePopular })
         </h2>
       </div>
       <div>
-        <WatchList watchList={watchList.results} ratingList={ratingList.results} />
+        <WatchList watchList={watchList} ratingList={ratingList} />
         <WatchListComponent
           movieList={moviePopular}
           titleCategories="Fan favorites"
           titleCategoriesPlaceholder="This week's top TV and movies"
-          watchList={watchList.results}
-          ratingList={ratingList.results}
+          watchList={watchList}
+          ratingList={ratingList}
+          slider
         />
       </div>
     </>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import apiConfig from '../../../pages/api/apiConfig'
@@ -11,7 +12,7 @@ export const Person: React.FC<{ person: PersonType; onSearch: Function }> = ({ p
           <Link href={`/person/${person.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.originalImage(person.profile_path)} alt={person.name} />
+          <Image src={apiConfig.originalImage(person.profile_path)} alt={person.name} width={100} height={100} />
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="">{person.name}</p>

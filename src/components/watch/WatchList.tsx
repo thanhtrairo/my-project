@@ -20,9 +20,15 @@ export const WatchList = ({ watchList, ratingList }: { watchList: MovieType[]; r
             titleCategories="From your WatchList"
             watchList={watchList}
             ratingList={ratingList}
+            slider
           />
         ) : (
-          <div></div>
+          <WatchListComponent
+            movieList={watchList}
+            titleCategories="From your WatchList"
+            watchList={watchList}
+            ratingList={ratingList}
+          />
         )
       ) : (
         <div className="mb-10">

@@ -1,23 +1,24 @@
 import clsx from 'clsx'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import useSWR from 'swr'
 import { Loading } from '~/components/loading/Loading'
 import { Popup } from '~/components/Modal/Popup'
 import { Rate } from '~/components/Modal/Rate'
-// import { WatchComponent } from '~/components/watch/WatchComponent'
+import { WatchComponent } from '~/components/watch/WatchComponent'
 import { setShow } from '~/redux/modal/modalRateSlice'
 import { RootState } from '~/redux/store'
 import { fetcher } from '~/services/fetcher'
 import request from '~/utils/request'
 import Header from '../../src/components/header/Header'
 import { Title } from '../../src/components/title/Title'
-import { MovieType } from '../../src/type/type'
+import { AccountType, MovieType } from '../../src/type/type'
 import LazyLoad from 'react-lazyload'
 
 const List = () => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
   const dispatch = useDispatch()
 
   const handleShow = () => {
@@ -98,6 +99,21 @@ const List = () => {
     }
   }
 
+  useEffect(() => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(account)
+  }, [])
+
+  const { data: watchList } = useSWR(
+    account.session_id ? request.fetchWatchList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
+  const { data: ratingList } = useSWR(
+    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
   const { data: moviePopular, error: errorMoviePopular } = useSWR(
     `${request.fetchPopular}&page=${pageMoviePopularIndex}`,
     fetcher
@@ -112,7 +128,8 @@ const List = () => {
   )
 
   if (errorMoviePopular || errorMovieStreaming || errorMovieTrending) return <div>failed to load</div>
-  if (!moviePopular || !movieStreaming || !movieTrending) return <Loading>Loading...</Loading>
+  if (!moviePopular || !movieStreaming || !movieTrending || !watchList || !ratingList)
+    return <Loading>Loading...</Loading>
 
   const dataRender = () => {
     if (active === 'STREAMING') return movieStreaming
@@ -155,7 +172,7 @@ const List = () => {
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-6">
             {(dataRender() ? dataRender() : moviePopular).results.map((movie: MovieType) => (
               <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
-                {/* <WatchComponent movie={movie} /> */}
+                <WatchComponent movie={movie} watchList={watchList.results} ratingList={ratingList.results} />
               </LazyLoad>
             ))}
           </div>

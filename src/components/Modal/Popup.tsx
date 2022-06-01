@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import { default as _ReactPlayer, ReactPlayerProps } from 'react-player'
 const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>
@@ -19,12 +20,16 @@ export const Popup: React.FC<{
           </span>
         </div>
         <div className="w-[100%]">
-          <ReactPlayer
-            url={`https://www.youtube.com/watch?v=${videoId}`}
-            controls={true}
-            playing={autoPlay}
-            width="100%"
-          />
+          {videoId ? (
+            <ReactPlayer
+              url={`https://www.youtube.com/watch?v=${videoId}`}
+              controls={true}
+              playing={autoPlay}
+              width="100%"
+            />
+          ) : (
+            <Image src="/img/errorVideo.webp" width={630} height={410} />
+          )}
         </div>
       </div>
     </>

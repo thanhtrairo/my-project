@@ -1,11 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 import { FaFacebookMessenger, FaFacebookSquare, FaInstagram, FaPaperPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
-// import { useTranslation } from 'react-i18next'
 
 export const Footer = () => {
-  // const { t, i18n } = useTranslation()
-  // i18n.changeLanguage('vn')
   return (
     <div className="mb-12 flex-col space-y-8 text-center">
       <div className="flex items-center justify-center space-x-4 text-24">
@@ -18,7 +15,7 @@ export const Footer = () => {
       <div className="flex items-center justify-center space-x-8">
         <Link href="/" passHref>
           <a className="flex space-x-1 hover:underline">
-            {/* <span>{t('Welcome to React')}</span> <FaPaperPlane /> */}
+            <span>welcome to IMDb</span> <FaPaperPlane />
           </a>
         </Link>
         <Link href="/" passHref>

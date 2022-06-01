@@ -1,4 +1,5 @@
 import moment from 'moment'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import apiConfig from '../../../pages/api/apiConfig'
@@ -12,7 +13,7 @@ export const MovieSearch: React.FC<{ movie: MovieType; onSearch: Function }> = (
           <Link href={`/movie/${movie.id}`}>
             <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <img src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} />
+          <Image src={apiConfig.originalImage(movie.poster_path)} alt={movie.title} width={600} height={400} />
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="hiddenText">{movie.title ? movie.title : movie.name}</p>

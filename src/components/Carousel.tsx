@@ -24,9 +24,14 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
   const [videoId, setVideoId] = useState<string>('')
 
   const handleShowVideo = async (id: string) => {
-    const res = await MovieServices.getMovieVideos(id)
-    setVideoId(res.data.results[0].key)
-    setShowPopup(!showPopup)
+    try {
+      const res = await MovieServices.getMovieVideos(id)
+      setVideoId(res.data.results[0].key)
+      setShowPopup(!showPopup)
+    } catch (error) {
+      setVideoId('')
+      setShowPopup(!showPopup)
+    }
   }
 
   return (

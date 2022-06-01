@@ -1,12 +1,13 @@
+import Image from 'next/image'
 import React from 'react'
 import { FaWindowClose } from 'react-icons/fa'
 
 export default function Menu() {
   return (
-    <div className="absolute top-0 left-0 z-20 h-full w-full bg-gray py-8">
+    <div className="absolute top-0 left-0 z-[60] h-full w-full bg-gray py-8">
       <div className="mx-auto w-[50%]">
         <div className="flex justify-between">
-          <img src="/img/logo2.svg" alt="logo2" className="w-auto" />
+          <Image src="/img/logo2.svg" alt="logo2" className="w-auto" width={80} height={40} />
           <FaWindowClose className="text-48 hover:opacity-80" />
         </div>
         <div className="my-6">

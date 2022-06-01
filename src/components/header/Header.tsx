@@ -1,4 +1,6 @@
+import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaAngleDown, FaBars, FaCaretDown, FaSearch } from 'react-icons/fa'
 import MovieServices from '~/services/MovieServices'
@@ -13,6 +15,7 @@ import Language from './Language'
 import Menu from './Menu'
 import { Person } from './Person'
 import { Sidebar } from './Sidebar'
+import { useTranslation } from 'next-i18next'
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -62,6 +65,10 @@ const Header = () => {
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(requestToken)
   }, [])
+
+  const router = useRouter()
+
+  const { t } = useTranslation()
   return (
     <>
       {(showMenu || showAll || showEN || showProfile || search) && (
@@ -70,18 +77,18 @@ const Header = () => {
       <div className=" border-[1px] border-black1 bg-black1 text-14 text-white">
         <div className="mx-auto flex flex-row  items-center sm:container sm:space-x-2">
           <div className="flexItemCenter hidden cursor-pointer sm:block">
-            <Link href="/">
-              <img src="/img/logo.svg" alt="VerCel Logo" />
-            </Link>
+            <div onClick={() => router.push('/')}>
+              <Image src="/img/logo.svg" alt="VerCel Logo" width={70} height={36} />
+            </div>
           </div>
           <div className="sm:flexItemCenter hidden  cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
             <FaBars className="mr-1 fill-white" />
-            <p>Menu</p>
+            <p className="whitespace-nowrap">{t('header:Menu')}</p>
             {showMenu && <Menu />}
           </div>
           <div className="flexItemCenter relative cursor-pointer sm:hidden" onClick={() => setShowMenu(!showMenu)}>
             <FaBars className="mr-1 fill-white" />
-            <p>Menu</p>
+            <p>{t('header:Menu')}</p>
             {showMenu && <Sidebar onShow={() => setShowMenu(!showMenu)} />}
           </div>
           <div className="w-[80%] sm:w-[55%]">
@@ -122,14 +129,14 @@ const Header = () => {
                 className="relative flex items-center rounded-l-md  border-r-[1px] p-2 text-black hover:bg-white1"
                 onClick={() => setShowAll(!showAll)}
               >
-                <p className="mr-1 cursor-pointer whitespace-nowrap font-medium">{searchType}</p>
+                <p className="mr-1 cursor-pointer whitespace-nowrap font-medium">{t(`header:${searchType}`)}</p>
                 <FaCaretDown />
                 {showAll && <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} />}
               </div>
               <div className="flex items-center">
                 <input
                   type="text"
-                  placeholder={`Search IMDb ${searchType}`}
+                  placeholder={t(`Search IMDb ${searchType}`)}
                   className="w-full px-2 text-black focus:outline-none"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -179,7 +186,7 @@ const Header = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            <p className="ml-2 cursor-pointer">WatchList</p>
+            <p className="ml-2 cursor-pointer whitespace-nowrap">{t(`header:WatchList`)}</p>
           </div>
           <div className="hidden sm:block">
             {account.session_id ? (
@@ -188,7 +195,7 @@ const Header = () => {
                   className="flexItemCenter cursor-pointer whitespace-nowrap"
                   onClick={() => setShowProfile(!showProfile)}
                 >
-                  <span className="mr-1">Hi you</span>
+                  <span className="mr-1">{t(`header:HiYou`)}</span>
                   <span>
                     <FaAngleDown />
                   </span>
@@ -202,7 +209,7 @@ const Header = () => {
                       className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
                       onClick={() => localStorage.removeItem('account')}
                     >
-                      Logout
+                      {t(`header:Logout`)}
                     </p>
                   </div>
                 )}
