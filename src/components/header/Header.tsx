@@ -30,7 +30,7 @@ const Header = () => {
 
   const searchType = useMemo(() => {
     if (typeSearch === 'multi') return 'All'
-    if (typeSearch === 'tv') return 'TV Episodes'
+    if (typeSearch === 'tv') return 'TVEpisodes'
     if (typeSearch === 'person') return 'Celebs'
     if (typeSearch === 'keyword') return 'Keywords'
     if (typeSearch === 'company') return 'Companies'
@@ -203,7 +203,7 @@ const Header = () => {
                 {showProfile && (
                   <div className="absolute top-full left-0 z-20 min-w-[100px] bg-black1 shadow-lg">
                     <Link href={`/profile`}>
-                      <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">My profile</p>
+                      <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">{t('header:MyProfile')}</p>
                     </Link>
                     <p
                       className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
