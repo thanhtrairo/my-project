@@ -97,7 +97,7 @@ export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[
           <Link href={`/movie/${movie.id}`} passHref>
             <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <LazyLoad once={true}>
+          <LazyLoad once={true} placeholder={<div className="h-[300px] bg-gray2"></div>}>
             <Image
               src={apiConfig.originalImage(movie.poster_path)}
               alt={movie.title}

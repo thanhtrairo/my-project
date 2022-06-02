@@ -53,14 +53,14 @@ export const WatchListComponent: React.FC<{
         {slider ? (
           <Slider {...settings}>
             {movieList?.map((movie: MovieType) => (
-              <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
+              <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={380} />}>
                 <WatchComponent movie={movie} watchList={watchList} ratingList={ratingList} />
               </LazyLoad>
             ))}
           </Slider>
         ) : (
           movieList?.map((movie: MovieType) => (
-            <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
+            <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={380} />}>
               <WatchComponent movie={movie} watchList={watchList} ratingList={ratingList} />
             </LazyLoad>
           ))

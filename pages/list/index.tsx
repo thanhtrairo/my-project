@@ -192,7 +192,7 @@ const List = () => {
           </nav>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-6">
             {(dataRender() ? dataRender() : moviePopular).results.map((movie: MovieType) => (
-              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
+              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading height={380} />}>
                 <WatchComponent movie={movie} watchList={watchList?.results} ratingList={ratingList?.results} />
               </LazyLoad>
             ))}
