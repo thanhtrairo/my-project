@@ -51,7 +51,7 @@ export const Video = ({
       <div className={clsx('mt-6 mb-16', { ['sm:w-8/12']: features })}>
         <Slider {...settings}>
           {[1, 2, 3, 4].map((item: any) => (
-            <LazyLoad key={item} height={200} offset={[-100, 100]} placeholder={<Loading />}>
+            <LazyLoad key={item} offset={[-100, 100]} placeholder={<Loading height={500} />}>
               <Movie title={titleMovie} list={list} name={name} price={price}>
                 What TV Shows Are Renewed or Canceled?
               </Movie>
