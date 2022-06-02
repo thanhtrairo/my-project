@@ -52,15 +52,15 @@ export const WatchListComponent: React.FC<{
       <div className={clsx('mb-16 mt-8 ', { ['grid grid-cols-3 gap-y-4 sm:grid-cols-6 ']: !slider })}>
         {slider ? (
           <Slider {...settings}>
-            {movieList.map((movie: MovieType) => (
-              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+            {movieList?.map((movie: MovieType) => (
+              <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
                 <WatchComponent movie={movie} watchList={watchList} ratingList={ratingList} />
               </LazyLoad>
             ))}
           </Slider>
         ) : (
-          movieList.map((movie: MovieType) => (
-            <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+          movieList?.map((movie: MovieType) => (
+            <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
               <WatchComponent movie={movie} watchList={watchList} ratingList={ratingList} />
             </LazyLoad>
           ))

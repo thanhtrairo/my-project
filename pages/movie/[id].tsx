@@ -20,6 +20,9 @@ import clsx from 'clsx'
 import { Loading } from '~/components/loading/Loading'
 import Notfound from 'pages/404'
 import Image from 'next/image'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 export default function MovieDetail() {
   const [showRate, setShowRate] = useState<boolean>(false)
@@ -42,6 +45,8 @@ export default function MovieDetail() {
   }
   const router = useRouter()
   const { id } = router.query
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
@@ -145,6 +150,7 @@ export default function MovieDetail() {
   const handleShowRate = () => {
     setShowRate(!showRate)
   }
+
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
       {showPopup && <Popup onShow={() => setShowPopup(false)} videoId={videoId} autoPlay={autoPlay} />}
@@ -165,7 +171,9 @@ export default function MovieDetail() {
             <h1 className="text-20 sm:text-36">{movieDetail.title}</h1>
             <div className="flex space-x-10">
               <div className="items-center sm:flex-col">
-                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14">IMDb RATING</p>
+                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14">
+                  {t('movieDetail:Rating').toLocaleUpperCase()}
+                </p>
                 <div className="flex items-center space-x-2">
                   <FaStar className="fill-yellow-400 text-24 sm:text-32" />
                   <div>
@@ -178,10 +186,12 @@ export default function MovieDetail() {
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14 ">YOUR RATING</p>
+                <p className="text-12 font-medium tracking-widest opacity-70 sm:text-14 ">
+                  {t('movieDetail:YourRating').toLocaleUpperCase()}
+                </p>
                 <div className="flex cursor-pointer space-x-2" onClick={() => handleShowRate()}>
                   <FaRegStar className="fill-blue1 text-24 sm:text-32" />
-                  <p className="sm:text-20">{ratingMovie ? `${ratingMovie}/10` : 'Rate'}</p>
+                  <p className="sm:text-20">{ratingMovie ? `${ratingMovie}/10` : t('movieDetail:Rate')}</p>
                 </div>
               </div>
             </div>
@@ -272,11 +282,11 @@ export default function MovieDetail() {
             <div className="w-full sm:basis-8/12">
               <p className="borderBottomWhite">{movieDetail.overview}</p>
               <p className="borderBottomWhite">
-                <span>Movie name: </span>
+                <span>{t('movieDetail:MovieName')} </span>
                 <span className="ml-2 text-blue1">{movieDetail.title}</span>
               </p>
               <p className="borderBottomWhite">
-                <span>Release date: </span>
+                <span>{t('movieDetail:ReleaseDate')}: </span>
                 <span className="ml-2 text-blue1">{moment(movieDetail.release_date).format('MMM Do YY')}</span>
               </p>
             </div>
@@ -296,7 +306,7 @@ export default function MovieDetail() {
                     '+'
                   )}
                 </span>
-                <span className="ml-2">Add to WatchList</span>
+                <span className="ml-2">{t('movieDetail:addWatch')}</span>
               </p>
               <p
                 className={clsx(' bg-gray2 py-2 px-6 font-medium hover:bg-white4', {
@@ -313,12 +323,14 @@ export default function MovieDetail() {
                     '+'
                   )}
                 </span>
-                <span className="ml-2">Add to Favorite</span>
+                <span className="ml-2">{t('movieDetail:addFavorite')}</span>
               </p>
               {MovieReview.results.length > 0 && (
                 <p className="mt-6 text-blue1">
                   <Link href={`/reviews/${movieDetail.id}`}>
-                    <a className="hover:underline">{MovieReview.results.length} user reviews</a>
+                    <a className="hover:underline">
+                      {MovieReview.results.length} {t('movieDetail:userReviews')}
+                    </a>
                   </Link>
                 </p>
               )}
@@ -330,7 +342,7 @@ export default function MovieDetail() {
         <div className="mx-auto px-4 sm:container">
           <div>
             <TitleCategories title="" textColor>
-              Top casts
+              {t('movieDetail:TopCasts')}
             </TitleCategories>
             <div className="my-6">
               <div className="grid grid-cols-2 gap-y-4">
@@ -363,4 +375,12 @@ export default function MovieDetail() {
       </div>
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['header', 'movieDetail'])),
+    },
+  }
 }

@@ -22,6 +22,7 @@ const Header = () => {
   const [showAll, setShowAll] = useState<boolean>(false)
   const [showEN, setShowEN] = useState<boolean>(false)
   const [showProfile, setShowProfile] = useState<boolean>(false)
+  const [language, setLanguage] = useState<string | undefined>('EN')
 
   const [search, setSearch] = useState<string>('')
   const [dataSearch, setDataSearch] = useState<any>()
@@ -37,6 +38,7 @@ const Header = () => {
     if (typeSearch === 'movie') return 'Movie'
   }, [typeSearch])
 
+  const router = useRouter()
   const debounceValue = useDebounce(search, 500)
 
   useEffect(() => {
@@ -53,22 +55,30 @@ const Header = () => {
     getDataBySearch()
   }, [debounceValue])
 
-  const handleShow = () => {
-    setShowMenu(false)
-    setShowAll(false)
-    setShowProfile(false)
-    setShowEN(false)
-    setSearch('')
-  }
-
   useEffect(() => {
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(requestToken)
   }, [])
 
-  const router = useRouter()
+  useEffect(() => {
+    setLanguage(router.locale?.toLocaleUpperCase())
+  }, [])
+
+  const handleShow = (isSearch?: boolean) => {
+    setShowMenu(false)
+    setShowAll(false)
+    setShowProfile(false)
+    setShowEN(false)
+    if (!isSearch) setSearch('')
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('account')
+    location.reload()
+  }
 
   const { t } = useTranslation()
+
   return (
     <>
       {(showMenu || showAll || showEN || showProfile || search) && (
@@ -131,12 +141,14 @@ const Header = () => {
               >
                 <p className="mr-1 cursor-pointer whitespace-nowrap font-medium">{t(`header:${searchType}`)}</p>
                 <FaCaretDown />
-                {showAll && <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} />}
+                {showAll && (
+                  <All onChangeTypeSearch={(typeSearch: string) => setTypeSearch(typeSearch)} typeSearch={typeSearch} />
+                )}
               </div>
-              <div className="flex items-center">
+              <div className="flex w-full items-center" onClick={() => handleShow(true)}>
                 <input
                   type="text"
-                  placeholder={t(`Search IMDb ${searchType}`)}
+                  placeholder={t(`header:${searchType}`)}
                   className="w-full px-2 text-black focus:outline-none"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -205,10 +217,7 @@ const Header = () => {
                     <Link href={`/profile`}>
                       <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2">{t('header:MyProfile')}</p>
                     </Link>
-                    <p
-                      className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2"
-                      onClick={() => localStorage.removeItem('account')}
-                    >
+                    <p className="cursor-pointer whitespace-nowrap p-3 hover:bg-gray2" onClick={() => handleLogout()}>
                       {t(`header:Logout`)}
                     </p>
                   </div>
@@ -216,14 +225,14 @@ const Header = () => {
               </div>
             ) : (
               <Link href="/login">
-                <p className="flexItemCenter cursor-pointer whitespace-nowrap">Sign In</p>
+                <p className="flexItemCenter cursor-pointer whitespace-nowrap">{t('header:SignIn')}</p>
               </Link>
             )}
           </div>
           <div className="sm:flexItemCenter relative hidden cursor-pointer" onClick={() => setShowEN(!showEN)}>
-            <p className="mr-1">EN</p>
+            <p className="mr-1">{language}</p>
             <FaCaretDown />
-            {showEN && <Language />}
+            {showEN && <Language onSetLanguage={(language: string) => setLanguage(language)} />}
           </div>
         </div>
       </div>

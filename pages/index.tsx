@@ -16,8 +16,8 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import request from '~/utils/request'
 import { fetcher } from '~/services/fetcher'
-import { Loading } from '~/components/loading/Loading'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Props) => {
   const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
@@ -36,7 +36,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
     account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
     fetcher
   )
-  if (!watchList || !ratingList) return <Loading />
+  const { t } = useTranslation()
   return (
     <>
       <Head>
@@ -49,26 +49,26 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
           <div className="mx-auto sm:container">
             <Carousel movieTrending={movieTrending} />
             <div className=" mb-20">
-              <Video title="Featured today" titleMovie="List" list name slidesShow={2} features />
+              <Video title={t('header:FeaturedToday')} titleMovie="List" list name slidesShow={2} features />
             </div>
-            <Watch moviePopular={moviePopular} watchList={watchList.results} ratingList={ratingList.results} />
+            <Watch moviePopular={moviePopular} watchList={watchList?.results} ratingList={ratingList?.results} />
             <MoveToWatch />
             <Video
-              title="Exclusive videos"
-              titleCategories="IMDb Originals"
-              titleCategoriesPlaceholder="Celebrity interviews, trending entertainment stories, and expert analysis"
+              title={t('header:FeaturedToday')}
+              titleCategories={t('header:IMDbOriginals')}
+              titleCategoriesPlaceholder={t('header:CelebrityInterviewsTrendingEntertainmentStoriesAndExpertAnalysis')}
               titleMovie="3:45"
               name
               slidesShow={3}
             />
             <WatchListComponent
               movieList={movieStreaming}
-              title="Explore what’s streaming"
-              titleCategories="PRIME VIDEO"
-              titleCategoriesPlaceholder="included with Prime"
+              title={t('header:ExploreWhat’sStreaming')}
+              titleCategories={t('header:PrimeVIDEO')}
+              titleCategoriesPlaceholder={t('header:includedWithPrime')}
               slider
-              watchList={watchList.results}
-              ratingList={ratingList.results}
+              watchList={watchList?.results}
+              ratingList={ratingList?.results}
             />
             <ExportsMovie />
             <MoveToExplore personPopular={personPopular} />

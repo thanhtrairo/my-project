@@ -11,6 +11,7 @@ import apiConfig from '../../pages/api/apiConfig'
 import MovieServices from '~/services/MovieServices'
 import { Popup } from './Modal/Popup'
 import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 
 const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) => {
   const settings = {
@@ -33,6 +34,8 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
       setShowPopup(!showPopup)
     }
   }
+
+  const { t } = useTranslation()
 
   return (
     <>
@@ -90,7 +93,7 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
           </Slider>
         </div>
         <div className="absolute top-0 right-[-1%] hidden sm:block sm:w-4/12">
-          <h2 className="text-yellow-400">Up next</h2>
+          <h2 className="text-yellow-400">{t(`header:UpNext`)}</h2>
           <div className="py-6">
             <div className="flex flex-col gap-3">
               {movieTrending.slice(1, 4).map((movie: MovieType) => (
@@ -121,7 +124,7 @@ const Carousel: React.FC<{ movieTrending: MovieType[] }> = ({ movieTrending }) =
             </div>
             <Link href="/" passHref>
               <a className="flex items-center space-x-2 pl-3 pt-4 text-20 font-medium hover:text-yellow-400">
-                <span>Browse trailers</span> <FaAngleRight />
+                <span>{t('header:BrowseTrailers')}</span> <FaAngleRight />
               </a>
             </Link>
           </div>

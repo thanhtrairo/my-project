@@ -11,6 +11,7 @@ import { SvgAdd } from '../SvgAdd'
 import LazyLoad from 'react-lazyload'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { useTranslation } from 'next-i18next'
 
 export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[]; watchList: MovieType[] }> = ({
   movie,
@@ -88,7 +89,7 @@ export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[
       router.push(`/login`)
     }
   }
-
+  const { t } = useTranslation()
   return (
     <>
       <div className="mx-3 bg-gray4">
@@ -140,13 +141,13 @@ export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[
                   '+'
                 )}
               </span>
-              <span className="">WatchList</span>
+              <span className="">{t('header:AddWatchList')}</span>
             </div>
           </div>
           <div onClick={() => handleShowVideo(movie.id)}>
             <a className="group flex cursor-pointer flex-row items-center justify-center space-x-2 py-1 hover:bg-white2">
               <FaPlay className="opacity-70 group-hover:opacity-100" />
-              <span className="">Trailer</span>
+              <span className="">{t('header:Trailer')}</span>
             </a>
           </div>
         </div>

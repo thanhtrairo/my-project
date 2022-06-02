@@ -15,6 +15,9 @@ import Header from '../../src/components/header/Header'
 import { Title } from '../../src/components/title/Title'
 import { AccountType, MovieType } from '../../src/type/type'
 import LazyLoad from 'react-lazyload'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 const List = () => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
@@ -99,6 +102,12 @@ const List = () => {
     }
   }
 
+  const changeTitle = (title: string) => {
+    if (title === 'FAN FAVORITES') return 'FanFavorites'
+    if (title === 'STREAMING') return 'streaming'
+    return 'TopPick'
+  }
+
   useEffect(() => {
     const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(account)
@@ -127,9 +136,10 @@ const List = () => {
     fetcher
   )
 
+  const { t } = useTranslation()
+
   if (errorMoviePopular || errorMovieStreaming || errorMovieTrending) return <div>failed to load</div>
-  if (!moviePopular || !movieStreaming || !movieTrending || !watchList || !ratingList)
-    return <Loading>Loading...</Loading>
+  if (!moviePopular || !movieStreaming || !movieTrending) return <Loading>Loading...</Loading>
 
   const dataRender = () => {
     if (active === 'STREAMING') return movieStreaming
@@ -151,7 +161,7 @@ const List = () => {
       <main className="overflow-hidden bg-gray3 text-[80%] text-white sm:text-[100%]">
         <div className="mx-auto px-2 sm:container sm:px-0">
           <div className="mt-8">
-            <Title>What to Watch</Title>
+            <Title>{t('header:WhatToWatch')}</Title>
           </div>
           <nav className="flex flex-wrap gap-y-4">
             {TITLES.map((title) => (
@@ -165,14 +175,14 @@ const List = () => {
                 )}
                 onClick={() => setActive(title)}
               >
-                {title}
+                {t(`header:${changeTitle(title)}`).toLocaleUpperCase()}
               </div>
             ))}
           </nav>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-6">
             {(dataRender() ? dataRender() : moviePopular).results.map((movie: MovieType) => (
               <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
-                <WatchComponent movie={movie} watchList={watchList.results} ratingList={ratingList.results} />
+                <WatchComponent movie={movie} watchList={watchList?.results} ratingList={ratingList?.results} />
               </LazyLoad>
             ))}
           </div>
@@ -200,3 +210,11 @@ const List = () => {
 }
 
 export default List
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['header'])),
+    },
+  }
+}

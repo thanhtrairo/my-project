@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { FaAngleRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,7 +33,7 @@ export const Watch: React.FC<{ moviePopular: MovieType[]; watchList: MovieType[]
       })
     )
   }
-
+  const { t } = useTranslation()
   return (
     <>
       {modalShow.rate.showRate && <Rate onShow={() => handleShow()} movieId={modalShow.rate.movieId} />}
@@ -44,17 +45,17 @@ export const Watch: React.FC<{ moviePopular: MovieType[]; watchList: MovieType[]
         ></div>
       )}
       <div className="flex flex-row items-center justify-between">
-        <Title>What to watch</Title>
+        <Title>{t('header:WhatToWatch')}</Title>
         <h2 className="text hidden cursor-pointer flex-row items-center space-x-2 text-blue1 sm:flex">
-          Get more recommendations <FaAngleRight />
+          {t('header:GetMoreRecommendations')} <FaAngleRight />
         </h2>
       </div>
       <div>
         <WatchList watchList={watchList} ratingList={ratingList} />
         <WatchListComponent
           movieList={moviePopular}
-          titleCategories="Fan favorites"
-          titleCategoriesPlaceholder="This week's top TV and movies"
+          titleCategories={t('header:FanFavorites')}
+          titleCategoriesPlaceholder={t('header:ThisWeekTopTVAndMovies')}
           watchList={watchList}
           ratingList={ratingList}
           slider

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import moment from 'moment'
+import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import Link from 'next/link'
 import apiConfig from 'pages/api/apiConfig'
@@ -109,6 +110,9 @@ const ListFavoriteWatchList: React.FC<{
     setShowRate(true)
     setMovieId(movie.id)
   }
+
+  const { t } = useTranslation(['movieDetail'])
+
   return (
     <>
       {showRate && (
@@ -148,7 +152,7 @@ const ListFavoriteWatchList: React.FC<{
                     >
                       {movie.rating}
                     </p>
-                    <p> Your rating</p>
+                    <p> {t('YourRating')}</p>
                   </div>
                 )}
                 {isFavorite && (
@@ -159,7 +163,7 @@ const ListFavoriteWatchList: React.FC<{
                       })}
                       onClick={() => handleFavoriteList(movie)}
                     />
-                    <span>Favorite</span>
+                    <span>{t('Favorite')}</span>
                   </p>
                 )}
                 {!isRating && (
@@ -168,7 +172,7 @@ const ListFavoriteWatchList: React.FC<{
                       className="mr-1 cursor-pointer text-20 hover:text-red-600"
                       onClick={() => handleRemove(movie)}
                     />
-                    <span> Remove</span>
+                    <span> {t('Remove')}</span>
                   </p>
                 )}
               </div>

@@ -19,7 +19,7 @@ export const Movie: React.FC<{
     <div className="mx-4 hover:cursor-pointer">
       <div className="group relative mb-3">
         <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block" />
-        <LazyLoad once={true}>
+        <LazyLoad once={true} placeholder={<div className="h-[200px] w-[200px] bg-gray"></div>}>
           <Image
             src={apiConfig.originalImage(srcImage)}
             alt=""

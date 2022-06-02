@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import LazyLoad from 'react-lazyload'
 import { Loading } from '../loading/Loading'
+import { useTranslation } from 'next-i18next'
 
 export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPopular }) => {
   const settings = {
@@ -33,19 +34,23 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
       },
     ],
   }
+  const { t } = useTranslation()
+  const PeopleBornOn = t(`header:PeopleBornOn`)
   return (
     <>
-      <TitleCategories title={`People born on ${moment().format('MMM Do YY')}`}>Born today</TitleCategories>
+      <TitleCategories title={`${PeopleBornOn} ${moment().format('MMM Do YY')}`}>
+        {t('header:BornToday')}
+      </TitleCategories>
       <div className="mt-4 mb-16">
         <Slider {...settings}>
           {personPopular.map((person: PersonType) => (
-            <LazyLoad key={person.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+            <LazyLoad key={person.id} height={180} offset={[-100, 100]} placeholder={<Loading />}>
               <div className="group">
                 <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
                   <Link href={`/person/${person.id}`}>
                     <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block"></div>
                   </Link>
-                  <LazyLoad once={true}>
+                  <LazyLoad once={true} height={180} placeholder={<div className="h-[180px] w-[180px] bg-gray"></div>}>
                     <Image
                       src={apiConfig.originalImage(person.profile_path)}
                       alt={person.name}

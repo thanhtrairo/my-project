@@ -12,12 +12,17 @@ import { ReviewsType, MovieType } from '../../src/type/type'
 import apiConfig from 'pages/api/apiConfig'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 const Reviews = () => {
   const [showStory, setShowStory] = useState<boolean>(false)
 
   const router = useRouter()
   const { id } = router.query
+
+  const { t } = useTranslation(['header'])
 
   const { data: dataMovieReview, error: errorMovieReview } = useSWR(id ? request.fetchMovieReviews(id) : null, fetcher)
   const { data: dataMovieDetail, error: errorDetail } = useSWR(id ? request.fetchMovieDetail(id) : null, fetcher)
@@ -26,8 +31,7 @@ const Reviews = () => {
   if (!dataMovieReview || !dataMovieDetail) return <Loading>Loading...</Loading>
   if (dataMovieReview.status_message || dataMovieDetail.status_message) return <Notfound />
   const movieReview: ReviewsType[] = dataMovieReview.results
-  const movieDetail: MovieType = dataMovieReview
-
+  const movieDetail: MovieType = dataMovieDetail
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
       <Header />
@@ -51,7 +55,9 @@ const Reviews = () => {
                     'MMM Do YY'
                   )})`}</span>
                 </p>
-                <p className="text-blue1">{movieReview.length} Reviews</p>
+                <p className="text-blue1">
+                  {movieReview.length} {t(`reviews`)}
+                </p>
               </div>
             </div>
             <div className="my-10">
@@ -84,7 +90,7 @@ const Reviews = () => {
                   </div>
                   <p className={clsx('text-14', { ['hiddenTextLine']: !showStory })}>{review.content}</p>
                   <button onClick={() => setShowStory(!showStory)} className="text-blue1">
-                    More content{' '}
+                    {t('MoreToWatch')}{' '}
                     {!showStory ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
                   </button>
                 </div>
@@ -98,3 +104,11 @@ const Reviews = () => {
 }
 
 export default Reviews
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['header'])),
+    },
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { AccountType, MovieType } from '~/type/type'
@@ -11,13 +12,14 @@ export const WatchList = ({ watchList, ratingList }: { watchList: MovieType[]; r
     const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(account)
   }, [])
+  const { t } = useTranslation()
   return (
     <>
       {account.accountId ? (
-        watchList.length > 6 ? (
+        watchList?.length > 6 ? (
           <WatchListComponent
             movieList={watchList}
-            titleCategories="From your WatchList"
+            titleCategories={t('header:FromYourWatchList')}
             watchList={watchList}
             ratingList={ratingList}
             slider
@@ -25,26 +27,26 @@ export const WatchList = ({ watchList, ratingList }: { watchList: MovieType[]; r
         ) : (
           <WatchListComponent
             movieList={watchList}
-            titleCategories="From your WatchList"
+            titleCategories={t('header:FromYourWatchList')}
             watchList={watchList}
             ratingList={ratingList}
           />
         )
       ) : (
         <div className="mb-10">
-          <TitleCategories title="">From your WatchList</TitleCategories>
+          <TitleCategories title="">{t('header:FromYourWatchList')}</TitleCategories>
           <div className=" p-6 text-center">
             <div className="flex flex-row justify-center">
               <SvgAdd width="30" height="36" />
             </div>
             <div className="my-6">
-              <p className="font-medium">Sign in to access your WatchList</p>
-              <p>Save shows and movies to keep track of what you want to watch.</p>
+              <p className="font-medium">{t('header:SignInYourWatchList')}</p>
+              <p>{t('header:SaveshowsAndWatch')}</p>
             </div>
             <div>
               <Link href="/login">
                 <button className="rounded-md bg-yellow-400 px-6 py-1 font-medium text-black hover:bg-yellow-500">
-                  Sign in to IMDb
+                  {t('header:SignInToIMDb')}
                 </button>
               </Link>
             </div>
