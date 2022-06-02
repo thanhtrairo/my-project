@@ -11,6 +11,7 @@ export default function Language({ onSetLanguage }: { onSetLanguage: Function })
     onSetLanguage(language)
     router.locale = language.toLocaleLowerCase()
     if (active === language) return
+    // router.push(`/${language.toLocaleLowerCase()}${router.asPath}`)
     window.location.href = `${window.location.origin}/${language.toLocaleLowerCase()}${router.asPath}`
   }
   useEffect(() => {

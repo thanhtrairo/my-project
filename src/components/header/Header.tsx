@@ -98,7 +98,7 @@ const Header = () => {
           </div>
           <div className="flexItemCenter relative cursor-pointer sm:hidden" onClick={() => setShowMenu(!showMenu)}>
             <FaBars className="mr-1 fill-white" />
-            <p>{t('header:Menu')}</p>
+            <p className="whitespace-nowrap">{t('header:Menu')}</p>
             {showMenu && <Sidebar onShow={() => setShowMenu(!showMenu)} />}
           </div>
           <div className="w-[80%] sm:w-[55%]">

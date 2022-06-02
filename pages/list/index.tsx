@@ -18,6 +18,7 @@ import LazyLoad from 'react-lazyload'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 const List = () => {
   const modalShow = useSelector((state: RootState) => state.modalShow)
@@ -75,30 +76,40 @@ const List = () => {
   const handlePrevPage = () => {
     if (active === 'FAN FAVORITES' && pageMoviePopularIndex > 1) {
       setPageMoviePopularIndex(pageMoviePopularIndex - 1)
+      router.push(`/list?page_favorite=${pageMoviePopularIndex - 1}`)
     } else if (active === 'STREAMING') {
       setPageMovieStreamingIndex(pageMovieStreamingIndex - 1)
+      router.push(`/list?page_streaming=${pageMovieStreamingIndex - 1}`)
     } else if (active === 'TOP PICKS') {
       setPageMovieTrendingIndex(pageMovieTrendingIndex - 1)
+      router.push(`/list?page_trending=${pageMovieTrendingIndex - 1}`)
     }
   }
 
   const handleNextPage = () => {
     if (active === 'FAN FAVORITES') {
       setPageMoviePopularIndex(pageMoviePopularIndex + 1)
+      router.push(`/list?page_favorite=${pageMoviePopularIndex + 1}`)
     } else if (active === 'STREAMING') {
       setPageMovieStreamingIndex(pageMovieStreamingIndex + 1)
+      router.push(`/list?page_streaming=${pageMovieStreamingIndex + 1}`)
     } else if (active === 'TOP PICKS') {
       setPageMovieTrendingIndex(pageMovieTrendingIndex + 1)
+      router.push(`/list?page_trending=${pageMovieTrendingIndex + 1}`)
     }
   }
+  const router = useRouter()
 
   const handleSetPage = (page: number) => {
     if (active === 'FAN FAVORITES') {
       setPageMoviePopularIndex(page)
+      router.push(`/list?page_favorite=${page}`)
     } else if (active === 'STREAMING') {
       setPageMovieStreamingIndex(page)
+      router.push(`/list?page_streaming=${page}`)
     } else if (active === 'TOP PICKS') {
       setPageMovieTrendingIndex(page)
+      router.push(`/list?page_trending=${page}`)
     }
   }
 
@@ -181,7 +192,7 @@ const List = () => {
           </nav>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-6">
             {(dataRender() ? dataRender() : moviePopular).results.map((movie: MovieType) => (
-              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+              <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading height={1000} />}>
                 <WatchComponent movie={movie} watchList={watchList?.results} ratingList={ratingList?.results} />
               </LazyLoad>
             ))}

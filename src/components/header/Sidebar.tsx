@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { FaRegWindowClose } from 'react-icons/fa'
@@ -10,30 +11,31 @@ export const Sidebar: React.FC<{ onShow: Function }> = ({ onShow }) => {
     const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
     setAccount(requestToken)
   }, [])
+  const { t } = useTranslation()
   return (
     <div className="sidebar absolute left-0 top-full z-20 bg-black1 py-4">
       <div className="relative">
         <FaRegWindowClose onClick={() => onShow()} className="absolute right-0 top-[-20%] text-20 hover:text-red-600" />
         <Link href="/">
-          <li>Home</li>
+          <li>{t('header:Home')}</li>
         </Link>
         {account.session_id ? (
           <li className="group relative mr-1">
-            Hi you
+            {t('header:HiYou')}
             <div className="absolute top-0 right-0 z-20 hidden group-hover:block">
               <div className="absolute top-[110%] left-0 bg-black1 ">
                 <Link href="/profile">
-                  <div className="px-6 py-2 hover:bg-gray2">My profile</div>
+                  <div className="px-6 py-2 hover:bg-gray2">{t('header:MyProfile')}</div>
                 </Link>
                 <div className="px-6 py-2 hover:bg-gray2" onClick={() => localStorage.removeItem('account')}>
-                  Logout
+                  {t('header:Logout')}
                 </div>
               </div>
             </div>
           </li>
         ) : (
           <Link href="/login">
-            <li>Sign In</li>
+            <li>{t('header:SignIn')}</li>
           </Link>
         )}
 
