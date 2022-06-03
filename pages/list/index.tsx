@@ -15,8 +15,8 @@ import Header from '../../src/components/header/Header'
 import { Title } from '../../src/components/title/Title'
 import { AccountType, MovieType } from '../../src/type/type'
 import LazyLoad from 'react-lazyload'
-import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+// import { GetServerSideProps } from 'next'
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
@@ -222,10 +222,10 @@ const List = () => {
 
 export default List
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
-    },
-  }
-}
+// export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+//     },
+//   }
+// }
