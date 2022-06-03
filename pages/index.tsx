@@ -80,7 +80,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getStaticProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
