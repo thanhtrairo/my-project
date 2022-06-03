@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next'
 
 import Head from 'next/head'
-import Header from '../src/components/header/Header'
+// import Header from '../src/components/header/Header'
 // import Carousel from '../src/components/Carousel'
 // import { Watch } from '../src/components/watch/Watch'
 // import { MoveToWatch } from '../src/components/watch/MoveToWatch'
@@ -44,7 +44,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="overflow-hidden text-[80%] sm:text-[100%]">
-        <Header />
+        {/* <Header /> */}
         {/* <main className="overflow-hidden bg-gray3 px-2 text-white">
           <div className="mx-auto sm:container">
             <Carousel movieTrending={movieTrending} />
