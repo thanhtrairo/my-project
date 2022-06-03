@@ -3,7 +3,7 @@ import Header from '../../src/components/header/Header'
 import { useRouter } from 'next/router'
 import MovieServices from '~/services/MovieServices'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 
 const Login = () => {
@@ -55,7 +55,7 @@ const Login = () => {
 
 export default Login
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(String(locale), ['common', 'header'])),
