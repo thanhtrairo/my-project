@@ -81,6 +81,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  const x = await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
@@ -90,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     ])
     return {
       props: {
-        ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
+        x,
         moviePopular: result[0].data.results,
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
@@ -100,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   } catch (e) {
     return {
       props: {
-        ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
+        x,
         moviePopular: {},
         movieTrending: {},
         movieStreaming: {},
