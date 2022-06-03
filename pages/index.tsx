@@ -1,4 +1,4 @@
-import type { GetServerSideProps } from 'next'
+import type { GetStaticProps } from 'next'
 
 import Head from 'next/head'
 import Header from '../src/components/header/Header'
@@ -80,21 +80,34 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const result = await Promise.all([
-    MovieServices.getPopularMovies(),
-    MovieServices.getTrendingMovies(),
-    MovieServices.getComingSoonMovies(),
-    MovieServices.getPopularPerson(),
-  ])
-  return {
-    props: {
-      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
-      moviePopular: result[0].data.results,
-      movieTrending: result[1].data.results,
-      movieStreaming: result[2].data.results,
-      personPopular: result[3].data.results,
-    },
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  try {
+    const result = await Promise.all([
+      MovieServices.getPopularMovies(),
+      MovieServices.getTrendingMovies(),
+      MovieServices.getComingSoonMovies(),
+      MovieServices.getPopularPerson(),
+    ])
+    return {
+      props: {
+        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+        moviePopular: result[0].data.results,
+        movieTrending: result[1].data.results,
+        movieStreaming: result[2].data.results,
+        personPopular: result[3].data.results,
+      },
+    }
+  } catch (e) {
+    return {
+      // FIXME: should redirect to 500 page
+      props: {
+        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+        moviePopular: {},
+        movieTrending: {},
+        movieStreaming: {},
+        personPopular: {},
+      },
+    }
   }
 }
 
