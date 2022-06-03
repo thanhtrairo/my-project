@@ -107,7 +107,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         movieStreaming: {},
         personPopular: {},
       },
-      redirect: '/',
     }
   }
 }
