@@ -20,7 +20,7 @@ import clsx from 'clsx'
 import { Loading } from '~/components/loading/Loading'
 import Notfound from 'pages/404'
 import Image from 'next/image'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
@@ -377,20 +377,10 @@ export default function MovieDetail() {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [
-      // if no `locale` is provided only the defaultLocale will be generated
-      { params: { id: '1' }, locale: 'en' },
-      { params: { id: '2' }, locale: 'vi' },
-    ],
-    fallback: true,
-  }
-}
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+      ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
     },
   }
 }

@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 
 import Head from 'next/head'
 import Header from '../src/components/header/Header'
@@ -81,7 +81,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
