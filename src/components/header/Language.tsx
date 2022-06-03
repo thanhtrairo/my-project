@@ -9,9 +9,8 @@ export default function Language({ onSetLanguage }: { onSetLanguage: Function })
     e.stopPropagation()
     setActive(language)
     onSetLanguage(language)
-    router.locale = language.toLocaleLowerCase()
     if (active === language) return
-    // router.push(`/${language.toLocaleLowerCase()}${router.asPath}`)
+    router.push(`/${language.toLocaleLowerCase()}${router.asPath}`)
     window.location.href = `${window.location.origin}/${language.toLocaleLowerCase()}${router.asPath}`
   }
   useEffect(() => {
@@ -38,7 +37,7 @@ export default function Language({ onSetLanguage }: { onSetLanguage: Function })
         </svg>
         <p className="ml-1 sm:ml-3">English</p>
       </div>
-      <div className="flex cursor-pointer p-1 hover:bg-gray2 sm:p-3 " onClick={(e) => handleLanguage('VI', e)}>
+      <div className="flex cursor-pointer p-1 hover:bg-gray2 sm:p-3" onClick={(e) => handleLanguage('VI', e)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={clsx(
