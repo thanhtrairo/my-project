@@ -12,7 +12,7 @@ import { ReviewsType, MovieType } from '../../src/type/type'
 import apiConfig from 'pages/api/apiConfig'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
@@ -105,7 +105,7 @@ const Reviews = () => {
 
 export default Reviews
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(String(locale), ['common', 'header'])),
