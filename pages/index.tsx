@@ -1,6 +1,5 @@
-// import type { GetServerSideProps } from 'next'
-
 import Head from 'next/head'
+import type { GetServerSideProps } from 'next'
 // import Header from '../src/components/header/Header'
 // import Carousel from '../src/components/Carousel'
 // import { Watch } from '../src/components/watch/Watch'
@@ -17,7 +16,7 @@ import Head from 'next/head'
 // import request from '~/utils/request'
 // import { fetcher } from '~/services/fetcher'
 // import { useTranslation } from 'next-i18next'
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const Home = () => {
   // const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
@@ -97,12 +96,12 @@ const Home = () => {
 //     },
 //   }
 // }
-// export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(String(locale), ['common', 'header'])),
-//     },
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+    },
+  }
+}
 
 export default Home
