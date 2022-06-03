@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     ])
     return {
       props: {
-        x,
+        ...x,
         moviePopular: result[0].data.results,
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
@@ -101,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   } catch (e) {
     return {
       props: {
-        x,
+        ...x,
         moviePopular: {},
         movieTrending: {},
         movieStreaming: {},
