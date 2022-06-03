@@ -18,6 +18,7 @@ import request from '~/utils/request'
 import { fetcher } from '~/services/fetcher'
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Props) => {
   const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
@@ -80,7 +81,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
@@ -94,13 +95,14 @@ export const getStaticProps: GetStaticProps = async () => {
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
         personPopular: result[3].data.results,
-        // ...(await serverSideTranslations(String(locale), ['header'])),
+        ...(await serverSideTranslations(String(locale), ['header'])),
       },
     }
   } catch (e) {
     return {
       // FIXME: should redirect to 500 page
       props: {
+        ...(await serverSideTranslations(String(locale), ['header'])),
         moviePopular: {},
         movieTrending: {},
         movieStreaming: {},
