@@ -80,20 +80,27 @@ const Home = () => {
   )
 }
 
+// export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+//   const result = await Promise.all([
+//     MovieServices.getPopularMovies(),
+//     MovieServices.getTrendingMovies(),
+//     MovieServices.getComingSoonMovies(),
+//     MovieServices.getPopularPerson(),
+//   ])
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
+//       moviePopular: result[0].data.results,
+//       movieTrending: result[1].data.results,
+//       movieStreaming: result[2].data.results,
+//       personPopular: result[3].data.results,
+//     },
+//   }
+// }
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  // const result = await Promise.all([
-  //   MovieServices.getPopularMovies(),
-  //   MovieServices.getTrendingMovies(),
-  //   MovieServices.getComingSoonMovies(),
-  //   MovieServices.getPopularPerson(),
-  // ])
   return {
     props: {
-      ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
-      // moviePopular: result[0].data.results,
-      // movieTrending: result[1].data.results,
-      // movieStreaming: result[2].data.results,
-      // personPopular: result[3].data.results,
+      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
     },
   }
 }
