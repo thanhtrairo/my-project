@@ -76,7 +76,6 @@ const Header = () => {
     localStorage.removeItem('account')
     location.reload()
   }
-
   const { t } = useTranslation()
 
   return (

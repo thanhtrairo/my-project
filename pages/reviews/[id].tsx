@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Notfound from 'pages/404'
-import React, { useState } from 'react'
-import { FaAngleDown, FaAngleUp, FaStar } from 'react-icons/fa'
+import React from 'react'
+import { FaStar } from 'react-icons/fa'
 import useSWR from 'swr'
 import Header from '~/components/header/Header'
 import { Loading } from '~/components/loading/Loading'
@@ -17,7 +17,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 const Reviews = () => {
-  const [showStory, setShowStory] = useState<boolean>(false)
+  // const [showStory, setShowStory] = useState<boolean>(false)
 
   const router = useRouter()
   const { id } = router.query
@@ -32,6 +32,7 @@ const Reviews = () => {
   if (dataMovieReview.status_message || dataMovieDetail.status_message) return <Notfound />
   const movieReview: ReviewsType[] = dataMovieReview.results
   const movieDetail: MovieType = dataMovieDetail
+
   return (
     <div className="overflow-hidden text-[80%] sm:text-[100%]">
       <Header />
@@ -39,7 +40,7 @@ const Reviews = () => {
         <div className="mx-auto sm:container ">
           <div className="min-h-screen bg-white px-8 py-20">
             <div className="flex">
-              <div className="mr-2">
+              <div className="mr-2 cursor-pointer" onClick={() => router.push(`/movie/${movieDetail.id}`)}>
                 <Image
                   src={apiConfig.originalImage(movieDetail.poster_path)}
                   alt={movieDetail.title}
@@ -67,7 +68,7 @@ const Reviews = () => {
                     <div className="mr-2">
                       <Image
                         src={
-                          review.author_details.avatar_path.includes('https')
+                          review.author_details?.avatar_path?.includes('https')
                             ? review.author_details.avatar_path.substring(1)
                             : apiConfig.originalImage(review.author_details.avatar_path)
                         }
@@ -88,11 +89,11 @@ const Reviews = () => {
                       </p>
                     </div>
                   </div>
-                  <p className={clsx('text-14', { ['hiddenTextLine']: !showStory })}>{review.content}</p>
-                  <button onClick={() => setShowStory(!showStory)} className="text-blue1">
+                  <p className={clsx('hiddenTextLine text-14')}>{review.content}</p>
+                  {/* <button onClick={() => setShowStory(!showStory)} className="text-blue1">
                     {t('MoreToWatch')}{' '}
                     {!showStory ? <FaAngleDown className="inline-block" /> : <FaAngleUp className="inline-block" />}
-                  </button>
+                  </button> */}
                 </div>
               ))}
             </div>

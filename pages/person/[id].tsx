@@ -75,7 +75,7 @@ const PersonDetail = () => {
               {personDetailMovie.cast.length > 0 && <p className="text-32 text-yellow1">{t('header:KnownFor')}</p>}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 sm:gap-10">
                 {personDetailMovie.cast.map((movie: MovieType) => (
-                  <LazyLoad key={movie.id} height={100} offset={[-100, 100]} placeholder={<Loading />}>
+                  <LazyLoad key={movie.id} offset={[-100, 100]} placeholder={<Loading height={400} />}>
                     <div className="">
                       <div className="group relative h-[260px] w-full overflow-hidden sm:h-[300px]">
                         <Link href={`/movie/${movie.id}`}>

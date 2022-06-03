@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import request from '~/utils/request'
 import { fetcher } from '~/services/fetcher'
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
