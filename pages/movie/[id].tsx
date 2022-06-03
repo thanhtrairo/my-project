@@ -20,8 +20,8 @@ import clsx from 'clsx'
 import { Loading } from '~/components/loading/Loading'
 import Notfound from 'pages/404'
 import Image from 'next/image'
-// import { GetServerSideProps } from 'next'
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 export default function MovieDetail() {
@@ -377,10 +377,10 @@ export default function MovieDetail() {
   )
 }
 
-// export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
-//     },
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
+    },
+  }
+}

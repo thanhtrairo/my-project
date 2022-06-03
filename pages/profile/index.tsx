@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-// import { GetServerSideProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -107,10 +107,10 @@ const Profile = () => {
 
 export default Profile
 
-// export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
-//     },
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
+    },
+  }
+}
