@@ -1,4 +1,4 @@
-import type { GetStaticProps } from 'next'
+import type { GetServerSideProps } from 'next'
 
 import Head from 'next/head'
 import Header from '../src/components/header/Header'
@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import request from '~/utils/request'
 import { fetcher } from '~/services/fetcher'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Props) => {
@@ -80,7 +80,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetServerSideProps = async () => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
@@ -94,7 +94,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
         personPopular: result[3].data.results,
-        ...(await serverSideTranslations(String(locale), ['header'])),
+        // ...(await serverSideTranslations(String(locale), ['header'])),
       },
     }
   } catch (e) {
