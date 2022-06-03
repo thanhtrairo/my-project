@@ -100,6 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
   } catch (e) {
     return {
+      // FIXME: should redirect to 500 page
       props: {
         ...(await serverSideTranslations(String(locale), ['header'])),
         moviePopular: {},
