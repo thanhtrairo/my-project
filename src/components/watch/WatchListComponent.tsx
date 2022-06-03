@@ -51,7 +51,7 @@ export const WatchListComponent: React.FC<{
       </div>
       <div
         className={clsx('mb-16 mt-8 ', {
-          ['grid grid-cols-2 gap-y-4 tablet:grid-cols-6 mobile:grid-cols-3 ']: !slider,
+          ['grid grid-cols-2 gap-y-4 mobile:grid-cols-3 tablet:grid-cols-6 ']: !slider,
         })}
       >
         {slider ? (
