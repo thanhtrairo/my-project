@@ -11,7 +11,7 @@ import Header from '../src/components/header/Header'
 // import { Footer } from '../src/components/Footer'
 // import { MoveToExplore } from '../src/components/MoveToExplore/MoveToExplore'
 // import { AccountType, Props } from '../src/type/type'
-import MovieServices from '~/services/MovieServices'
+// import MovieServices from '~/services/MovieServices'
 // import { useEffect, useState } from 'react'
 // import useSWR from 'swr'
 // import request from '~/utils/request'
@@ -81,19 +81,19 @@ const Home = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const result = await Promise.all([
-    MovieServices.getPopularMovies(),
-    MovieServices.getTrendingMovies(),
-    MovieServices.getComingSoonMovies(),
-    MovieServices.getPopularPerson(),
-  ])
+  // const result = await Promise.all([
+  //   MovieServices.getPopularMovies(),
+  //   MovieServices.getTrendingMovies(),
+  //   MovieServices.getComingSoonMovies(),
+  //   MovieServices.getPopularPerson(),
+  // ])
   return {
     props: {
       ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
-      moviePopular: result[0].data.results,
-      movieTrending: result[1].data.results,
-      movieStreaming: result[2].data.results,
-      personPopular: result[3].data.results,
+      // moviePopular: result[0].data.results,
+      // movieTrending: result[1].data.results,
+      // movieStreaming: result[2].data.results,
+      // personPopular: result[3].data.results,
     },
   }
 }
