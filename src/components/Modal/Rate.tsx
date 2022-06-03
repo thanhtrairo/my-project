@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { FaSpinner, FaStar } from 'react-icons/fa'
-import { mutate } from 'swr'
-// import { fetcher } from '~/services/fetcher'
+import useSWR, { mutate } from 'swr'
+import { fetcher } from '~/services/fetcher'
 import MovieServices from '~/services/MovieServices'
-// import { AccountType, MovieType } from '~/type/type'
+import { AccountType, MovieType } from '~/type/type'
 import request from '~/utils/request'
 
 export const Rate: React.FC<{
@@ -17,7 +17,7 @@ export const Rate: React.FC<{
   const [hoverValue, setHoverValue] = useState<number | undefined>(undefined)
   const stars = Array.from({ length: 10 }, (_, i) => i + 1)
 
-  // const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
+  const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
 
   const handleClick = (value: number) => {
     setCurrentStar(value)
@@ -33,21 +33,23 @@ export const Rate: React.FC<{
 
   const router = useRouter()
 
-  // useEffect(() => {
-  //   const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
-  //   setAccount(account)
-  // }, [])
+  useEffect(() => {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    setAccount(account)
+  }, [])
 
-  // const { data: ratingList } = useSWR(
-  //   account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
-  //   fetcher
-  // )
+  const { data: ratingList } = useSWR(
+    account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
+    fetcher
+  )
+
+  console.log()
   const handleRateMovie = async () => {
     const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
 
-    // const currentRating = ratingList?.results.map((rate: MovieType) =>
-    //   rate.id === movieId ? { ...rate, rating: currentStar } : rate
-    // )
+    const currentRating = ratingList?.results.map((rate: MovieType) =>
+      rate.id === movieId ? { ...rate, rating: currentStar } : rate
+    )
 
     if (account.session_id) {
       const config = {
@@ -57,15 +59,15 @@ export const Rate: React.FC<{
       }
       try {
         setLoadingRatingMovie(true)
-        // mutate(
-        //   request.fetchRatingList(account.accountId, account.session_id),
-        //   {
-        //     results: currentRating,
-        //   },
-        //   false
-        // )
+        mutate(
+          request.fetchRatingList(account.accountId, account.session_id),
+          {
+            results: currentRating,
+          },
+          false
+        )
         await MovieServices.postRateMovie(movieId, account.session_id, { value: currentStar }, config)
-        mutate(request.fetchRatingList(account.accountId, account.session_id))
+        // mutate(request.fetchRatingList(account.accountId, account.session_id))
         setRateSuccess(true)
       } catch (error) {
         console.log(error)

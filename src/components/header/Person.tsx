@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import LazyLoad from 'react-lazyload'
 import apiConfig from '../../../pages/api/apiConfig'
 import { PersonType } from '../../type/type'
 
@@ -12,7 +13,15 @@ export const Person: React.FC<{ person: PersonType; onSearch: Function }> = ({ p
           <Link href={`/person/${person.id}`}>
             <div className="absolute top-0 left-0 z-50 hidden h-full w-full bg-blackOver group-hover:block"></div>
           </Link>
-          <Image src={apiConfig.originalImage(person.profile_path)} alt={person.name} width={100} height={140} />
+          <LazyLoad once={true} placeholder={<div className="h-[140px] w-[100px] bg-gray2"></div>}>
+            <Image
+              src={apiConfig.originalImage(person.profile_path)}
+              alt={person.name}
+              width={100}
+              height={140}
+              priority
+            />
+          </LazyLoad>
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="">{person.name}</p>

@@ -37,6 +37,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
     account.session_id ? request.fetchRatingList(account.accountId, account.session_id) : null,
     fetcher
   )
+
   const { t } = useTranslation()
   return (
     <>

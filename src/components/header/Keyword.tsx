@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import LazyLoad from 'react-lazyload'
 import { KeyType } from '../../type/type'
 
 export const Keyword: React.FC<{ keyword: KeyType; onSearch: Function }> = ({ keyword, onSearch }) => {
@@ -8,12 +9,14 @@ export const Keyword: React.FC<{ keyword: KeyType; onSearch: Function }> = ({ ke
       <div className="flex gap-4">
         <div className=" relative basis-2/12 ">
           <div className="absolute top-0 left-0 hidden h-full w-full bg-blackOver group-hover:block"></div>
-          <Image
-            src="https://lamvt.vn/wp-content/uploads/2017/11/Identify-Keywords.jpg"
-            alt="logo"
-            width={100}
-            height={60}
-          />
+          <LazyLoad once={true} placeholder={<div className="h-[100px] w-[60px] bg-gray2"></div>}>
+            <Image
+              src="https://lamvt.vn/wp-content/uploads/2017/11/Identify-Keywords.jpg"
+              alt="logo"
+              width={100}
+              height={60}
+            />
+          </LazyLoad>
         </div>
         <div className="flex basis-10/12 flex-col space-y-1 group-hover:opacity-70">
           <p className="">{keyword.name}</p>

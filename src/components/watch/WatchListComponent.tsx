@@ -49,7 +49,11 @@ export const WatchListComponent: React.FC<{
       <div onClick={() => router.push('/list')} className="cursor-pointer">
         <TitleCategories title={titleCategoriesPlaceholder}>{titleCategories}</TitleCategories>
       </div>
-      <div className={clsx('mb-16 mt-8 ', { ['grid grid-cols-3 gap-y-4 sm:grid-cols-6 ']: !slider })}>
+      <div
+        className={clsx('mb-16 mt-8 ', {
+          ['grid grid-cols-2 gap-y-4 tablet:grid-cols-6 mobile:grid-cols-3 ']: !slider,
+        })}
+      >
         {slider ? (
           <Slider {...settings}>
             {movieList?.map((movie: MovieType) => (

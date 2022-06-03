@@ -35,6 +35,10 @@ module.exports = {
         36: '36px',
         48: '48px',
       },
+      screens: {
+        mobile: '480px',
+        tablet: '640px',
+      },
     },
   },
   plugins: [],

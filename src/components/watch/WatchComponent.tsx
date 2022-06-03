@@ -12,6 +12,8 @@ import LazyLoad from 'react-lazyload'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { useTranslation } from 'next-i18next'
+import request from '~/utils/request'
+import { useSWRConfig } from 'swr'
 
 export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[]; watchList: MovieType[] }> = ({
   movie,
@@ -64,23 +66,34 @@ export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[
     )
   }
 
+  const { mutate } = useSWRConfig()
+
   const handleAddWatchList = async () => {
     if (addWatchList) return
-    const requestToken = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
-    if (requestToken.session_id) {
+    const account = localStorage.getItem('account') ? JSON.parse(localStorage.getItem('account') || '') : ''
+    if (account.session_id) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       }
       try {
+        mutate(
+          request.fetchWatchList(account.accountId, account.session_id),
+          (watchList: { results: MovieType[] }) => {
+            return { results: watchList.results.filter((watch) => watch.id !== movie.id) }
+          },
+          false
+        )
         setLoadingAddWatch(true)
         await MovieServices.postAddMovieWatchList(
-          requestToken.accountId,
-          requestToken.session_id,
+          account.accountId,
+          account.session_id,
           { media_type: 'movie', media_id: String(movie.id), watchlist: true },
           config
         )
+        mutate(request.fetchWatchList(account.accountId, account.session_id))
+        setLoadingAddWatch(false)
         setAddWatchList(!addWatchList)
       } catch (error) {
         console.log(error)
@@ -117,8 +130,11 @@ export const WatchComponent: React.FC<{ movie: MovieType; ratingList: MovieType[
               <FaStar className="mr-1  h-9 fill-yellow-400 py-3" />
               <p>{movie.vote_average}</p>
             </div>
-            <p className="flex cursor-pointer items-center p-2 hover:bg-white2 hover:fill-white">
-              <FaRegStar className="h-4 w-4 fill-[#5799ef]" onClick={() => handleShowRate()} />
+            <p
+              className="flex cursor-pointer items-center p-2 hover:bg-white2 hover:fill-white"
+              onClick={() => handleShowRate()}
+            >
+              <FaRegStar className="h-4 w-4 fill-[#5799ef]" />
               <span className="ml-1 text-14 opacity-70">{ratingMovie}</span>
             </p>
           </div>

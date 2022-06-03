@@ -46,7 +46,7 @@ export const BornToday: React.FC<{ personPopular: PersonType[] }> = ({ personPop
           {personPopular.map((person: PersonType) => (
             <LazyLoad key={person.id} offset={[-100, 100]} placeholder={<Loading height={300} />}>
               <div className="group">
-                <div className="relative mx-auto h-[180px] w-[180px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
+                <div className="relative mx-auto h-[160px] w-[160px] cursor-pointer overflow-hidden rounded-full lg:h-[140px] lg:w-[140px]">
                   <Link href={`/person/${person.id}`}>
                     <div className="absolute top-0 left-0 z-20 hidden h-full w-full bg-blackOver group-hover:block"></div>
                   </Link>
