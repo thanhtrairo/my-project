@@ -17,6 +17,7 @@ import useSWR from 'swr'
 import request from '~/utils/request'
 import { fetcher } from '~/services/fetcher'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Props) => {
   const [account, setAccount] = useState<AccountType>({ success: false, session_id: '', accountId: '', username: '' })
@@ -79,7 +80,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   try {
     const result = await Promise.all([
       MovieServices.getPopularMovies(),
@@ -93,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
         personPopular: result[3].data.results,
-        // ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
       },
     }
   } catch (e) {
@@ -104,6 +105,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         movieTrending: {},
         movieStreaming: {},
         personPopular: {},
+        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
       },
       redirect: '/',
     }
