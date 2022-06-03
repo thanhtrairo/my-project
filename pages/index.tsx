@@ -44,6 +44,7 @@ const Home = ({ moviePopular, movieTrending, personPopular, movieStreaming }: Pr
         <title>Movie</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h1>HEllo</h1>
       <div className="overflow-hidden text-[80%] sm:text-[100%]">
         <Header />
         <main className="overflow-hidden bg-gray3 px-2 text-white">
