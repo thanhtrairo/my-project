@@ -102,10 +102,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     return {
       props: {
         ...x,
-        moviePopular: {},
-        movieTrending: {},
-        movieStreaming: {},
-        personPopular: {},
       },
     }
   }
