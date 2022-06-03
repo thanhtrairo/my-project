@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import type { GetServerSideProps } from 'next'
+import type { GetStaticProps } from 'next'
 // import Header from '../src/components/header/Header'
 // import Carousel from '../src/components/Carousel'
 // import { Watch } from '../src/components/watch/Watch'
@@ -96,10 +96,10 @@ const Home = () => {
 //     },
 //   }
 // }
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(String(locale), ['header'])),
+      ...(await serverSideTranslations(String(locale), ['common', 'header'])),
     },
   }
 }
