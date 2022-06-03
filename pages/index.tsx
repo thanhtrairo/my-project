@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     ])
     return {
       props: {
-        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+        ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
         moviePopular: result[0].data.results,
         movieTrending: result[1].data.results,
         movieStreaming: result[2].data.results,
@@ -99,9 +99,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     }
   } catch (e) {
     return {
-      // FIXME: should redirect to 500 page
       props: {
-        ...(await serverSideTranslations(String(locale), ['common', 'header'])),
+        ...(await serverSideTranslations(String(locale), ['common', 'header', 'movieDetail'])),
         moviePopular: {},
         movieTrending: {},
         movieStreaming: {},
